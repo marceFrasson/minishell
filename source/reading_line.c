@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/11/30 17:34:14 by mfrasson         ###   ########.fr       */
+/*   Updated: 2021/11/30 17:36:03 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int main(void)
 
     printf("\nline_read: %s\n", line_read);
 
-    // gets line history by index
+    // gets line history by index, starts in 1
     history = history_get(1);
 
     printf("\nhistory: %s\n\n", history->line);
