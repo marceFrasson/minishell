@@ -12,6 +12,27 @@
 
 #include "../includes/minishell.h"
 
+
+char	*ft_substr_shrink(char const *string, unsigned int start, size_t len)
+{
+	char	*temp;
+
+	if (!(string))
+		return (NULL);
+	if (len > (size_t)ft_strlen(string))
+		len = ft_strlen(string);
+	temp = malloc((len + 1) * sizeof(char));
+	if (!(temp))
+		return (NULL);
+	if (len == 0 || start >= (unsigned int)ft_strlen(string))
+	{
+		*temp = '\0';
+		return (temp);
+	}
+	ft_strlcpy(temp, (const char *)(string + start), len + 1);
+	return (temp);
+}
+
 char	*ft_addchar(char *str, char c)
 {
 	char	*temp;
@@ -27,10 +48,10 @@ char	*ft_addchar(char *str, char c)
 	if (str)
 	{
 		while (str[++i])
-			temp[i] = str[i];
+			temp[i + 1] = str[i];
 		free(str);
 	}
-	temp[i] = c;
+	temp[0] = c;
 	temp[i + 1] = '\0';
 	return (temp);
 }
@@ -63,36 +84,64 @@ char *read_line(void)
     return (line_read);
 }
 
-static void	insert_space(char *line, int i)
-{
-    char    *temp;
 
-	temp = ft_addchar(&line[i], ' ');
-    ft_strcopy(temp, &line[i]);
+
+static char	*insert_space(char *line, int i)
+{
+    char    *first_join;
+    char    *string_ready;
+    char    *first_part;
+    char    *second_part;
+    char    operator1;
+
+    first_part = malloc(sizeof(char *) * i + 1);
+    printf("i: %i\n", i);
+    second_part = malloc(sizeof(char *) * (ft_strlen(line) + 1));
+    first_join = malloc(sizeof(char *) * i + 1);
+    string_ready = malloc(sizeof(char *) * (ft_strlen(line) + 1));
+
+    first_part = ft_substr(line, 0, i);
+    operator1 = line[i];
+    //printf("\nline: %s\n", line);
+    printf("\nfirst line: %c\n", operator1);
+    second_part = ft_substr(line, i + 2, ft_strlen(line) - 1);
+    //printf("\nsecond line: %s\n", second_part);
+    //printf("\nline2: %s\n", line);
+    printf("%s\n", first_part);
+	first_join = ft_charjoin(first_part, ' ');
+    //string_ready = ft_charjoin(first_join, operator1);
+
+    printf("string ready: %s\n", string_ready);
+    free(first_part);
+    free(second_part);
+    free(first_join);
+
+    return(string_ready);
 }
 
-int	is_operator(char *arg)
+int	is_operator(char arg)
 {
-	if (!(ft_strcmp(arg, "|")))
+	if (arg == '|')
 		return (1);
-	else if (!(ft_strcmp(arg, "<")) || !(ft_strcmp(arg, ">")))
-		return (2);
-	else if (!(ft_strcmp(arg, "<<")) || !(ft_strcmp(arg, ">>")))
-		return (3);
+	else if(arg == '<' || arg == '>')
+    {
+        if((arg - 1 != '<') || (arg - 1 != '>'))
+            return (1);
+        else
+            return (0);
+    }
 	else
 		return (0);
 }
 
-char **look_for_quotes_and_split(char *line)
+int count_tokens(char *line)
 {
     int     i;
-    int     j;
+    int     space_count;
     int     single_quote_status;
     int     double_quote_status;
-    char    **line_array;
 
     i = -1;
-    j = 0;
     single_quote_status = 0;
     double_quote_status = 0;
     while(line[++i])
@@ -113,10 +162,55 @@ char **look_for_quotes_and_split(char *line)
         }
         if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
         {
-            line_array[j++] = ft_substr(line, 0, i);
-            printf("%s\n", line_array[j - 1]);
+            space_count++;
         }
     }
+    return (space_count + 1);
+}
+
+char **look_for_quotes_and_split(char *line)
+{
+    int     i;
+    int     j;
+    int     single_quote_status;
+    int     double_quote_status;
+    int     last_position;
+    char    **line_array;
+
+    i = -1;
+    j = 0;
+    single_quote_status = 0;
+    double_quote_status = 0;
+    last_position = 0;
+    line_array = malloc(sizeof(char *) * count_tokens(line) + 1);
+    while(line[++i])
+    {
+        if (line[i] == '\'')
+        {
+            if(single_quote_status)
+                single_quote_status = 0;
+            else if (!single_quote_status && !double_quote_status)
+                single_quote_status = 1;
+        }
+        else if(line[i] == '\"')
+        {
+            if(double_quote_status)
+                double_quote_status = 0;
+            else if (!double_quote_status && !single_quote_status)
+                double_quote_status = 1;
+        }
+        if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
+        {
+            line_array[j++] = ft_substr(line, last_position, i - last_position);
+            last_position = i + 1;
+        }
+        if(is_operator(line[i]))
+        {
+            line_array[j++] = &line[i];
+            last_position = i + 2;
+        }
+    }
+    line_array[j++] = ft_substr(line, last_position, i - last_position);
     return (line_array);
 }
 
@@ -127,12 +221,12 @@ void look_for_redirections_and_pipe(char *line)
     i = -1;
     while(line[++i])
     {
-        if(is_operator(&line[i]))
+        if(is_operator(line[i]))
         {
-            if(!ft_strcmp(&line[i - 1], " "))
-                insert_space(&line[i - 1], i);
-            if(!ft_strcmp(&line[i + 1], " "))
-                insert_space(&line[i], i);
+            if(line[i - 1] != ' ')
+                line = insert_space(line, i);
+            if(line[i + 1] != ' ')
+                line = insert_space(line, i);
         }
     }
 }
@@ -143,12 +237,6 @@ char    **split_line(char *line)
 
     look_for_redirections_and_pipe(line);
     string_array = look_for_quotes_and_split(line);
-    
-    // int i = -1;
-    // while(string_array)
-    // {
-    //     printf("%s\n", string_array[++i]);
-    // }
     return (string_array);
 }
 
@@ -167,9 +255,9 @@ void    print_tokens(char **tokens)
     int i;
 
     i = -1;
-    while(tokens)
+    while(tokens[++i])
     {
-        printf("%s", tokens[++i]);
+        printf("%s\n", tokens[i]);
     }
 }
 
