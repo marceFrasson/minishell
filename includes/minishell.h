@@ -18,6 +18,6 @@
 #include <sys/types.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libraries/libft/libft.h"
+#include "../libft/libft.h"
 
 #define BUFFERSIZE 1024

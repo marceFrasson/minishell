@@ -10,7 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-
 SRC		=	source/reading_line.c 
 
 OBJ		=	${SRC:.c=.o}
@@ -28,7 +27,7 @@ RM		=	rm -rf
 CC		=	clang
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:			$(NAME)
 

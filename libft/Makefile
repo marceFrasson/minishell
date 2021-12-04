@@ -19,7 +19,6 @@ INCLUDES= libft.h
 NAME=libft.a
 FLAGS = -Wall -Wextra -Werror
 OBJS=$(SRC:.c=.o)
-OBJS_BONUS=$(BNS:.c=.o)
 
 
 all:	$(NAME)
@@ -30,7 +29,6 @@ $(NAME):
 
 clean:
 	@rm -f $(OBJS)
-	@rm -f $(OBJS_BONUS)
 
 fclean:	clean
 	@rm -f $(NAME)
