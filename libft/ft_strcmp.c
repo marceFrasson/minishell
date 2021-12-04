@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/12 17:16:57 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/06/09 13:56:21 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/02/02 14:55:14 by mfrasson          #+#    #+#             */
+/*   Updated: 2021/06/09 13:39:18 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *string, unsigned int start, size_t len)
+int	ft_strcmp(const char *string1, const char *string2)
 {
-	char	*temp;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	if (!(string))
-		return (NULL);
-	if (len > (size_t)ft_strlen(string))
-		len = ft_strlen(string);
-	temp = malloc((len + 1) * sizeof(char));
-	if (!(temp))
-		return (NULL);
-	if (len == 0 || start >= (unsigned int)ft_strlen(string))
+	i = 0;
+	str1 = (unsigned char *)string1;
+	str2 = (unsigned char *)string2;
+	while (str1[i] != '\0' || str2[i] != '\0')
 	{
-		*temp = '\0';
-		return (temp);
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
 	}
-	ft_strlcpy(temp, (const char *)(string + start), len + 1);
-	return (temp);
+	return (0);
 }

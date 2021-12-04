@@ -12,19 +12,6 @@
 
 #include "../includes/minishell.h"
 
-char    *ft_strcopy(char *src, char *dst)
-{
-    int i;
-
-    i = 0;
-    while (src[i])
-    {
-        dst[i] = src[i];
-        i++;
-    }
-    return (dst);
-}
-
 char	*ft_addchar(char *str, char c)
 {
 	char	*temp;
@@ -48,7 +35,6 @@ char	*ft_addchar(char *str, char c)
 	return (temp);
 }
 
-
 char    *create_prompt(void)
 {
     char	buff[4096];
@@ -63,7 +49,7 @@ char    *create_prompt(void)
     return (prompt_full);
 }
 
-void read_line(void)
+char *read_line(void)
 {
     char    *line_read;
     char    *prompt;
@@ -74,14 +60,15 @@ void read_line(void)
 
     if (line_read && *line_read)
         add_history(line_read);
+    return (line_read);
 }
 
-static void	insert_spaces(char **line, int *i, int ind)
+static void	insert_space(char *line, int i)
 {
-    char *temp;
+    char    *temp;
 
-	temp = ft_addchar(line[i], " ");
-    ft_strcopy(temp, line[i]);
+	temp = ft_addchar(&line[i], ' ');
+    ft_strcopy(temp, &line[i]);
 }
 
 int	is_operator(char *arg)
@@ -96,92 +83,115 @@ int	is_operator(char *arg)
 		return (0);
 }
 
-int look_for_quotes_and_split(char *line)
+char **look_for_quotes_and_split(char *line)
 {
     int     i;
     int     j;
-    int     s_quote_on;
-    int     d_quote_on;
+    int     single_quote_status;
+    int     double_quote_status;
     char    **line_array;
 
     i = -1;
-    j = -1;
-    s_quote_on = 0;
-    d_quote_on = 0;
+    j = 0;
+    single_quote_status = 0;
+    double_quote_status = 0;
     while(line[++i])
     {
-        if (ft_strcmp(line[i], "\'"))
+        if (line[i] == '\'')
         {
-            if(s_quote_on)
-                s_quote_on = 0;
-            else if (!s_quote_on && !d_quote_on)
-                s_quote_on = 1;
+            if(single_quote_status)
+                single_quote_status = 0;
+            else if (!single_quote_status && !double_quote_status)
+                single_quote_status = 1;
         }
-        else if(ft_strcmp(line[i], "\""))
+        else if(line[i] == '\"')
         {
-            if(d_quote_on)
-                d_quote_on = 0;
-            else if (!d_quote_on && !s_quote_on)
-                d_quote_on = 1;
+            if(double_quote_status)
+                double_quote_status = 0;
+            else if (!double_quote_status && !single_quote_status)
+                double_quote_status = 1;
         }
-        else if((ft_strcmp(line[i], " ")) && (!s_quote_on && !d_quote_on))
-            line[++j] = ft_substr(line, 0, i + 1);
+        if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
+        {
+            line_array[j++] = ft_substr(line, 0, i);
+            printf("%s\n", line_array[j - 1]);
+        }
     }
-    return (&line_array);
+    return (line_array);
 }
 
-int look_for_redirections_and_pipe(char *line)
+void look_for_redirections_and_pipe(char *line)
 {
     int i;
 
     i = -1;
     while(line[++i])
     {
-        if(is_operator(line[i]))
+        if(is_operator(&line[i]))
         {
-            if(!ft_strcmp(line[i - 1], " "))
-                insert_space(line[i - 1]);
-            if(!ft_strcmp(line[i + 1], " "))
-                insert_space(line[i]);
+            if(!ft_strcmp(&line[i - 1], " "))
+                insert_space(&line[i - 1], i);
+            if(!ft_strcmp(&line[i + 1], " "))
+                insert_space(&line[i], i);
         }
     }
 }
 
-char    **split_line(void)
+char    **split_line(char *line)
 {
-    HIST_ENTRY  *hist_line;
-    char        *char_line;
     char        **string_array;
 
-    hist_line = history_get(1);
-    hist_to_str(&hist_line, &char_line);
-    look_for_redirections_and_pipe(&char_line);
-    string_array = look_for_quotes_and_split(&char_line);
+    look_for_redirections_and_pipe(line);
+    string_array = look_for_quotes_and_split(line);
     
+    // int i = -1;
+    // while(string_array)
+    // {
+    //     printf("%s\n", string_array[++i]);
+    // }
     return (string_array);
 }
 
-void	split_tokenizer(void)
+char	**split_tokenizer(char *line)
 {
     char **tokens;
 
-	tokens = split_line();
-	check_syntax_error();
+	tokens = split_line(line);
+	//check_syntax_error();
 	//tokenizer();
+    return (tokens);
+}
+
+void    print_tokens(char **tokens)
+{
+    int i;
+
+    i = -1;
+    while(tokens)
+    {
+        printf("%s", tokens[++i]);
+    }
 }
 
 void    loop(void)
 {
-    set_sigaction();
-    read_line();
-    split_tokenizer();
-    exec_commands();
+    char *input_line;
+    char **tokens;
+
+    while(1)
+    {
+        //set_sigaction();
+        input_line = read_line();
+        tokens = split_tokenizer(input_line);
+        //print_tokens(tokens);
+        //exec_commands();
+    }
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-    if (argc != 1)
-        return (0);
     loop();
+    return (0);
 }
-    parse_envp();
+
+//parse_envp();
