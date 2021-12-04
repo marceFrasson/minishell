@@ -20,7 +20,7 @@ NAME	=	minishell
 
 MODULE	=	./libft/libft.a
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -lreadline
 
 RM		=	rm -rf
 

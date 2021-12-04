@@ -58,6 +58,7 @@ char    	*ft_strcopy(char *src, char *dst);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 int			ft_strlen(const char *str);
+int			ft_strcmp(const char *string1, const char *string2);
 int			ft_strncmp(const char *str1, const char *str2, size_t n);
 char		*ft_strnstr(const char *src, const char *to_find, size_t n);
 char		*ft_strrchr(const char *str, int c);
@@ -80,7 +81,7 @@ char		**ft_split(char const *str, char c);
 char		*ft_strjoin(char const *prefix, char const *suffix);
 char		*ft_strmapi(char const *str, char (*f)(unsigned int, char));
 char		*ft_strtrim(char const *str, char const *ref);
-char		*ft_substr(char const *str, unsigned int index, size_t size);
+char		*ft_substr(char const *string, unsigned int start, size_t len);
 
 int			get_next_line(int fd, char **line);
 
