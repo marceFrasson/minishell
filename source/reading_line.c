@@ -65,8 +65,8 @@ char    *create_prompt(void)
 
 void read_line(void)
 {
-    char *line_read;
-    char *prompt;
+    char    *line_read;
+    char    *prompt;
 
     line_read = (char *)NULL;
     prompt = create_prompt();
@@ -96,14 +96,18 @@ int	is_operator(char *arg)
 		return (0);
 }
 
-int look_for_quotes_and_split(HIST_ENTRY *line)
+int look_for_quotes_and_split(char *line)
 {
-    int i;
-    int j;
-    char **line_array;
+    int     i;
+    int     j;
+    int     s_quote_on;
+    int     d_quote_on;
+    char    **line_array;
 
     i = -1;
     j = -1;
+    s_quote_on = 0;
+    d_quote_on = 0;
     while(line[++i])
     {
         if (ft_strcmp(line[i], "\'"))
@@ -120,13 +124,13 @@ int look_for_quotes_and_split(HIST_ENTRY *line)
             else if (!d_quote_on && !s_quote_on)
                 d_quote_on = 1;
         }
-        else if(ft_strcmp(line[i], " ")) && (s_quote_on = 0 && d_quote_on = 0))
+        else if((ft_strcmp(line[i], " ")) && (!s_quote_on && !d_quote_on))
             line[++j] = ft_substr(line, 0, i + 1);
     }
     return (&line_array);
 }
 
-int look_for_redirections_and_pipe(HIST_ENTRY *line)
+int look_for_redirections_and_pipe(char *line)
 {
     int i;
 
@@ -145,21 +149,25 @@ int look_for_redirections_and_pipe(HIST_ENTRY *line)
 
 char    **split_line(void)
 {
-    HIST_ENTRY *line;
-    char **string_array;
+    HIST_ENTRY  *hist_line;
+    char        *char_line;
+    char        **string_array;
 
-    line = history_get(1);
-    look_for_redirections_and_pipe(&line);
-    string_array = look_for_quotes_and_split(&line);
+    hist_line = history_get(1);
+    hist_to_str(&hist_line, &char_line);
+    look_for_redirections_and_pipe(&char_line);
+    string_array = look_for_quotes_and_split(&char_line);
     
     return (string_array);
 }
 
 void	split_tokenizer(void)
 {
-	split_line();
+    char **tokens;
+
+	tokens = split_line();
 	check_syntax_error();
-	tokenizer();
+	//tokenizer();
 }
 
 void    loop(void)
