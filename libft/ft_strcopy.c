@@ -22,5 +22,6 @@ char    *ft_strcopy(char *src, char *dst)
         dst[i] = src[i];
         i++;
     }
+    dst[i] = '\0';
     return (dst);
 }
