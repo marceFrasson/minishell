@@ -21,3 +21,11 @@
 #include "../libft/libft.h"
 
 #define BUFFERSIZE 1024
+
+typedef struct s_global
+{
+    char **envp_variable;
+    char **envp_path;
+}              t_global;
+
+t_global         g_global;

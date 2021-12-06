@@ -12,6 +12,59 @@
 
 #include "../includes/minishell.h"
 
+void    split_envp(char *envp[], int j, int i)
+{
+    char    *first_part;
+    char    *second_part;
+
+    first_part = malloc(sizeof(char *) * i + 1);
+    second_part = malloc(sizeof(char *) * (ft_strlen(envp[j]) + 1));
+
+    g_global.envp_variable[j] = ft_substr(envp[j], 0, i);
+    g_global.envp_path[j] = ft_substr(envp[j], i + 1, ft_strlen(envp[j]) - 1);
+
+    free(first_part);
+    free(second_part);
+}
+
+int count_envp(char *envp[])
+{
+    int i;
+
+    i = 0;
+    while(envp[i])
+        i++;
+    return (i);
+}
+
+void    parse_envp(char *envp[])
+{
+    int     i;
+    int     j;
+    int     count;
+
+    i = 0;
+    j = 0;
+    count = count_envp(envp);
+    g_global.envp_variable = malloc(sizeof(char *) * count + 30);
+    g_global.envp_path = malloc(sizeof(char *) * count + 30);
+    while(envp[j])
+    {
+        if(envp[j][i] == '=')
+        {
+            split_envp(envp, j, i);
+            j++;
+        }
+        i++;
+    }
+    // printf("j: %i\n", j);
+    // i = -1;
+    // while(envp[++i])
+    //     printf("envp: %s\n", envp[i]);
+    // while(g_global.envp_variable[++i])
+    //     printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
+}
+
 static char	*insert_space(char *line, int i)
 {
     char    *first_join;
@@ -226,13 +279,13 @@ void    loop(void)
             continue ;
         tokens = split_line(input_line);
         print_tokens(tokens);
-        //parse_envp();
         //exec_commands();
     }
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
+    parse_envp(envp);
     loop();
     return (0);
 }
