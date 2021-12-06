@@ -12,30 +12,24 @@
 
 #include "libft.h"
 
-char	*ft_charjoin(char const *string1, char const c)
+char	*ft_charjoin(char const *string, char const c)
 {
-	char	*string;
 	int		i;
-	int		end_string1;
+	char	*temp_string;
 
-	if (!string1 || !c)
+	temp_string = (char *)NULL;
+	if (!string || !c)
 		return (NULL);
-	string = (char *)malloc(((ft_strlen(string1)) + 2));
+	temp_string = malloc(sizeof(char *) * ((ft_strlen(string)) + 3));
 	if (string == NULL)
 		return (NULL);
 	i = 0;
-	while (string1[i] != '\0')
+	while (string[i] != '\0')
 	{
-		string[i] = string1[i];
+		temp_string[i] = string[i];
 		i++;
 	}
-	end_string1 = i;
-	i = 0;
-	while (c != '\0')
-	{
-		string[end_string1 + i] = c;
-		i++;
-	}
-	string[end_string1 + i] = '\0';
-	return (string);
+	temp_string[i++] = c;
+	temp_string[i] = '\0';
+	return (temp_string);
 }
