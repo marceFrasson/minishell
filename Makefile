@@ -6,11 +6,11 @@
 #    By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2021/12/04 11:41:48 by itaureli         ###   ########.fr        #
+#    Updated: 2021/12/08 06:21:34 by itaureli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC		=	source/reading_line.c 
+SRC		=	source/reading_line.c source/exec.c
 
 OBJ		=	${SRC:.c=.o}
 

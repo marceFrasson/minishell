@@ -6,7 +6,7 @@
 /*   By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/12/06 18:44:50 by itaureli         ###   ########.fr       */
+/*   Updated: 2021/12/08 06:33:31 by itaureli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ typedef struct s_global
 }	t_global;
 
 t_global	g_global;
+
+int	exec_commands();
 # endif
