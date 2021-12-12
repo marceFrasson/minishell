@@ -62,3 +62,31 @@ is specified in flags) be created by open(). The return value of open() is a fil
 [dup2](https://man7.org/linux/man-pages/man2/dup.2.html): The dup2() system call performs the same task as dup(), but instead of using the lowest-numbered unused file descriptor, it uses the file descriptor number specified in newfd param.  In other words, the file descriptor newfd is adjusted so that it now refers to the same open file description as oldfd.
 
 [pipe](https://man7.org/linux/man-pages/man2/pipe.2.html): creates a pipe, a unidirectional data channel that can be used for interprocess communication.  The array pipefd is used to return two file descriptors referring to the ends of the pipe. pipefd[0] refers to the read end of the pipe.  pipefd[1] refers to the write end of the pipe.  Data written to the write end of the pipe is buffered by the kernel until it is read from the read end of the pipe.
+
+[opendir](https://man7.org/linux/man-pages/man3/opendir.3.html): open a directory, function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream.
+
+[readdir](https://man7.org/linux/man-pages/man3/readdir.3.html): function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp.
+
+[closedir](https://man7.org/linux/man-pages/man3/closedir.3.html): close a directory, function closes the directory stream associated with dirp.
+
+[strerror](https://man7.org/linux/man-pages/man3/strerror.3.html): function returns a pointer to a string that describes the error code passed in the argument errnum, possibly using the LC_MESSAGES part of the current locale to select the appropriate language.
+
+[perror](https://man7.org/linux/man-pages/man3/perror.3.html): function produces a message on standard error describing the last error encountered during a call to a system or library function.
+
+[isatty](https://man7.org/linux/man-pages/man3/isatty.3.html): function tests whether fd is an open file descriptor referring to a terminal
+
+[ttyname](https://man7.org/linux/man-pages/man3/ttyname.3.html): returns a pointer to the null-terminated pathname of the terminal device that is open on the file descriptor fd, or NULL on error (for example, if fd is not connected to a terminal).
+
+[ttyslot](https://man7.org/linux/man-pages/man3/ttyslot.3.html): returns the index of the current user's entry in some file.
+
+[ioctl](https://man7.org/linux/man-pages/man2/ioctl.2.html): system call manipulates the underlying device parameters of special files
+
+[getenv](https://man7.org/linux/man-pages/man3/getenv.3.html): function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string
+
+[tcsetattr](https://man7.org/linux/man-pages/man3/tcsetattr.3p.html): function shall set the parameters associated with the terminal referred to by the open file descriptor fildes (an open file descriptor associated with a terminal) from the termios structure referenced by termios_p.
+
+[tcgetattr](https://man7.org/linux/man-pages/man3/tcgetattr.3p.html): function shall get the parameters associated with the terminal referred to by fildes and store them in the termios structure referenced by termios_p.
+
+[tgetflag, tgetent, tgetnum, tgetstr, tgoto](https://linux.die.net/man/3/tgetflag): These routines are included as a conversion aid for programs that use the termcap library. Their parameters are the same and the routines are emulated using the terminfo database. Thus, they can only be used to query the capabilities of entries for which a terminfo entry has been compiled.
+
+
