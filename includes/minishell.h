@@ -24,8 +24,9 @@
 
 typedef struct s_global
 {
-    char **envp_variable;
-    char **envp_path;
+    char    **envp_variable;
+    char    **envp_path;
+    int     count;
 }              t_global;
 
 t_global         g_global;
