@@ -39,25 +39,24 @@ int count_envp(char *envp[])
 
 void    parse_envp(char *envp[])
 {
-	int     i;
-	int     j;
-	int     count;
+    int     i;
+    int     j;
 
-	i = 0;
-	j = 0;
-	g_global.count = count_envp(envp);
-	g_global.envp_variable = malloc(sizeof(char *) * count + 30);
-	g_global.envp_path = malloc(sizeof(char *) * count + 30);
-	while(j < g_global.count)
-	{
-		if(envp[j][i] == '=')
-		{
-			split_envp(envp, j, i);
-			j++;
-			i = 0;
-		}
-		i++;
-	}
+    i = 0;
+    j = 0;
+    g_global.count = count_envp(envp);
+    g_global.envp_variable = malloc(sizeof(char *) * (g_global.count + 30));
+    g_global.envp_path = malloc(sizeof(char *) * (g_global.count + 30));
+    while(j < g_global.count)
+    {
+        if(envp[j][i] == '=')
+        {
+            split_envp(envp, j, i);
+            j++;
+            i = 0;
+        }
+        i++;
+    }
 }
 
 static char	*insert_space(char *line, int i)
@@ -111,6 +110,7 @@ int count_tokens(char *line)
 	int     double_quote_status;
 
 	i = -1;
+	space_count = 0;
 	single_quote_status = 0;
 	double_quote_status = 0;
 	while(line[++i])
@@ -150,6 +150,7 @@ char **look_for_quotes_and_split(char *line)
 	double_quote_status = 0;
 	last_position = 0;
 	line_array = malloc(sizeof(char *) * (count_tokens(line) + 1));
+	line_array[count_tokens(line)] = NULL;
 	while(line[++i])
 	{
 		if (line[i] == '\'')
@@ -192,24 +193,34 @@ char *look_for_redirections_and_pipe(char *line)
 			if(single_quote_status)
 				single_quote_status = 0;
 			else if (!single_quote_status && !double_quote_status)
+			{
+				if(i != 0 && line[i - 1] != ' ')
+					line = insert_space(line, i);
 				single_quote_status = 1;
+			}
+			i++;
 		}
 		else if(line[i] == '\"')
 		{
 			if(double_quote_status)
 				double_quote_status = 0;
 			else if (!double_quote_status && !single_quote_status)
+			{
+				if(i != 0 && line[i - 1] != ' ')
+					line = insert_space(line, i);
 				double_quote_status = 1;
+			}
+			i++;
 		}
 		else if(is_operator(line[i]) && (!single_quote_status && !double_quote_status))
 		{
-			if(line[i - 1] != ' ' && !((line[i] == '<' && line[i - 1] == '<')
-				|| (line[i] == '>' && line[i - 1] == '>')))
+			if(i != 0 && (line[i - 1] != ' ' && !((line[i] == '<' && line[i - 1] == '<')
+				|| (line[i] == '>' && line[i - 1] == '>'))))
 				line = insert_space(line, i);
 		}
 		else
 		{
-			if(is_operator(line[i - 1]) && (!single_quote_status && !double_quote_status))
+			if(i != 0 && (is_operator(line[i - 1]) && (!single_quote_status && !double_quote_status)))
 				line = insert_space(line, i);
 		}
 	}
@@ -277,8 +288,9 @@ int take_input(char **input_line)
 
 void    print_tokens(char **tokens)
 {
-	int i = -1;
-	write(1, "oie aqui blabla\n", 16);
+	int i;
+	
+	i = -1;
 	while(tokens[++i])
 		printf("%s\n", tokens[i]);
 }
@@ -294,8 +306,8 @@ void    loop(void)
 		if(take_input(&input_line))
 			continue ;
 		tokens = split_line(input_line);
-		printf("oie aqui eh\n");
 		print_tokens(tokens);
+		free(input_line);
 		// exec_commands();
 	}
 }
