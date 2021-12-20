@@ -6,11 +6,51 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/11/30 17:36:03 by mfrasson         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:10:07 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_variable(char *token)
+{
+	int		i;
+	char    *first_part;
+	char    *second_part;
+
+
+	i = 0;
+	while(token[i])
+	{
+		if(token[i] == '=')
+		{
+			first_part = malloc(sizeof(char *) * i + 1);
+			second_part = malloc(sizeof(char *) * ((ft_strlen(token) + 1) - i));
+
+			g_global.envp_variable[g_global.count] = ft_substr(token, 0, i);
+			g_global.envp_path[g_global.count] = ft_substr(token, i + 1, ft_strlen(token) - 1);
+
+			free(first_part);
+			free(second_part);
+			break ;
+		}
+		i++;
+	}
+}
+
+char	*expanding_variable(char *token)
+{
+	char	*variable;
+	int		i;
+
+	i = 0;
+	variable = malloc(sizeof(char *) * ft_strlen(token));
+	strcpy(variable, token);
+	while(!ft_strcmp(variable, g_global.envp_variable[i]))
+		i++;
+	printf("i: %i\n", i);
+	return (g_global.envp_path[i]);
+}
 
 void    split_envp(char *envp[], int j, int i)
 {
@@ -18,7 +58,7 @@ void    split_envp(char *envp[], int j, int i)
 	char    *second_part;
 
 	first_part = malloc(sizeof(char *) * i + 1);
-	second_part = malloc(sizeof(char *) * (ft_strlen(envp[j]) + 1));
+	second_part = malloc(sizeof(char *) * ((ft_strlen(envp[j]) + 1) - i));
 
 	g_global.envp_variable[j] = ft_substr(envp[j], 0, i);
 	g_global.envp_path[j] = ft_substr(envp[j], i + 1, ft_strlen(envp[j]) - 1);
@@ -111,23 +151,23 @@ int count_tokens(char *line)
 
 	i = -1;
 	space_count = 0;
-	single_quote_status = 0;
-	double_quote_status = 0;
+	single_quote_status = OFF;
+	double_quote_status = OFF;
 	while(line[++i])
 	{
 		if (line[i] == '\'')
 		{
 			if(single_quote_status)
-				single_quote_status = 0;
+				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
-				single_quote_status = 1;
+				single_quote_status = ON;
 		}
 		else if(line[i] == '\"')
 		{
 			if(double_quote_status)
-				double_quote_status = 0;
+				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
-				double_quote_status = 1;
+				double_quote_status = ON;
 		}
 		if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
 			space_count++;
@@ -146,8 +186,8 @@ char **look_for_quotes_and_split(char *line)
 
 	i = -1;
 	j = 0;
-	single_quote_status = 0;
-	double_quote_status = 0;
+	single_quote_status = OFF;
+	double_quote_status = OFF;
 	last_position = 0;
 	line_array = malloc(sizeof(char *) * (count_tokens(line) + 1));
 	line_array[count_tokens(line)] = NULL;
@@ -156,16 +196,16 @@ char **look_for_quotes_and_split(char *line)
 		if (line[i] == '\'')
 		{
 			if(single_quote_status)
-				single_quote_status = 0;
+				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
-				single_quote_status = 1;
+				single_quote_status = ON;
 		}
 		else if(line[i] == '\"')
 		{
 			if(double_quote_status)
-				double_quote_status = 0;
+				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
-				double_quote_status = 1;
+				double_quote_status = ON;
 		}
 		else if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
 		{
@@ -184,31 +224,31 @@ char *look_for_redirections_and_pipe(char *line)
 	int double_quote_status;
 
 	i = -1;
-	single_quote_status = 0;
-	double_quote_status = 0;
+	single_quote_status = OFF;
+	double_quote_status = OFF;
 	while(line[++i])
 	{
 		if (line[i] == '\'')
 		{
 			if(single_quote_status)
-				single_quote_status = 0;
+				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
 			{
 				if(i != 0 && line[i - 1] != ' ')
 					line = insert_space(line, i);
-				single_quote_status = 1;
+				single_quote_status = ON;
 			}
 			i++;
 		}
 		else if(line[i] == '\"')
 		{
 			if(double_quote_status)
-				double_quote_status = 0;
+				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
 			{
 				if(i != 0 && line[i - 1] != ' ')
 					line = insert_space(line, i);
-				double_quote_status = 1;
+				double_quote_status = ON;
 			}
 			i++;
 		}
@@ -227,6 +267,42 @@ char *look_for_redirections_and_pipe(char *line)
 	return (line);
 }
 
+void	remove_token_quotes(char **tokens)
+{
+	int i;
+
+	i = -1;
+	while(tokens[++i])
+	{
+		if(tokens[i][0] == '\'' || tokens[i][0] == '\"')
+			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
+	}
+}
+
+void	parse_commands(char **tokens)
+{
+	if(tokens[0][0] == '$')
+		tokens[0] = expanding_variable(tokens[0]);
+	// if(ft_strcmp(tokens[0], "echo"))
+	// 	command_echo(tokens);
+	// else if(ft_strcmp(tokens[0], "cd"))
+	// 	command_cd();
+	// else if(ft_strcmp(tokens[0], "pwd"))
+	// 	command_pwd();
+	// else if(ft_strcmp(tokens[0], "export"))
+	// 	command_export();
+	// else if(ft_strcmp(tokens[0], "unset"))
+	// 	command_unset();
+	// else if(ft_strcmp(tokens[0], "env"))
+	// 	command_env();
+	// else if(ft_strcmp(tokens[0], "exit"))
+	// 	command_exit();
+	else if(ft_strchr(tokens[0], '='))
+		add_variable(tokens[0]);
+	/*else
+		error_message?*/
+}
+
 char    **split_line(char *input_line)
 {
 	char    **string_array;
@@ -234,6 +310,7 @@ char    **split_line(char *input_line)
 
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
+	remove_token_quotes(string_array);
 	return (string_array);
 }
 
@@ -248,7 +325,8 @@ char    *create_prompt(void)
 	prompt_green = ft_strjoin("\001\033[1;32m\002", buff);
 	prompt_reset = ft_strjoin("\001\033[0;0m\002", "$ ");
 	prompt_full = ft_strjoin(prompt_green, prompt_reset);
-	//free(tudo); // free tudo - prompt-full
+	free(prompt_green);
+	free(prompt_reset);
 	return (prompt_full);
 }
 
@@ -295,6 +373,13 @@ void    print_tokens(char **tokens)
 		printf("%s\n", tokens[i]);
 }
 
+void    print_envp(void)
+{
+	int i = -1;
+	while(++i < g_global.count)
+		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
+}
+
 void    loop(void)
 {
 	char *input_line;
@@ -306,17 +391,12 @@ void    loop(void)
 		if(take_input(&input_line))
 			continue ;
 		tokens = split_line(input_line);
+		parse_commands(tokens);
 		print_tokens(tokens);
 		free(input_line);
+		//print_envp();
 		// exec_commands();
 	}
-}
-
-void    print_envp(void)
-{
-	int i = -1;
-	while(++i < g_global.count)
-		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
 }
 
 int main(int argc, char *argv[], char *envp[])

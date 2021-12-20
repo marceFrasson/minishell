@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/11/30 17:08:20 by mfrasson         ###   ########.fr       */
+/*   Updated: 2021/12/17 13:38:26 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include "../libft/libft.h"
 
 #define BUFFERSIZE 1024
+
+#define OFF 0
+#define ON  1
 
 typedef struct s_global
 {
