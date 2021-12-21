@@ -6,7 +6,7 @@
 /*   By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/12/20 22:02:59 by itaureli         ###   ########.fr       */
+/*   Updated: 2021/12/20 22:08:35 by itaureli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@
 #define OFF 0
 #define ON  1
 
-typedef struct s_global
+typedef struct	s_global
 {
-    char    **envp_variable;
-    char    **envp_path;
-    int     count;
-}              t_global;
+	char	**envp_variable;
+	char	**envp_path;
+	int	 count;
+}				t_global;
 
 t_global	g_global;
 
