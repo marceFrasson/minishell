@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/14 14:28:15 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:13:07 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,12 +374,9 @@ t_command	*create_new_node(char **command_block, int count)
 
 	i = -1;
 	new_node = (t_command *)malloc(sizeof(t_command));
+	new_node->command_block = (char **)malloc(sizeof(char) * count);
 	while(++i < count)
-	{
-		printf("dentro create new node, count: %i, i: %i\n", count, i);
-		new_node->command_block[i] = ft_strdup(command_block[i]);			// ta sando segfault nessa linha
-		printf("\n _ %s _\n", new_node->command_block[i]);
-	}
+		new_node->command_block[i] = ft_strdup(command_block[i]);
 	return (new_node);
 }
 
@@ -403,7 +400,7 @@ void	separate_per_pipes(char **tokens, t_command *command_list)
 	i = 0;
 	j = 0;
 	k = 0;
-	printf("separete per pipes\n");
+	command_block = (char **)malloc(sizeof(char *) * g_global.count);
 	while(tokens[i])
 	{
 		printf("toki: %s\n", tokens[i]);
@@ -411,31 +408,29 @@ void	separate_per_pipes(char **tokens, t_command *command_list)
 		{
 			while(j < i)
 			{
-				printf("antes do command block ft_strdup\n");
+				printf("antes do command strdup\n");
 				command_block[k] = ft_strdup(tokens[j]);
 				j++;
 				k++;
 			}
+			printf("antes do create new node\n");
+			command_list->next = create_new_node(command_block, k);
 			j = i + 1;
 			k = 0;
-			printf("antes do create new node\n");
-			command_list->next = create_new_node(command_block, i);
+			printf("antes do ->next\n");
 			command_list = command_list->next;
-			// command_block = null_char_array(command_block);
 		}
 		i++;
 	}
-
-	// essa parte aqui em baixo ja funcionou, mas agora ta dando segfault
-	
-	/*
 	while(j + 1 <= i)
 	{
-		command_list->command_block[k] = ft_strdup(tokens[j]);
-		// printf("%s\n", command_list->command_block[k]);
+		command_block[k] = ft_strdup(tokens[j]);
 		j++;
 		k++;
-	}*/
+	}
+	command_list->next = create_new_node(command_block, k);
+	command_list = command_list->next;
+	printf("fora do while\n");
 }
 
 int	check_syntax(char **tokens)
