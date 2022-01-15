@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/12/20 20:10:07 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:13:07 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,8 @@ char *look_for_redirections_and_pipe(char *line)
 			}
 			i++;
 		}
-		else if(is_operator(line[i]) && (!single_quote_status && !double_quote_status))
+		else if(is_operator(line[i])
+			&& (!single_quote_status && !double_quote_status))
 		{
 			if(i != 0 && (line[i - 1] != ' ' && !((line[i] == '<' && line[i - 1] == '<')
 				|| (line[i] == '>' && line[i - 1] == '>'))))
@@ -260,7 +261,9 @@ char *look_for_redirections_and_pipe(char *line)
 		}
 		else
 		{
-			if(i != 0 && (is_operator(line[i - 1]) && (!single_quote_status && !double_quote_status)))
+			if((i != 0 && (is_operator(line[i - 1])
+				&& (!single_quote_status && !double_quote_status)))
+				&& line[i] != ' ')
 				line = insert_space(line, i);
 		}
 	}
@@ -364,13 +367,94 @@ int take_input(char **input_line)
 	return (0);
 }
 
+t_command	*create_new_node(char **command_block, int count)
+{
+	t_command *new_node;
+	int i;
+
+	i = -1;
+	new_node = (t_command *)malloc(sizeof(t_command));
+	new_node->command_block = (char **)malloc(sizeof(char) * count);
+	while(++i < count)
+		new_node->command_block[i] = ft_strdup(command_block[i]);
+	return (new_node);
+}
+
+char	**null_char_array(char **array)
+{
+	int i;
+
+	i = -1;
+	while(array[++i])
+		array[i] = NULL;
+	return (array);
+}
+
+void	separate_per_pipes(char **tokens, t_command *command_list)
+{
+	char **command_block;
+	int i;
+	int j;
+	int k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	command_block = (char **)malloc(sizeof(char *) * g_global.count);
+	while(tokens[i])
+	{
+		printf("toki: %s\n", tokens[i]);
+		if(tokens[i][0] == '|')
+		{
+			while(j < i)
+			{
+				printf("antes do command strdup\n");
+				command_block[k] = ft_strdup(tokens[j]);
+				j++;
+				k++;
+			}
+			printf("antes do create new node\n");
+			command_list->next = create_new_node(command_block, k);
+			j = i + 1;
+			k = 0;
+			printf("antes do ->next\n");
+			command_list = command_list->next;
+		}
+		i++;
+	}
+	while(j + 1 <= i)
+	{
+		command_block[k] = ft_strdup(tokens[j]);
+		j++;
+		k++;
+	}
+	command_list->next = create_new_node(command_block, k);
+	command_list = command_list->next;
+	printf("fora do while\n");
+}
+
+int	check_syntax(char **tokens)
+{
+	int i;
+
+	i = -1;
+	if(tokens[0][0] == '|')
+		return (0);
+	while(tokens[++i])
+	{
+		if(is_operator(tokens[i][0]) && is_operator(tokens[i + 1][0]))
+			return (0);
+	}
+	return (1);
+}
+
 void    print_tokens(char **tokens)
 {
 	int i;
 	
 	i = -1;
 	while(tokens[++i])
-		printf("%s\n", tokens[i]);
+		printf("%i: %s\n", i, tokens[i]);
 }
 
 void    print_envp(void)
@@ -380,19 +464,42 @@ void    print_envp(void)
 		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
 }
 
+// essa print command list so imprime lixo de memoria
+
+void	print_command_list(t_command *command_list)
+{
+	int i;
+
+	i = 0;
+	while(command_list)
+	{
+		while(command_list->command_block[i])
+		{
+			printf("%i: %s\n", i, command_list->command_block[i]);
+			i++;
+		}
+		command_list = command_list->next;
+	}
+}
+
 void    loop(void)
 {
 	char *input_line;
 	char **tokens;
+	t_command *command_list;
 
+	g_global.first_command = command_list;
+	command_list = (t_command *)malloc(sizeof(t_command));
 	while(1)
 	{
 		//set_sigaction();
 		if(take_input(&input_line))
 			continue ;
 		tokens = split_line(input_line);
-		parse_commands(tokens);
-		print_tokens(tokens);
+		separate_per_pipes(tokens, command_list);
+		// parse_commands(tokens);
+		// print_tokens(tokens);
+		// print_command_list(command_list);
 		free(input_line);
 		//print_envp();
 		// exec_commands();
@@ -406,3 +513,38 @@ int main(int argc, char *argv[], char *envp[])
 	loop();
 	return (0);
 }
+
+
+// ___________________________________________________________________________________________________________________
+
+
+/*
+
+	separar os blocos de comandos separados por pipes em uma lista linkada
+	contar cada bloco de comandos da lista e contar quantas palavras tem alem do redirect e sua palavra a direita
+	criar um array com o numero de palavras
+	copiar pra este array as palavras que nao o redirect e sua palavra a direita
+	executar o comando e passar seus argumentos
+	redirecionar
+
+
+	cria um fd
+	cria um pipefd
+	fd[0] = pipefd[0]
+	pipe(fd)
+	fd[1] = pipefd[1]
+	redirect fds
+	exec comands(fd[0], fd[1])
+	close fd[0]
+	close fd[1]
+
+	
+	getpath
+	getenvp(g_global.envp_variable, g_global.envp_path)
+	execv(char *command, char **command_block, envp)
+
+
+	exec_buitins
+	exec_non_builtins
+	
+	*/
