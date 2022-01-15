@@ -6,30 +6,11 @@
 /*   By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/15 12:02:47 by itaureli         ###   ########.fr       */
+/*   Updated: 2022/01/15 12:06:57 by itaureli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	**null_char_array(char **array)
-{
-	int i;
-
-	i = -1;
-	while(array[++i])
-		array[i] = NULL;
-	return (array);
-}
-
-/*
-void    print_envp(void)
-{
-	int i = -1;
-	while(++i < g_global.count)
-		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
-}
-*/
 
 int main(int argc, char *argv[], char *envp[])
 {

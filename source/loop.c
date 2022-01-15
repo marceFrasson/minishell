@@ -6,14 +6,13 @@
 /*   By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 11:51:03 by itaureli          #+#    #+#             */
-/*   Updated: 2022/01/15 12:01:46 by itaureli         ###   ########.fr       */
+/*   Updated: 2022/01/15 12:07:03 by itaureli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-// essa print command list so imprime lixo de memoria
 
 void	remove_token_quotes(char **tokens)
 {
@@ -26,6 +25,25 @@ void	remove_token_quotes(char **tokens)
 			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
 	}
 }
+
+char	**null_char_array(char **array)
+{
+	int i;
+
+	i = -1;
+	while(array[++i])
+		array[i] = NULL;
+	return (array);
+}
+
+/*
+void    print_envp(void)
+{
+	int i = -1;
+	while(++i < g_global.count)
+		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
+}
+// essa print command list so imprime lixo de memoria
 
 void	print_command_list(t_command *command_list)
 {
@@ -42,6 +60,7 @@ void	print_command_list(t_command *command_list)
 		command_list = command_list->next;
 	}
 }
+*/
 
 t_command	*create_new_node(char **command_block, int count)
 {
