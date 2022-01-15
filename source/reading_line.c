@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/15 15:15:12 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:45:53 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,14 @@
 void	add_variable(char *token)
 {
 	int		i;
-	char    *first_part;
-	char    *second_part;
-
 
 	i = 0;
 	while(token[i])
 	{
 		if(token[i] == '=')
 		{
-			first_part = malloc(sizeof(char *) * i + 1);
-			second_part = malloc(sizeof(char *) * ((ft_strlen(token) + 1) - i));
-
 			g_global.envp_variable[g_global.count] = ft_substr(token, 0, i);
 			g_global.envp_path[g_global.count] = ft_substr(token, i + 1, ft_strlen(token) - 1);
-
-			free(first_part);
-			free(second_part);
 			break ;
 		}
 		i++;
@@ -54,17 +45,8 @@ char	*expanding_variable(char *token)
 
 void    split_envp(char *envp[], int j, int i)
 {
-	char    *first_part;
-	char    *second_part;
-
-	first_part = malloc(sizeof(char *) * i + 1);
-	second_part = malloc(sizeof(char *) * ((ft_strlen(envp[j]) + 1) - i));
-
 	g_global.envp_variable[j] = ft_substr(envp[j], 0, i);
 	g_global.envp_path[j] = ft_substr(envp[j], i + 1, ft_strlen(envp[j]) - 1);
-
-	free(first_part);
-	free(second_part);
 }
 
 int count_envp(char *envp[])
@@ -179,6 +161,7 @@ char **look_for_quotes_and_split(char *line)
 {
 	int     i;
 	int     j;
+	int		k;
 	int     single_quote_status;
 	int     double_quote_status;
 	int     last_position;
@@ -186,6 +169,7 @@ char **look_for_quotes_and_split(char *line)
 
 	i = -1;
 	j = 0;
+	k = 0;
 	single_quote_status = OFF;
 	double_quote_status = OFF;
 	last_position = 0;
@@ -200,20 +184,23 @@ char **look_for_quotes_and_split(char *line)
 			else if (!single_quote_status && !double_quote_status)
 				single_quote_status = ON;
 		}
-		else if(line[i] == '\"')
+		if(line[i] == '\"')
 		{
 			if(double_quote_status)
 				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
 				double_quote_status = ON;
 		}
-		else if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
+		if(line[i] != ' ' || (line[i] == ' '
+			&& (single_quote_status || double_quote_status)))
+			j++;
+		if(j && ((line[i + 1] == '\0' || (line[i + 1] == ' '
+            && (!single_quote_status && !double_quote_status)))))
 		{
-			line_array[j++] = ft_substr(line, last_position, i - last_position);
-			last_position = i + 1;
+			line_array[k++] = ft_substr(line + i + 1 - j, 0, j);
+			j = 0;
 		}
 	}
-	line_array[j++] = ft_substr(line, last_position, i - last_position);
 	return (line_array);
 }
 
@@ -367,112 +354,130 @@ int take_input(char **input_line)
 	return (0);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void    ft_command_add_next(t_command ** command, t_command *new)
 {
-	t_list	*temp;
+    t_command    *temp;
 
-	if (!(new))
-		return ;
-	else if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	temp = ft_lstlast(*lst);
-	new->prev = temp;
-	temp->next = new;
+    if (!(new))
+        return ;
+    else if (!(*command))
+    {
+        *command = new;
+        return ;
+    }
+    temp = *command;
+    while(temp->next)
+        temp = temp->next;
+    temp->next = new;
 }
 
-t_command	*create_new_node(char **command_block, int count)
+t_command    *create_new_node(char **tokens, int start, int end)
 {
-	t_command *new_node;
-	int i;
+    t_command *new_node;
+    int count;
+    int i;
 
-	i = -1;
-	new_node = (t_command *)malloc(sizeof(t_command));
-	new_node->command_block = malloc(sizeof(char *) * (count + 1));
-	new_node->command_block[count] = NULL;
-	new_node->next = NULL;
-	while(++i < count)
-		new_node->command_block[i] = ft_strdup(command_block[i]);
-	return (new_node);
+    i = -1;
+    count = end - start;
+    new_node = (t_command *)malloc(sizeof(t_command));
+    new_node->command_block = malloc(sizeof(char *) * (count + 1));
+    new_node->command_block[count] = NULL;
+    new_node->word_count = count;
+    new_node->next = NULL;
+    while(++i < count)
+        new_node->command_block[i] = ft_strdup(tokens[start + i]);
+    return (new_node);
 }
 
-void	separate_per_pipes(char **tokens, t_command *command_list)
+void    separate_per_pipes(char **tokens, t_command **command_list)
 {
-	char **command_block;
-	int i;
-	int j;
-	int k;
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while(tokens[i])
+    {
+        if(tokens[i][0] == '|')
+        {
+            ft_command_add_next(command_list, create_new_node(tokens, j, i));
+            j = i + 1;
+        }
+        i++;
+    }
+    ft_command_add_next(command_list, create_new_node(tokens, j, i));
+}
+
+int	ft_splitlen(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (!(str))
+		return (i);
+	while (*(str + i) != NULL)
+		i++;
+	return (i);
+}
+
+int	is_operators(char *arg)
+{
+	if (!(ft_strcmp(arg, "|")))
+		return (1);
+	else if (!(ft_strcmp(arg, "<")) || !(ft_strcmp(arg, ">")))
+		return (2);
+	else if (!(ft_strcmp(arg, "<<")) || !(ft_strcmp(arg, ">>")))
+		return (3);
+	else
+		return (0);
+}
+
+int	check_syntax_error1(char **tokens)
+{
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	k = 0;
-	command_block = malloc(sizeof(char *) * g_global.count);
-	while(tokens[i])
-	{
-		if(tokens[i][0] == '|')
-		{
-			while(j < i)
-			{
-				command_block[k] = ft_strdup(tokens[j]);
-				j++;
-				k++;
-			}
-			command_list->next = create_new_node(command_block, k);
-			command_list = command_list->next;
-			j = i + 1;
-			k = 0;
-		}
-		i++;
-	}
-	while(j + 1 <= i)
-	{
-		command_block[k] = ft_strdup(tokens[j]);
+	if (is_operators(tokens[0]) == 1)
 		j++;
-		k++;
-	}
-	command_list->next = create_new_node(command_block, k);
-	command_list = command_list->next;
-	command_list = g_global.head;
-	g_global.head = command_list->next;
-	command_list = g_global.head;
-}
-
-void	count_word_blocks(t_command *command_list)
-{
-	int i;
-	int word_count;
-
-	i = -1;
-	printf("dentro do count blocks\n");
-	while(command_list)
+	if (!(j))
+		while (tokens[++i]))
+			if (is_operators(tokens[i])) && is_operators(tokens[i - 1])))
+				break ;
+	if (j || i != ft_splitlen(tokens))
 	{
-		while(command_list->command_block[i]
-			&& (!is_operator(command_list->command_block[i][0])
-			&& !is_operator(command_list->command_block[i - 1][0])))
-		{
-			command_list->word_count++;
-			i++;
-		}
-		command_list = command_list->next;
+		ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+		if (j)
+			ft_putstr_fd(tokens[0], 2);
+		else
+			ft_putstr_fd(tokens[i]), 2);
+		ft_putendl_fd("'", 2);
+		g_shell.status = 2;
+		return (1);
 	}
+	return (0);
 }
 
-int	check_syntax(char **tokens)
+int	check_syntax_error2(char **tokens)
 {
-	int i;
+	int	i;
 
-	i = -1;
-	if(tokens[0][0] == '|')
-		return (0);
-	while(tokens[++i])
+	i = ft_splitlen(tokens);
+	if (is_operators(tokens[i - 1]))
 	{
-		if(is_operator(tokens[i][0]) && is_operator(tokens[i + 1][0]))
-			return (0);
+		ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+		if (is_operators(tokens[i - 1]) == 1)
+			ft_putstr_fd("|", 2);
+		else
+			ft_putstr_fd("newline", 2);
+		ft_putendl_fd("'", 2);
+		g_global.status = 2;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
+
 
 void    print_tokens(char **tokens)
 {
@@ -490,50 +495,70 @@ void    print_envp(void)
 		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
 }
 
-void	print_command_list(t_command *command_list)
+void    print_command_list(t_command *command)
 {
-	int i;
+    while(command)
+    {
+        printf("-----\n");
+        print_tokens(command->command_block);
+        printf("-----\n");
+        command = command->next;
+    }
+}
 
-	i = 1;
-	command_list = g_global.head;
-	while(command_list)
-	{
-		write(1, "ini do separete per pipes\n", 27);
-		printf("command list: %s\n", command_list->command_block[i]);
-		while(command_list->command_block[i])  // <- segfault
-		{
-			write(1, "fim do separete per pipes\n", 27);
-			printf("%i: %s\n", i, command_list->command_block[i]);
-			i++;
-		}
-		command_list = command_list->next;
-	}
+void free_command_list(t_command **command)
+{
+    t_command *temp1;
+    t_command *temp2;
+
+    if (!command)
+        return;
+    temp1 = *command;
+    while(temp1)
+    {
+        ft_free_split(temp1->command_block);
+        temp1 = temp1->next;
+    }
+    temp1 = *command;
+    while (temp1)
+    {
+        temp2 = temp1->next;
+        free(temp1);
+        temp1 = temp2;
+    }
+    *command = NULL;
 }
 
 void    loop(void)
 {
-	char		*input_line;
-	char		**tokens;
-	t_command	*command_list;
+    char        *input_line;
+    char        **tokens;
+    t_command    *command_list;
 
-	// g_global.head = command_list;
-	// command_list = (t_command *)malloc(sizeof(t_command));
-	command_list = NULL;
-	while(1)
-	{
-		//set_sigaction();
-		if(take_input(&input_line))
+    command_list = NULL;
+    while(1)
+    {
+        //set_sigaction();
+        if(take_input(&input_line))
+            continue ;
+        tokens = split_line(input_line);
+		if(check_syntax_error1(tokens) || check_syntax_error2(tokens))
+		{
+			ft_free_split(tokens);
+			free(input_line);
 			continue ;
-		tokens = split_line(input_line);
-		separate_per_pipes(tokens, &command_list);
-		// count_word_blocks(command_list);
-		// parse_commands(tokens);
-		// print_tokens(tokens);
-		print_command_list(command_list);
-		free(input_line);
-		//print_envp();
-		// exec_commands();
-	}
+		}
+        separate_per_pipes(tokens, &command_list);
+        print_tokens(tokens);
+		ft_free_split(tokens);
+        // count_word_blocks(command_list);
+        // parse_commands(command_list);
+        // print_command_list(command_list);
+        free_command_list(&command_list);
+        free(input_line);
+        //print_envp();
+        // exec_commands();
+    }
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -554,6 +579,7 @@ int main(int argc, char *argv[], char *envp[])
 	contar cada bloco de comandos da lista e contar quantas palavras tem alem do redirect e sua palavra a direita
 	criar um array com o numero de palavras
 	copiar pra este array as palavras que nao o redirect e sua palavra a direita
+		cria um array com a copia das palavras, apaga o array original e depois aponta pra copia
 	executar o comando e passar seus argumentos
 	redirecionar
 

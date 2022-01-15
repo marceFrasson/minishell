@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/14 16:29:15 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:26:58 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_global
     char        **envp_variable;
     char        **envp_path;
     int         count;
+    int         status;
     t_command   *head;
 }              t_global;
 
