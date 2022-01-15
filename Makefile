@@ -6,11 +6,13 @@
 #    By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2021/12/08 06:21:34 by itaureli         ###   ########.fr        #
+#    Updated: 2022/01/15 12:03:33 by itaureli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC		=	source/reading_line.c source/exec.c
+SRC		+=	source/validators.c source/envp.c
+SRC		+=	source/loop.c source/prompt.c
 
 OBJ		=	${SRC:.c=.o}
 

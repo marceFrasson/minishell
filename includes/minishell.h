@@ -6,7 +6,7 @@
 /*   By: itaureli <itaureli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/14 14:09:14 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/15 12:01:22 by itaureli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,22 @@ typedef struct s_global
 t_global	g_global;
 
 int	exec_commands();
+
+// VALIDATORS
+char	*look_for_redirections_and_pipe(char *line);
+char	**look_for_quotes_and_split(char *line);
+int		count_tokens(char *line);
+int		is_operator(char arg);
+int		check_syntax(char **tokens);
+
+// ENVP
+void	split_envp(char *envp[], int j, int i);
+void	parse_envp(char *envp[]);
+void	split_envp(char *envp[], int j, int i);
+
+// LOOP
+void	loop(void);
+
+// PROMPT
+char	*create_prompt(void);
 # endif
