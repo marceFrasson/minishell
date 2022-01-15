@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/14 14:09:14 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/14 16:29:15 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_command
 {
     char              **command_block;
+    int               word_count;
     struct s_command  *next;
 }               t_command;
 
@@ -36,7 +37,7 @@ typedef struct s_global
     char        **envp_variable;
     char        **envp_path;
     int         count;
-    t_command   *first_command;
+    t_command   *head;
 }              t_global;
 
 t_global         g_global;

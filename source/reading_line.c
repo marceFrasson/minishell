@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/14 15:13:07 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/15 15:15:12 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,6 +367,22 @@ int take_input(char **input_line)
 	return (0);
 }
 
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*temp;
+
+	if (!(new))
+		return ;
+	else if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	temp = ft_lstlast(*lst);
+	new->prev = temp;
+	temp->next = new;
+}
+
 t_command	*create_new_node(char **command_block, int count)
 {
 	t_command *new_node;
@@ -374,20 +390,12 @@ t_command	*create_new_node(char **command_block, int count)
 
 	i = -1;
 	new_node = (t_command *)malloc(sizeof(t_command));
-	new_node->command_block = (char **)malloc(sizeof(char) * count);
+	new_node->command_block = malloc(sizeof(char *) * (count + 1));
+	new_node->command_block[count] = NULL;
+	new_node->next = NULL;
 	while(++i < count)
 		new_node->command_block[i] = ft_strdup(command_block[i]);
 	return (new_node);
-}
-
-char	**null_char_array(char **array)
-{
-	int i;
-
-	i = -1;
-	while(array[++i])
-		array[i] = NULL;
-	return (array);
 }
 
 void	separate_per_pipes(char **tokens, t_command *command_list)
@@ -400,25 +408,21 @@ void	separate_per_pipes(char **tokens, t_command *command_list)
 	i = 0;
 	j = 0;
 	k = 0;
-	command_block = (char **)malloc(sizeof(char *) * g_global.count);
+	command_block = malloc(sizeof(char *) * g_global.count);
 	while(tokens[i])
 	{
-		printf("toki: %s\n", tokens[i]);
 		if(tokens[i][0] == '|')
 		{
 			while(j < i)
 			{
-				printf("antes do command strdup\n");
 				command_block[k] = ft_strdup(tokens[j]);
 				j++;
 				k++;
 			}
-			printf("antes do create new node\n");
 			command_list->next = create_new_node(command_block, k);
+			command_list = command_list->next;
 			j = i + 1;
 			k = 0;
-			printf("antes do ->next\n");
-			command_list = command_list->next;
 		}
 		i++;
 	}
@@ -430,7 +434,29 @@ void	separate_per_pipes(char **tokens, t_command *command_list)
 	}
 	command_list->next = create_new_node(command_block, k);
 	command_list = command_list->next;
-	printf("fora do while\n");
+	command_list = g_global.head;
+	g_global.head = command_list->next;
+	command_list = g_global.head;
+}
+
+void	count_word_blocks(t_command *command_list)
+{
+	int i;
+	int word_count;
+
+	i = -1;
+	printf("dentro do count blocks\n");
+	while(command_list)
+	{
+		while(command_list->command_block[i]
+			&& (!is_operator(command_list->command_block[i][0])
+			&& !is_operator(command_list->command_block[i - 1][0])))
+		{
+			command_list->word_count++;
+			i++;
+		}
+		command_list = command_list->next;
+	}
 }
 
 int	check_syntax(char **tokens)
@@ -464,17 +490,19 @@ void    print_envp(void)
 		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
 }
 
-// essa print command list so imprime lixo de memoria
-
 void	print_command_list(t_command *command_list)
 {
 	int i;
 
-	i = 0;
+	i = 1;
+	command_list = g_global.head;
 	while(command_list)
 	{
-		while(command_list->command_block[i])
+		write(1, "ini do separete per pipes\n", 27);
+		printf("command list: %s\n", command_list->command_block[i]);
+		while(command_list->command_block[i])  // <- segfault
 		{
+			write(1, "fim do separete per pipes\n", 27);
 			printf("%i: %s\n", i, command_list->command_block[i]);
 			i++;
 		}
@@ -484,22 +512,24 @@ void	print_command_list(t_command *command_list)
 
 void    loop(void)
 {
-	char *input_line;
-	char **tokens;
-	t_command *command_list;
+	char		*input_line;
+	char		**tokens;
+	t_command	*command_list;
 
-	g_global.first_command = command_list;
-	command_list = (t_command *)malloc(sizeof(t_command));
+	// g_global.head = command_list;
+	// command_list = (t_command *)malloc(sizeof(t_command));
+	command_list = NULL;
 	while(1)
 	{
 		//set_sigaction();
 		if(take_input(&input_line))
 			continue ;
 		tokens = split_line(input_line);
-		separate_per_pipes(tokens, command_list);
+		separate_per_pipes(tokens, &command_list);
+		// count_word_blocks(command_list);
 		// parse_commands(tokens);
 		// print_tokens(tokens);
-		// print_command_list(command_list);
+		print_command_list(command_list);
 		free(input_line);
 		//print_envp();
 		// exec_commands();
