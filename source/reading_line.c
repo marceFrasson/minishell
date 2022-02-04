@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/01/15 17:45:53 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/01/18 17:19:31 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	add_variable(char *token)
 	int		i;
 
 	i = 0;
-	while(token[i])
+	while (token[i])
 	{
-		if(token[i] == '=')
+		if (token[i] == '=')
 		{
 			g_global.envp_variable[g_global.count] = ft_substr(token, 0, i);
 			g_global.envp_path[g_global.count] = ft_substr(token, i + 1, ft_strlen(token) - 1);
@@ -37,7 +37,7 @@ char	*expanding_variable(char *token)
 	i = 0;
 	variable = malloc(sizeof(char *) * ft_strlen(token));
 	strcpy(variable, token);
-	while(!ft_strcmp(variable, g_global.envp_variable[i]))
+	while (!ft_strcmp(variable, g_global.envp_variable[i]))
 		i++;
 	printf("i: %i\n", i);
 	return (g_global.envp_path[i]);
@@ -54,7 +54,7 @@ int count_envp(char *envp[])
 	int i;
 
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 		i++;
 	return (i);
 }
@@ -69,9 +69,9 @@ void    parse_envp(char *envp[])
     g_global.count = count_envp(envp);
     g_global.envp_variable = malloc(sizeof(char *) * (g_global.count + 30));
     g_global.envp_path = malloc(sizeof(char *) * (g_global.count + 30));
-    while(j < g_global.count)
+    while (j < g_global.count)
     {
-        if(envp[j][i] == '=')
+        if (envp[j][i] == '=')
         {
             split_envp(envp, j, i);
             j++;
@@ -113,9 +113,9 @@ int	is_operator(char arg)
 {
 	if (arg == '|')
 		return (1);
-	else if(arg == '<' || arg == '>')
+	else if (arg == '<' || arg == '>')
 	{
-		if((arg - 1 != '<') || (arg - 1 != '>'))
+		if ((arg - 1 != '<') || (arg - 1 != '>'))
 			return (1);
 		else
 			return (0);
@@ -135,23 +135,23 @@ int count_tokens(char *line)
 	space_count = 0;
 	single_quote_status = OFF;
 	double_quote_status = OFF;
-	while(line[++i])
+	while (line[++i])
 	{
 		if (line[i] == '\'')
 		{
-			if(single_quote_status)
+			if (single_quote_status)
 				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
 				single_quote_status = ON;
 		}
-		else if(line[i] == '\"')
+		else if (line[i] == '\"')
 		{
-			if(double_quote_status)
+			if (double_quote_status)
 				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
 				double_quote_status = ON;
 		}
-		if(line[i] == ' ' && (!single_quote_status && !double_quote_status))
+		if (line[i] == ' ' && (!single_quote_status && !double_quote_status))
 			space_count++;
 	}
 	return (space_count + 1);
@@ -175,26 +175,26 @@ char **look_for_quotes_and_split(char *line)
 	last_position = 0;
 	line_array = malloc(sizeof(char *) * (count_tokens(line) + 1));
 	line_array[count_tokens(line)] = NULL;
-	while(line[++i])
+	while (line[++i])
 	{
 		if (line[i] == '\'')
 		{
-			if(single_quote_status)
+			if (single_quote_status)
 				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
 				single_quote_status = ON;
 		}
-		if(line[i] == '\"')
+		if (line[i] == '\"')
 		{
-			if(double_quote_status)
+			if (double_quote_status)
 				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
 				double_quote_status = ON;
 		}
-		if(line[i] != ' ' || (line[i] == ' '
+		if (line[i] != ' ' || (line[i] == ' '
 			&& (single_quote_status || double_quote_status)))
 			j++;
-		if(j && ((line[i + 1] == '\0' || (line[i + 1] == ' '
+		if (j && ((line[i + 1] == '\0' || (line[i + 1] == ' '
             && (!single_quote_status && !double_quote_status)))))
 		{
 			line_array[k++] = ft_substr(line + i + 1 - j, 0, j);
@@ -213,42 +213,42 @@ char *look_for_redirections_and_pipe(char *line)
 	i = -1;
 	single_quote_status = OFF;
 	double_quote_status = OFF;
-	while(line[++i])
+	while (line[++i])
 	{
 		if (line[i] == '\'')
 		{
-			if(single_quote_status)
+			if (single_quote_status)
 				single_quote_status = OFF;
 			else if (!single_quote_status && !double_quote_status)
 			{
-				if(i != 0 && line[i - 1] != ' ')
+				if (i != 0 && line[i - 1] != ' ')
 					line = insert_space(line, i);
 				single_quote_status = ON;
 			}
 			i++;
 		}
-		else if(line[i] == '\"')
+		else if (line[i] == '\"')
 		{
-			if(double_quote_status)
+			if (double_quote_status)
 				double_quote_status = OFF;
 			else if (!double_quote_status && !single_quote_status)
 			{
-				if(i != 0 && line[i - 1] != ' ')
+				if (i != 0 && line[i - 1] != ' ')
 					line = insert_space(line, i);
 				double_quote_status = ON;
 			}
 			i++;
 		}
-		else if(is_operator(line[i])
+		else if (is_operator(line[i])
 			&& (!single_quote_status && !double_quote_status))
 		{
-			if(i != 0 && (line[i - 1] != ' ' && !((line[i] == '<' && line[i - 1] == '<')
+			if (i != 0 && (line[i - 1] != ' ' && !((line[i] == '<' && line[i - 1] == '<')
 				|| (line[i] == '>' && line[i - 1] == '>'))))
 				line = insert_space(line, i);
 		}
 		else
 		{
-			if((i != 0 && (is_operator(line[i - 1])
+			if ((i != 0 && (is_operator(line[i - 1])
 				&& (!single_quote_status && !double_quote_status)))
 				&& line[i] != ' ')
 				line = insert_space(line, i);
@@ -262,32 +262,32 @@ void	remove_token_quotes(char **tokens)
 	int i;
 
 	i = -1;
-	while(tokens[++i])
+	while (tokens[++i])
 	{
-		if(tokens[i][0] == '\'' || tokens[i][0] == '\"')
+		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
 			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
 	}
 }
 
 void	parse_commands(char **tokens)
 {
-	if(tokens[0][0] == '$')
+	if (tokens[0][0] == '$')
 		tokens[0] = expanding_variable(tokens[0]);
-	// if(ft_strcmp(tokens[0], "echo"))
+	// if (ft_strcmp(tokens[0], "echo"))
 	// 	command_echo(tokens);
-	// else if(ft_strcmp(tokens[0], "cd"))
+	// else if (ft_strcmp(tokens[0], "cd"))
 	// 	command_cd();
-	// else if(ft_strcmp(tokens[0], "pwd"))
+	// else if (ft_strcmp(tokens[0], "pwd"))
 	// 	command_pwd();
-	// else if(ft_strcmp(tokens[0], "export"))
+	// else if (ft_strcmp(tokens[0], "export"))
 	// 	command_export();
-	// else if(ft_strcmp(tokens[0], "unset"))
+	// else if (ft_strcmp(tokens[0], "unset"))
 	// 	command_unset();
-	// else if(ft_strcmp(tokens[0], "env"))
+	// else if (ft_strcmp(tokens[0], "env"))
 	// 	command_env();
-	// else if(ft_strcmp(tokens[0], "exit"))
+	// else if (ft_strcmp(tokens[0], "exit"))
 	// 	command_exit();
-	else if(ft_strchr(tokens[0], '='))
+	else if (ft_strchr(tokens[0], '='))
 		add_variable(tokens[0]);
 	/*else
 		error_message?*/
@@ -342,9 +342,9 @@ int take_input(char **input_line)
 	prompt = create_prompt();
 	buffer = readline(prompt);
 	free(prompt);
-	if(!buffer)
+	if (!buffer)
 		exit (0); // exit program
-	if(buffer[0] == '\0')
+	if (buffer[0] == '\0')
 	{
 		free(buffer);
 		return (1);
@@ -366,7 +366,7 @@ void    ft_command_add_next(t_command ** command, t_command *new)
         return ;
     }
     temp = *command;
-    while(temp->next)
+    while (temp->next)
         temp = temp->next;
     temp->next = new;
 }
@@ -384,9 +384,48 @@ t_command    *create_new_node(char **tokens, int start, int end)
     new_node->command_block[count] = NULL;
     new_node->word_count = count;
     new_node->next = NULL;
-    while(++i < count)
+    while (++i < count)
         new_node->command_block[i] = ft_strdup(tokens[start + i]);
     return (new_node);
+}
+
+static void	create_fds(char **command_block, int *fdin, int *fdout)
+{
+	if (!ft_strcmp(command_block[0], ">"))
+		open_fd(command_block[1], O_WRONLY | O_CREAT | O_TRUNC, 1, fdout);
+	else if (!ft_strcmp(command_block[0], "<"))
+		open_fd(command_block[1], O_RDONLY | O_CREAT, 0, fdin);
+	else if (!ft_strcmp(command_block[0], ">>"))
+		open_fd(command_block[1], O_WRONLY | O_CREAT | O_APPEND, 1, fdout);
+	else
+		open_heredoc(command_block[1], fdin);
+}
+
+char    **separate_redirects(char **command_block)
+{
+    char **new_command_block;
+    t_command redirect;
+    int i;
+    int j;
+
+    i = -1;
+    j = 0;
+    while (command_block[++i])
+    {
+        if (is_redirect(command_block[i]))
+        {
+            redirect->command_block[0] = command_block[i];
+            redirect->command_block[1] = command_block[i + 1];
+        }
+    }
+    i = -1;
+    while (command_block[++i])
+    {
+        if (i != keep_out[0] || i != keep_out[1])
+            new_command_block[j] = command_block[i];
+    }
+    free(command_block);
+    return (new_command_block);
 }
 
 void    separate_per_pipes(char **tokens, t_command **command_list)
@@ -396,9 +435,9 @@ void    separate_per_pipes(char **tokens, t_command **command_list)
 
     i = 0;
     j = 0;
-    while(tokens[i])
+    while (tokens[i])
     {
-        if(tokens[i][0] == '|')
+        if (tokens[i][0] == '|')
         {
             ft_command_add_next(command_list, create_new_node(tokens, j, i));
             j = i + 1;
@@ -484,20 +523,20 @@ void    print_tokens(char **tokens)
 	int i;
 	
 	i = -1;
-	while(tokens[++i])
+	while (tokens[++i])
 		printf("%i: %s\n", i, tokens[i]);
 }
 
 void    print_envp(void)
 {
 	int i = -1;
-	while(++i < g_global.count)
+	while (++i < g_global.count)
 		printf("var: %s\npath: %s\n", g_global.envp_variable[i], g_global.envp_path[i]);
 }
 
 void    print_command_list(t_command *command)
 {
-    while(command)
+    while (command)
     {
         printf("-----\n");
         print_tokens(command->command_block);
@@ -514,7 +553,7 @@ void free_command_list(t_command **command)
     if (!command)
         return;
     temp1 = *command;
-    while(temp1)
+    while (temp1)
     {
         ft_free_split(temp1->command_block);
         temp1 = temp1->next;
@@ -536,19 +575,20 @@ void    loop(void)
     t_command    *command_list;
 
     command_list = NULL;
-    while(1)
+    while (1)
     {
         //set_sigaction();
-        if(take_input(&input_line))
+        if (take_input(&input_line))
             continue ;
         tokens = split_line(input_line);
-		if(check_syntax_error1(tokens) || check_syntax_error2(tokens))
+		if (check_syntax_error1(tokens) || check_syntax_error2(tokens))
 		{
 			ft_free_split(tokens);
 			free(input_line);
 			continue ;
 		}
         separate_per_pipes(tokens, &command_list);
+		command_list.command_block = separate_redirects(&command_list.command_block);
         print_tokens(tokens);
 		ft_free_split(tokens);
         // count_word_blocks(command_list);
