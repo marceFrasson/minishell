@@ -6,76 +6,79 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:12:07 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/03 12:12:29 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:29:14 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	change_dir_to_path(char *path)
+void	search_variable(char *variable)
 {
-	char	*pwd;
-	char	*error_msg;
-	char	buffer[2048];
+	int i;
 
-	pwd = getcwd(buffer, 2048);
-	hashmap_insert("OLDPWD", pwd, g_minishell.env);
-	if (chdir(path) != 0 && ft_strchr(path, '>') == NULL)
+	i = -1;
+	while (g_global.variable[++i])
 	{
-		error_msg = ft_strjoin("cd: ", path);
-		error_message(error_msg, strerror(errno), 1);
-		free(error_msg);
-		return ;
+		if (ft_strcmp(g_global.variable[i], variable))
+			break ;
 	}
-	pwd = getcwd(buffer, 2048);
-	hashmap_insert("PWD", pwd, g_minishell.env);
+	return (i);
 }
 
-static void	change_dir_to_oldpwd(char *path)
+void 	change_dir_to_path(char *path)
 {
-	ft_printf("%s\n", path);
-	change_dir_to_path(path);
-}
+	int	i;
 
-static void	change_dir_to_home(void)
-{
-	char	*path;
-
-	path = ft_strdup(hashmap_search(g_minishell.env, "HOME"));
-	if (path == NULL)
+	i = chdir(path);
+	if (i)
 	{
-		error_message("cd", NO_HOME, 1);
-		free(path);
-		return ;
+		ft_putstr_fd("Minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		return (errno);
 	}
-	change_dir_to_path(path);
-	free(path);
 }
 
-void	cd(char	*path)
+void	change_dir_to_oldpwd(void)
 {
-	char	*current_path;
+	int i;
 
-	g_minishell.error_status = 0;
-	if ((!path) || ft_strcmp(path, "~") == 0)
+	i = search_variable("OLDPWD");
+	change_dir_to_path(g_global.path[i]);
+}
+
+void	change_dir_to_home(void)
+{
+	int i;
+
+	i = search_variable("HOME");
+	change_dir_to_path(g_global.path[i]);
+}
+
+void	command_cd(char **command)
+{
+	char *path;
+
+	path = command[1];
+	if (command[2])
+	{
+		ft_putendl_fd("Minishell: cd: too many arguments", 2);
+		g_shell.status = 1;
+	}
+	if (!path || ft_strcmp(path, "~") == 0)
 	{
 		change_dir_to_home();
 		return ;
 	}
 	else if (ft_strcmp(path, "-") == 0)
 	{
-		current_path = ft_strdup(hashmap_search(g_minishell.env, "OLDPWD"));
-		if (current_path == NULL)
-		{
-			error_message("cd", NO_OLDPWD, 1);
-			return ;
-		}
-		change_dir_to_oldpwd(current_path);
+		change_dir_to_oldpwd();
+		return ;
 	}
 	else
 	{
-		current_path = ft_strdup(path);
-		change_dir_to_path(current_path);
+		change_dir_to_path(path);
+		return ;
 	}
-	free(current_path);
 }
