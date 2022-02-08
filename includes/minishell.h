@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:27:18 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/08 20:30:57 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	    command_pwd(int fdout);
 
 char        *create_prompt(void);
 char        *read_line(void);
+
+void        separate_per_pipes(char **tokens, t_command **command_list);
 
 int         count_tokens(char *line);
 char        **look_for_quotes_and_split(char *line);

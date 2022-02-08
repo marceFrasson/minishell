@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/07 22:32:28 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/08 20:09:08 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ NAME	=	minishell
 
 MODULE	=	./libft/libft.a
 
-CFLAGS	=	-Wall -Wextra -Werror -lreadline
+CFLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 
 RM		=	rm -rf
 

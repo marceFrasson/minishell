@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 13:34:39 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:35:12 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:11:40 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 
 void	delete_variable(char *arg)
 {
-	if (!ft_strcmp(g_global.variable, arg))
+	int i;
+
+	i = -1;
+	while (g_global.variable[++i])
 	{
-		
+		if (!ft_strcmp(g_global.variable[i], arg))
+		{
+			while (g_global.variable[i + 1])
+			{
+				g_global.variable[i] = g_global.variable[i + 1];
+				i++;
+			}
+			break ;
+		}
 	}
 }
 
