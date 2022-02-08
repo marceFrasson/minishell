@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/03 12:03:56 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/07 22:27:18 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <signal.h>
 #include <string.h>
 #include <sys/types.h>
 #include <readline/readline.h>
@@ -35,11 +36,59 @@ typedef struct s_command
 
 typedef struct s_global
 {
-    char        **envp_variable;
-    char        **envp_path;
+    char        **variable;
+    char        **path;
     int         count;
     int         status;
     t_command   *head;
 }              t_global;
 
 t_global         g_global;
+
+int	        search_variable(char *variable);
+char 	    change_dir_to_path(char *path);
+void	    change_dir_to_oldpwd(void);
+void	    change_dir_to_home(void);
+void	    command_cd(char **args);
+
+int    	    check_syntax_error2(char **tokens);
+int    	    check_syntax_error1(char **tokens);
+
+void        print_tokens(char **tokens);
+void        print_envp(void);
+void        print_command_list(t_command *command);
+
+void        command_echo(char **args, int fdout);
+void	    command_env(int ind, int fdout);
+void        split_envp(char *envp[], int j, int i);
+int         count_envp(char *envp[]);
+void        parse_envp(char *envp[]);
+
+void        free_variables(void);
+void	    command_exit(char **args);
+
+void        ft_command_add_next(t_command ** command, t_command *new);
+t_command   *create_new_node(char **tokens, int start, int end);
+
+char        **split_line(char *input_line);
+int         take_input(char **input_line);
+
+void	    command_pwd(int fdout);
+
+char        *create_prompt(void);
+char        *read_line(void);
+
+int         count_tokens(char *line);
+char        **look_for_quotes_and_split(char *line);
+char        *look_for_redirections_and_pipe(char *line);
+void	    remove_token_quotes(char **tokens);
+
+void	    command_unset(char **args);
+
+int	        ft_splitlen(char **str);
+int	        is_operator(char arg);
+int	        is_operators(char *arg);
+void        free_command_list(t_command **command);
+
+void	    add_variable(char *token);
+char	    *expanding_variable(char *token);

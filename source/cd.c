@@ -6,13 +6,13 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:12:07 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 12:29:14 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/07 21:59:48 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	search_variable(char *variable)
+int	search_variable(char *variable)
 {
 	int i;
 
@@ -25,7 +25,7 @@ void	search_variable(char *variable)
 	return (i);
 }
 
-void 	change_dir_to_path(char *path)
+char 	change_dir_to_path(char *path)
 {
 	int	i;
 
@@ -56,15 +56,15 @@ void	change_dir_to_home(void)
 	change_dir_to_path(g_global.path[i]);
 }
 
-void	command_cd(char **command)
+void	command_cd(char **args)
 {
 	char *path;
 
-	path = command[1];
-	if (command[2])
+	path = args[1];
+	if (args[2])
 	{
 		ft_putendl_fd("Minishell: cd: too many arguments", 2);
-		g_shell.status = 1;
+		g_global.status = 1;
 	}
 	if (!path || ft_strcmp(path, "~") == 0)
 	{

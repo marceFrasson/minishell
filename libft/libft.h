@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 14:22:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/11/30 16:57:51 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/07 22:02:30 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(char c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
+int			ft_splitlen(char **str);
 void		*ft_memccpy(void *dst, const void *src, int c, size_t size);
 void		*ft_memchr(const void *str, int c, size_t size);
 int			ft_memcmp(const void *str1, const void *str2, size_t size);
