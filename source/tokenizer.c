@@ -6,11 +6,23 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/08 21:23:26 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 02:30:36 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	remove_token_quotes(char **tokens)
+{
+	int i;
+
+	i = -1;
+	while (tokens[++i])
+	{
+		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
+			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
+	}
+}
 
 int count_tokens(char *line)
 {
@@ -168,16 +180,4 @@ char *look_for_redirections_and_pipe(char *line)
 		}
 	}
 	return (line);
-}
-
-void	remove_token_quotes(char **tokens)
-{
-	int i;
-
-	i = -1;
-	while (tokens[++i])
-	{
-		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
-			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
-	}
 }
