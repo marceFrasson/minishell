@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:13:18 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:25:27 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:52:35 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void    split_envp(char *envp[], int j, int i)
 {
-	g_global.variable[j] = ft_substr(envp[j], 0, i);
-	g_global.path[j] = ft_substr(envp[j], i + 1, ft_strlen(envp[j]) - 1);
+	g_global.env_variable[j] = ft_substr(envp[j], 0, i);
+	g_global.env_path[j] = ft_substr(envp[j], i + 1, ft_strlen(envp[j]) - 1);
 }
 
 int count_envp(char *envp[])
@@ -36,8 +36,10 @@ void    parse_envp(char *envp[])
     i = 0;
     j = 0;
     g_global.count = count_envp(envp);
-    g_global.variable = malloc(sizeof(char *) * (g_global.count + 30));
-    g_global.path = malloc(sizeof(char *) * (g_global.count + 30));
+    g_global.env_variable = malloc(sizeof(char *) * (g_global.count + 30));
+    g_global.env_path = malloc(sizeof(char *) * (g_global.count + 30));
+    g_global.env_variable = malloc(sizeof(char *) * 30);
+    g_global.env_path = malloc(sizeof(char *) * 30);
     while (j < g_global.count)
     {
         if (envp[j][i] == '=')

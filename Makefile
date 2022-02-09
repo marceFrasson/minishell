@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/08 21:30:19 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/09 17:14:59 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,15 @@ SRC		=	source/cd.c \
 			source/exit.c \
 			source/linked_lists.c \
 			source/minishell.c \
+			source/operators.c \
 			source/pwd.c \
 			source/read_line_and_prompt.c \
 			source/separete_per_pipes.c \
 			source/tokenizer.c \
 			source/unset.c \
 			source/utils.c \
-			source/variables.c
+			source/variables_I.c \
+			source/variables_II.c
 
 OBJ		=	${SRC:.c=.o}
 

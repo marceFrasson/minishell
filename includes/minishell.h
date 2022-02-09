@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/08 20:30:57 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:15:26 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 #define OFF 0
 #define ON  1
 
+#define NOT_ENV 0
+#define IS_ENV  1
+
 typedef struct s_command
 {
     char              **command_block;
@@ -36,9 +39,12 @@ typedef struct s_command
 
 typedef struct s_global
 {
-    char        **variable;
-    char        **path;
+    char        **env_variable;
+    char        **env_path;
+    char        **local_variable;
+    char        **local_path;
     int         count;
+    int         count_local;
     int         status;
     t_command   *head;
 }              t_global;
@@ -73,6 +79,10 @@ t_command   *create_new_node(char **tokens, int start, int end);
 char        **split_line(char *input_line);
 int         take_input(char **input_line);
 
+int	        check_for_operators(char **tokens);
+int	        is_operator(char arg);
+int	        is_operators(char *arg);
+
 void	    command_pwd(int fdout);
 
 char        *create_prompt(void);
@@ -88,9 +98,10 @@ void	    remove_token_quotes(char **tokens);
 void	    command_unset(char **args);
 
 int	        ft_splitlen(char **str);
-int	        is_operator(char arg);
-int	        is_operators(char *arg);
 void        free_command_list(t_command **command);
 
+void	    adding_variables(char **tokens);
 void	    add_variable(char *token);
 char	    *expanding_variable(char *token);
+
+void	    delete_variable(char *token, int is_env);

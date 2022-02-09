@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:22:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:25:25 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:49:34 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    print_envp(void)
 {
 	int i = -1;
 	while (++i < g_global.count)
-		printf("var: %s\npath: %s\n", g_global.variable[i], g_global.path[i]);
+		printf("var: %s\npath: %s\n", g_global.env_variable[i], g_global.env_path[i]);
 }
 
 void    print_command_list(t_command *command)

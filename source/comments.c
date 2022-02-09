@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:25:32 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:32:55 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@
 
 	
 	getpath
-	getenvp(g_global.variable, g_global.path)
+	getenvp(g_global.env_variable, g_global.path)
 	execv(char *command, char **command_block, envp)
 
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   X.c                                                :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 21:43:57 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:12:03 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,6 @@ int	ft_splitlen(char **str)
 	while (*(str + i) != NULL)
 		i++;
 	return (i);
-}
-
-int	is_operator(char arg)
-{
-	if (arg == '|')
-		return (1);
-	else if (arg == '<' || arg == '>')
-	{
-		if ((arg - 1 != '<') || (arg - 1 != '>'))
-			return (1);
-		else
-			return (0);
-	}
-	else
-		return (0);
-}
-
-int	is_operators(char *arg)
-{
-	if (!(ft_strcmp(arg, "|")))
-		return (1);
-	else if (!(ft_strcmp(arg, "<")) || !(ft_strcmp(arg, ">")))
-		return (2);
-	else if (!(ft_strcmp(arg, "<<")) || !(ft_strcmp(arg, ">>")))
-		return (3);
-	else
-		return (0);
 }
 
 void free_command_list(t_command **command)

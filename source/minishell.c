@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/08 21:29:38 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:13:56 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char    **split_line(char *input_line)
 
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
+	adding_variables(string_array);
 	remove_token_quotes(string_array);
 	return (string_array);
 }
