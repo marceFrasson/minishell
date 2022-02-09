@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/08 21:27:21 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/08 21:30:19 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 RM		=	rm -rf
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:			$(NAME)
 
