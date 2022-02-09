@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:31:45 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/08 21:22:27 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ void    loop(void)
 
 int main(int argc, char *argv[], char *envp[])
 {
+	if (argc > 1 && *argv)
+	{
+		ft_putendl_fd("Minishell: Too many arguments", 1);
+		return (1);
+	}
 	parse_envp(envp);
 	loop();
 	return (0);

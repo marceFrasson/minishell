@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:12:07 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 21:59:48 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/08 21:16:29 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char 	change_dir_to_path(char *path)
 		ft_putendl_fd(strerror(errno), 2);
 		return (errno);
 	}
+	return ('o');
 }
 
 void	change_dir_to_oldpwd(void)

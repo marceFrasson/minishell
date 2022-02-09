@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 21:42:54 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/08 21:23:26 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char **look_for_quotes_and_split(char *line)
 	int		k;
 	int     single_quote_status;
 	int     double_quote_status;
-	int     last_position;
 	char    **line_array;
 
 	i = -1;
@@ -87,7 +86,6 @@ char **look_for_quotes_and_split(char *line)
 	k = 0;
 	single_quote_status = OFF;
 	double_quote_status = OFF;
-	last_position = 0;
 	line_array = malloc(sizeof(char *) * (count_tokens(line) + 1));
 	line_array[count_tokens(line)] = NULL;
 	while (line[++i])

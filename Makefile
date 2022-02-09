@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/08 20:09:08 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/08 21:14:45 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ NAME	=	minishell
 
 MODULE	=	./libft/libft.a
 
-CFLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
+CFLAGS	=	-Wall -Wextra -Werror 
+
+FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 
 RM		=	rm -rf
 
@@ -46,7 +48,7 @@ RM		=	rm -rf
 all:			$(NAME)
 
 $(NAME):	$(MODULE) $(OBJ) $(INCD)
-	$(CC) $(CFLAGS) $(OBJ) $(MODULE) -o $(NAME)
+	$(CC) $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
 $(MODULE):
 	make -C libft
 	@echo ""
@@ -63,6 +65,9 @@ clean:
 fclean:		clean
 	$(RM) $(NAME)
 	make fclean -C libft
+
+install:
+	@sudo apt-get -y install libreadline-dev
 
 re:			fclean all
 
