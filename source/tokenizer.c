@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 02:30:36 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 04:01:24 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@ void	remove_token_quotes(char **tokens)
 	while (tokens[++i])
 	{
 		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
-			tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
+		{
+			if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 1)]))
+			{
+				printf("inside is operator \n");
+				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 3);
+			}
+			else
+				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
+		}
 	}
 }
 
