@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 14:30:47 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:39:48 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ void	remove_token_quotes(char **tokens)
 		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
 		{
 			if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 1)]))
-				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 3);
+			{
+				if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 2)]))
+					tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 4);
+				else
+					tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 3);
+			}
 			else
 				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
 		}
@@ -148,7 +153,10 @@ char *look_for_redirections_and_pipe(char *line)
 		if (line[i] == '\'')
 		{
 			if (single_quote_status)
+			{
+				line = insert_space(line, i + 1);
 				single_quote_status = OFF;
+			}
 			else if (!single_quote_status && !double_quote_status)
 			{
 				if (i != 0 && line[i - 1] != ' ')
@@ -160,7 +168,10 @@ char *look_for_redirections_and_pipe(char *line)
 		else if (line[i] == '\"')
 		{
 			if (double_quote_status)
+			{
+				line = insert_space(line, i + 1);
 				double_quote_status = OFF;
+			}
 			else if (!double_quote_status && !single_quote_status)
 			{
 				if (i != 0 && line[i - 1] != ' ')
