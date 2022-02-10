@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 17:15:26 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/10 13:23:57 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 
 #define NOT_ENV 0
 #define IS_ENV  1
+
+#define REGULAR   0
+#define DECLARE_X 1
+
+#define DONT_MATCH  -1
 
 typedef struct s_command
 {
@@ -72,6 +77,8 @@ void        parse_envp(char *envp[]);
 
 void        free_variables(void);
 void	    command_exit(char **args);
+
+void        command_export(char **tokens);
 
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
