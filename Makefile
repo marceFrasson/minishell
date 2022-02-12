@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/10 13:05:12 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/12 14:10:50 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,12 +44,12 @@ FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 RM		=	rm -rf
 
 .c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	@${CC} -fPIC ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:			$(NAME)
 
 $(NAME):	$(MODULE) $(OBJ) $(INCD)
-	$(CC) $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
+	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
 $(MODULE):
 	make -C libft
 	@echo ""

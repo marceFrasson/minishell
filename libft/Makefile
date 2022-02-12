@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/05 12:40:00 by mfrasson          #+#    #+#              #
-#    Updated: 2021/06/05 00:23:28 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/12 14:11:08 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJS=$(SRC:.c=.o)
 all:	$(NAME)
 
 $(NAME):
-	@clang $(FLAGS) -I $(HEADER) -c $(SRC)
+	@clang -fPIC $(FLAGS) -I $(HEADER) -c $(SRC)
 	@ar rcs $(NAME) $(OBJS)
 
 clean:
