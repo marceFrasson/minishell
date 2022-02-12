@@ -19,7 +19,7 @@ char    **split_line(char *input_line)
 
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
-	adding_variables(string_array);
+	//adding_variables(string_array);
 	remove_token_quotes(string_array);
 	return (string_array);
 }
