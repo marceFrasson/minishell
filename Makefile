@@ -6,7 +6,7 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/12 14:10:50 by ebresser         ###   ########.fr        #
+#    Updated: 2022/02/13 20:38:20 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC		=	source/cd.c \
 			source/unset.c \
 			source/utils.c \
 			source/variables_I.c \
-			source/variables_II.c
+			source/variables_II.c \
+			source/history.c
 
 OBJ		=	${SRC:.c=.o}
 

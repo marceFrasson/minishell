@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/10 13:23:57 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/13 20:37:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_global
     char        **env_path;
     char        **local_variable;
     char        **local_path;
+	char		*last_input; //lilangbr
     int         count;
     int         count_local;
     int         status;
@@ -86,6 +87,7 @@ t_command   *create_new_node(char **tokens, int start, int end);
 char        **split_line(char *input_line);
 int         take_input(char **input_line);
 
+//operators.c
 int	        check_for_operators(char **tokens);
 int	        is_operator(char arg);
 int	        is_operators(char *arg);
@@ -96,7 +98,8 @@ char        *create_prompt(void);
 char        *read_line(void);
 
 void        separate_per_pipes(char **tokens, t_command **command_list);
-
+   
+//tokenizer.c
 int         count_tokens(char *line);
 char        **look_for_quotes_and_split(char *line);
 char        *look_for_redirections_and_pipe(char *line);
@@ -112,3 +115,6 @@ void	    add_variable(char *token);
 char	    *expanding_variable(char *token);
 
 void	    delete_variable(char *token, int is_env);
+
+//history.c
+void		put_on_history(char *buffer);//lilangbr
