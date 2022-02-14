@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 21:46:37 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 23:04:43 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ int take_input(char **input_line)
 	return (0);
 }
 
-void    loop(void)
+void    loop()
 {
     char        *input_line;
-    char        **tokens;
+    char        **tokens;	
     t_command   *command_list;
 
     command_list = NULL;
-	g_global.last_input = NULL;//lilangbr
+	init_g_struct();	
     while (1)
-    {
+    {		
         //set_sigaction();
         if (take_input(&input_line))
             continue ;
@@ -71,13 +71,15 @@ void    loop(void)
 		ft_free_split(tokens);
         // parse_commands(command_list);
         print_command_list(command_list);
-        free_command_list(&command_list);
-        free(input_line);
+        
         //print_envp();
 
 
-        // exec_commands();
+        //exec_commands(&command_list);
+		
 
+		free_command_list(&command_list);
+        free(input_line);
 
     }
 }
@@ -90,7 +92,7 @@ int main(int argc, char *argv[], char *envp[])
 		return (1);
 	}
 	parse_envp(envp);
-	loop();
+	loop(envp);
 	
 	return (0);
 }

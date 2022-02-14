@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 21:42:44 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 23:04:46 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_global
     char        **local_variable;
     char        **local_path;
 	char		*last_input; //guarda ultimo comando p n repetir no hist
+	char		**cmd_path;
     int         count;
     int         count_local;
     int         status;
@@ -84,6 +85,7 @@ void        command_export(char **tokens);
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
 
+//minishell.c
 char        **split_line(char *input_line);
 int         take_input(char **input_line);
 
@@ -107,8 +109,10 @@ void	    remove_token_quotes(char **tokens);
 
 void	    command_unset(char **args);
 
+//utils.c
 int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
+int			ft_strjoin_handled(char **s1, char const *s2);
 
 void	    adding_variables(char **tokens);
 void	    add_variable(char *token);
@@ -118,3 +122,10 @@ void	    delete_variable(char *token, int is_env);
 
 //history.c - lilangbr
 void		put_on_history(char *buffer);
+
+//init_minishell.c
+void		init_g_struct(void);
+int			init_cmd_path(void);
+
+//exit_minishell.c
+int			free_cmd_path(void);

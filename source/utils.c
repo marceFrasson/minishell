@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:12:03 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/13 22:13:52 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,40 @@ void free_command_list(t_command **command)
         temp1 = temp2;
     }
     *command = NULL;
+}
+
+static void	copylen(char *scpy, const char *s)
+{
+	int	i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		scpy[i] = s[i];
+		i++;
+	}
+}
+
+int		ft_strjoin_handled(char **s1, char const *s2)
+{
+	//adiciona s2 ao final de s1
+	size_t	len;
+	size_t	k;
+	char	*s;
+
+	if (!*s1 || !s2)
+		return 1;
+	len = ft_strlen(*s1) + ft_strlen(s2) + 1;
+	if (!(s = (char*)malloc(len * sizeof(char))))
+		return 1;
+	copylen(s, *s1);
+	k = ft_strlen(*s1);
+	copylen(&s[k], s2);
+	k = k + ft_strlen(s2);
+	s[k] = '\0';
+	free(*s1); //desprezo s1 antiga
+	*s1 = s;
+	return 0;
 }

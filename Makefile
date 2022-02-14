@@ -6,7 +6,7 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/13 20:38:20 by ebresser         ###   ########.fr        #
+#    Updated: 2022/02/13 22:36:42 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ SRC		=	source/cd.c \
 			source/utils.c \
 			source/variables_I.c \
 			source/variables_II.c \
-			source/history.c
+			source/history.c \
+			source/init_minishell.c \
+			source/exit_minishell.c
 
 OBJ		=	${SRC:.c=.o}
 
@@ -42,6 +44,8 @@ MODULE	=	./libft/libft.a
 
 FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 
+DEBUG	=	-g -fsanitize=address
+
 RM		=	rm -rf
 
 .c.o:
@@ -51,11 +55,18 @@ all:			$(NAME)
 
 $(NAME):	$(MODULE) $(OBJ) $(INCD)
 	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
+
+debug: $(OBJ) $(MODULE)
+	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) $(DEBUG) -o $(NAME)
+
+
 $(MODULE):
 	make -C libft
 	@echo ""
 	@echo "|		minishell created		|"
 	@echo ""
+
+
 
 clean:
 	$(RM) $(OBJ)
