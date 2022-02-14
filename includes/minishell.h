@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 20:37:22 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 20:58:48 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_global
     char        **env_path;
     char        **local_variable;
     char        **local_path;
-	char		*last_input; //lilangbr
+	char		*last_input; //guarda ultimo comando p n repetir no hist
     int         count;
     int         count_local;
     int         status;
