@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 20:41:22 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:46:37 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,6 @@ void    loop(void)
 		ft_free_split(tokens);
         // parse_commands(command_list);
         print_command_list(command_list);
-
-
-		//printf("\n\n%s ", g_global.env_variable[0]);
-		//printf(": %s\n", g_global.env_path[0]);
-//
-		//printf("\n\n%s ", g_global.env_variable[1]);
-		//printf(": %s\n", g_global.env_path[1]);
-//
-		//printf("\n\n%s ", g_global.env_variable[2]);
-		//printf(": %s\n", g_global.env_path[2]);
-
-
         free_command_list(&command_list);
         free(input_line);
         //print_envp();

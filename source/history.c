@@ -6,11 +6,17 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:33:19 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/13 20:50:59 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:42:23 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * Esta função foi criada pois é preciso analisar se há comandos repetidos.
+ * Comandos adjacentes repetidos são interpretados como únicos no historico.
+ * Ex. ls, ls, echo > No historico: ls, echo
+ */
 
 void put_on_history(char *buffer)
 {	

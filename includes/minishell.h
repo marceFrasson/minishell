@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 20:58:48 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:42:44 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,5 @@ char	    *expanding_variable(char *token);
 
 void	    delete_variable(char *token, int is_env);
 
-//history.c
-void		put_on_history(char *buffer);//lilangbr
+//history.c - lilangbr
+void		put_on_history(char *buffer);
