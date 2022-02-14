@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/10 13:05:12 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/13 20:38:20 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC		=	source/cd.c \
 			source/unset.c \
 			source/utils.c \
 			source/variables_I.c \
-			source/variables_II.c
+			source/variables_II.c \
+			source/history.c
 
 OBJ		=	${SRC:.c=.o}
 
@@ -44,12 +45,12 @@ FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
 RM		=	rm -rf
 
 .c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	@${CC} -fPIC ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:			$(NAME)
 
 $(NAME):	$(MODULE) $(OBJ) $(INCD)
-	$(CC) $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
+	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
 $(MODULE):
 	make -C libft
 	@echo ""
