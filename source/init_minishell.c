@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 21:49:50 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/13 22:38:51 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:23:54 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int init_cmd_path(void)
 	while(g_global.cmd_path[i] != NULL)
 	{
 		ft_strjoin_handled(&(g_global.cmd_path[i]), "/"); //tratada: libera string antiga
-		printf("%s\n", g_global.cmd_path[i]);
+		//printf("%s\n", g_global.cmd_path[i]);
 		i++;
 		
 	}

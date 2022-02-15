@@ -6,7 +6,7 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/13 22:36:42 by ebresser         ###   ########.fr        #
+#    Updated: 2022/02/14 13:34:05 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC		=	source/cd.c \
 			source/variables_II.c \
 			source/history.c \
 			source/init_minishell.c \
-			source/exit_minishell.c
+			source/exit_minishell.c \
+			source/exec_cmds.c
 
 OBJ		=	${SRC:.c=.o}
 

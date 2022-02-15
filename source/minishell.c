@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 23:04:43 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/14 18:19:54 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ int take_input(char **input_line)
 	return (0);
 }
 
-void    loop()
+void    loop(char *envp[])
 {
     char        *input_line;
     char        **tokens;	
     t_command   *command_list;
 
     command_list = NULL;
-	init_g_struct();	
+	init_g_struct();
+	signal(SIGINT, SIG_IGN);	
     while (1)
     {		
         //set_sigaction();
@@ -75,7 +76,7 @@ void    loop()
         //print_envp();
 
 
-        //exec_commands(&command_list);
+        exec_commands(command_list, envp);
 		
 
 		free_command_list(&command_list);

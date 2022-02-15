@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 23:04:46 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/15 00:47:37 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 #define OFF 0
 #define ON  1
 
+#define SUCCESS 0
+#define FAILURE 1
+
 #define NOT_ENV 0
 #define IS_ENV  1
 
@@ -34,6 +37,9 @@
 #define DECLARE_X 1
 
 #define DONT_MATCH  -1
+
+#define	EXIT 1
+#define CD 2
 
 typedef struct s_command
 {
@@ -129,3 +135,10 @@ int			init_cmd_path(void);
 
 //exit_minishell.c
 int			free_cmd_path(void);
+int			free_env_var(void);
+int			free_env_path(void);
+int			free_local_var(void);
+int			free_local_path(void);
+
+//exec_cmds.c
+int exec_commands(t_command *command_list, char *envp[]);
