@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_II.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/09 19:54:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 18:11:55 by mfrasson         ###   ########.fr       */
+/*   Created: 2022/02/16 20:01:42 by mfrasson          #+#    #+#             */
+/*   Updated: 2022/02/16 20:08:41 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// static void delete_from_local_variable(int index)
-// {
+static void delete_from_local_variable(int index)
+{
+    int i;
 
-// }
+    i = index - 1;
+    while (g_global.local_variable[++i])
+    {
+        g_global.local_variable[i] = g_global.local_variable[i + 1];
+        g_global.local_path[i] = g_global.local_path[i + 1];
+    }
+}
 
 static void add_to_env_variable(int index)
 {
     g_global.env_variable[g_global.count] = g_global.local_variable[index];
     g_global.env_path[g_global.count++] = g_global.local_path[index];
-    // delete_from_local_variable(index);
+    delete_from_local_variable(index);
 }
 
 static int  does_token_match_local_variable(char *token)
@@ -61,29 +68,4 @@ static int validate_tokens(char** tokens)
         }
     }
     return (1);
-}
-
-// void    print_declare_x(void)
-// {
-//     print env in ascending alphabetical order with "declare -x " at the beggining of every line
-// }
-
-void    command_export(char **tokens)
-{
-    int i;
-    int index;
-
-    i = 0;
-    index = -1;
-    // if (!tokens[1])
-    //     print_declaare_x();
-    if (validate_tokens(tokens))
-    {
-        while (tokens[++i])
-        {
-            index = does_token_match_local_variable(tokens[i]);
-            if (index != DONT_MATCH)
-                add_to_env_variable(index);
-        }
-    }
 }
