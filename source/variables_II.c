@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deleting_variables.c                               :+:      :+:    :+:   */
+/*   variables_II.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:44:22 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:54:42 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:47:12 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	delete_local_variable(char *token)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_global.local_variable[++i])
@@ -33,7 +33,7 @@ static void	delete_local_variable(char *token)
 
 static void	delete_env_variable(char *token)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_global.env_variable[++i])

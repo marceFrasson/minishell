@@ -6,16 +6,16 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:24:29 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:16:22 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:27:23 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    free_variables(void)
+void	free_variables(void)
 {
-    free(g_global.env_variable);
-    free(g_global.env_path);
+	free(g_global.env_variable);
+	free(g_global.env_path);
 }
 
 static int	not_a_number(char *str)
