@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/10 13:23:57 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 17:29:41 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@
 #define DECLARE_X 1
 
 #define DONT_MATCH  -1
+
+#define STDIN   0
+#define STDOUT  1
+#define STDER   2
 
 typedef struct s_command
 {
@@ -65,12 +69,14 @@ void	    command_cd(char **args);
 int    	    check_syntax_error2(char **tokens);
 int    	    check_syntax_error1(char **tokens);
 
+void    	parse_command_block(char **command_block);
+
 void        print_tokens(char **tokens);
 void        print_envp(void);
 void        print_command_list(t_command *command);
 
 void        command_echo(char **args, int fdout);
-void	    command_env(int ind, int fdout);
+void	    command_env(void);
 void        split_envp(char *envp[], int j, int i);
 int         count_envp(char *envp[]);
 void        parse_envp(char *envp[]);
@@ -86,7 +92,7 @@ t_command   *create_new_node(char **tokens, int start, int end);
 char        **split_line(char *input_line);
 int         take_input(char **input_line);
 
-int	        check_for_operators(char **tokens);
+int	        check_for_operators_or_quotes(char **tokens);
 int	        is_operator(char arg);
 int	        is_operators(char *arg);
 
@@ -108,7 +114,7 @@ int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
 
 void	    adding_variables(char **tokens);
-void	    add_variable(char *token);
+void	    add_variable(char **token);
 char	    *expanding_variable(char *token);
 
 void	    delete_variable(char *token, int is_env);

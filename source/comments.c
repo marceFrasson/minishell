@@ -6,35 +6,35 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:32:55 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:27:22 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// void	parse_commands(char **commands)
-// {
-// 	if (commands[0][0] == '$')
-// 		commands[0] = expanding_variable(commands[0]);
-	// if (!ft_strcmp(commands[0], "echo"))
-	// 	command_echo(commands);
-	// else if (!ft_strcmp(commands[0], "cd"))
-	// 	command_cd(commands);
-	// else if (!ft_strcmp(commands[0], "pwd"))
+void	parse_command_block(char **command_block)
+{
+// 	if (command_block[0][0] == '$')
+// 		command_block[0] = expanding_variable(command_block[0]);
+	// if (!ft_strcmp(command_block[0], "echo"))
+	// 	command_echo(command_block);
+	// else if (!ft_strcmp(command_block[0], "cd"))
+	// 	command_cd(command_block);
+	// else if (!ft_strcmp(command_block[0], "pwd"))
 	// 	command_pwd();
-	// else if (!ft_strcmp(commands[0], "export"))
-	// 	command_export();
-	// else if (!ft_strcmp(commands[0], "unset"))
+	if (!ft_strcmp(command_block[0], "export"))
+		command_export(command_block);
+	// else if (!ft_strcmp(command_block[0], "unset"))
 	// 	command_unset();
-	// else if (!ft_strcmp(commands[0], "env"))
-	// 	command_env();
-	// else if (!ft_strcmp(commands[0], "exit"))
+	else if (!ft_strcmp(command_block[0], "env"))
+	 	command_env();
+	// else if (!ft_strcmp(command_block[0], "exit"))
 	// 	command_exit();
-	// else if (ft_strchr(commands[0], '='))
-	// 	add_variable(commands[0]);
+	// else if (ft_strchr(command_block[0], '='))
+	// 	add_variable(command_block[0]);
 	/*else
 		error_message?*/
-// }
+}
 
 // static void	create_fds(char **command_block, int *fdin, int *fdout)
 // {
