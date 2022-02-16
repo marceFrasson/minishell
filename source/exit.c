@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:24:29 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:49:55 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:16:22 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,38 @@ static int	not_a_number(char *str)
 	return (0);
 }
 
-static int	select_exit_status(char **args)
+static int	select_exit_status(char **tokens)
 {
-	if (not_a_number(args[1]))
+	if (not_a_number(tokens[1]))
 	{
 		ft_putstr_fd("Minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(tokens[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
 		g_global.status = 2;
 		return (1);
 	}
-	if (args[2])
+	if (tokens[2])
 	{
 		ft_putendl_fd("Minishell: exit: too many arguments", 2);
 		g_global.status = 1;
 		return (0);
 	}
-	g_global.status = ft_atoi(args[1]);
+	g_global.status = ft_atoi(tokens[1]);
 	return (1);
 }
 
-void	command_exit(char **args)
+void	command_exit(char **tokens)
 {
 	int	status;
 
 	ft_putendl_fd("exit", 2);
 	status = 1;
-	if (args)
+	if (tokens)
 	{
-		if (args[1])
-			status = select_exit_status(args);
+		if (tokens[1])
+			status = select_exit_status(tokens);
 		if (status)
-			ft_free_split(args);
+			ft_free_split(tokens);
 	}
 	if (status)
 	{

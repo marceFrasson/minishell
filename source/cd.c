@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:12:07 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:49:21 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:15:51 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	change_dir_to_home(void)
 	change_dir_to_path(g_global.env_path[i]);
 }
 
-void	command_cd(char **args)
+void	command_cd(char **tokens)
 {
 	char *path;
 
-	path = args[1];
-	if (args[2])
+	path = tokens[1];
+	if (tokens[2])
 	{
 		ft_putendl_fd("Minishell: cd: too many arguments", 2);
 		g_global.status = 1;
