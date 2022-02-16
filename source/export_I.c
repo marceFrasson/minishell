@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 19:54:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:29:26 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:51:45 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**reassemble_envp(void)
 	return (reassembled_envp);
 }
 
-void	sort_envp(char **reassembled_envp)
+static void	sort_envp(char **reassembled_envp)
 {
 	char	*temp;
 	int		i;
@@ -48,7 +48,7 @@ void	sort_envp(char **reassembled_envp)
 	}
 }
 
-void	print_declare_x(char **reassembled_envp)
+static void	print_declare_x(char **reassembled_envp)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ void	print_declare_x(char **reassembled_envp)
 	}
 }
 
-void	print_envp_in_alphabetical_order(void)
+static void	print_envp_in_alphabetical_order(void)
 {
 	char	**reassembled_envp;
 

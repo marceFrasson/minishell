@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:01:42 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:30:42 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:50:28 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static void	delete_from_local_variable(int index)
 	}
 }
 
-static void	add_to_env_variable(int index)
+void	add_to_env_variable(int index)
 {
 	g_global.env_variable[g_global.count] = g_global.local_variable[index];
 	g_global.env_path[g_global.count++] = g_global.local_path[index];
 	delete_from_local_variable(index);
 }
 
-static int	does_token_match_local_variable(char *token)
+int	does_token_match_local_variable(char *token)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ static int	does_token_match_local_variable(char *token)
 	return (-1);
 }
 
-static int	validate_tokens(char **tokens)
+int	validate_tokens(char **tokens)
 {
 	int	i;
 	int	j;
