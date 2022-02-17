@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:51:54 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 10:23:04 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void        parse_envp(char *envp[]);
 void        free_variables(void);
 void	    command_exit(char **args);
 
-char    	**reassemble_envp(void);
 void        command_export(char **tokens);
 
 void    	add_to_env_variable(int index);

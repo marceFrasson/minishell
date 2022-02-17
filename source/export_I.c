@@ -6,13 +6,13 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 19:54:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:51:45 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 10:22:51 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**reassemble_envp(void)
+static char	**reassemble_envp(void)
 {
 	char	**reassembled_envp;
 	int		i;
