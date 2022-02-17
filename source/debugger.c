@@ -6,11 +6,22 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:22:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:49:34 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:10:20 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_variables(void)
+{
+	int	i;
+
+	i = -1;
+	printf("\n--------\n");
+	while (g_global.local_variable[++i])
+		printf("%s=%s\n", g_global.local_variable[i], g_global.local_path[i]);
+	printf("--------\n\n");
+}
 
 void    print_tokens(char **tokens)
 {

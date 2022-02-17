@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:46 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/10 15:27:22 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:09:50 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parse_command_block(char **command_block)
 	// 	command_unset();
 	else if (!ft_strcmp(command_block[0], "env"))
 	 	command_env();
+	else if (!ft_strcmp(command_block[0], "print"))
+		print_variables();
 	// else if (!ft_strcmp(command_block[0], "exit"))
 	// 	command_exit();
 	// else if (ft_strchr(command_block[0], '='))

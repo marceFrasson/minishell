@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 19:54:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/17 10:22:51 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:18:43 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static char	**reassemble_envp(void)
 	while (g_global.env_variable[++i])
 	{
 		reassembled_envp[i] = ft_strdup(g_global.env_variable[i]);
-		reassembled_envp[i] = ft_strjoin(reassembled_envp[i], "=");
+		reassembled_envp[i] = ft_strjoin(reassembled_envp[i], "=\"");
 		reassembled_envp[i] = ft_strjoin(reassembled_envp[i],
 				g_global.env_path[i]);
+		reassembled_envp[i] = ft_strjoin(reassembled_envp[i], "\"");
 	}
 	return (reassembled_envp);
 }

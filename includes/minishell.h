@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/17 10:23:04 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:10:33 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int    	    check_syntax_error1(char **tokens);
 
 void    	parse_command_block(char **command_block);
 
+void    	print_variables(void);
 void        print_tokens(char **tokens);
 void        print_envp(void);
 void        print_command_list(t_command *command);
