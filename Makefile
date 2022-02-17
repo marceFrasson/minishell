@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/16 16:37:09 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/16 20:48:36 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC		=	source/cd.c \
 			source/env.c \
 			source/envp.c \
 			source/exit.c \
-			source/export.c \
+			source/export_I.c \
+			source/export_II.c \
 			source/linked_lists.c \
 			source/minishell.c \
 			source/operators.c \

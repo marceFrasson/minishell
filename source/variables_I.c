@@ -6,27 +6,96 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:12:04 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 17:51:47 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 15:15:15 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	print_variables(void)
+static void	delete_local_variable(char *token)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	printf("\n--------\n");
 	while (g_global.local_variable[++i])
-		printf("%s=%s\n", g_global.local_variable[i], g_global.local_path[i]);
-	printf("--------\n\n");
+	{
+		if (!ft_strcmp(g_global.local_variable[i], token))
+		{
+			while (g_global.local_variable[i + 1])
+			{
+				g_global.local_variable[i] = g_global.local_variable[i + 1];
+				g_global.local_path[i] = g_global.local_path[i + 1];
+				i++;
+			}
+			break ;
+		}
+	}
+}
+
+static void	delete_env_variable(char *token)
+{
+	int	i;
+
+	i = -1;
+	while (g_global.env_variable[++i])
+	{
+		if (!ft_strcmp(g_global.env_variable[i], token))
+		{
+			while (g_global.env_variable[i + 1])
+			{
+				g_global.env_variable[i] = g_global.env_variable[i + 1];
+				g_global.env_path[i] = g_global.env_path[i + 1];
+				i++;
+			}
+			break ;
+		}
+	}
+}
+
+void	delete_variable(char *token, int is_env)
+{
+	if (is_env)
+		delete_env_variable(token);
+	else
+		delete_local_variable(token);
+}
+
+int	does_token_match_env_variable(char *token)
+{
+	int	i;
+
+	i = -1;
+	while (g_global.env_variable[++i])
+	{
+		if (!ft_strcmp(token, g_global.env_variable[i]))
+			return (i);
+	}
+	return (-1);
+}
+
+int	does_token_match_variable(char *token, char *temp_path)
+{
+	if (does_token_match_env_variable(token)
+		!= DONT_MATCH)
+	{
+		g_global.env_path[g_global.count_env++] = temp_path;
+		return (1);
+	}
+	if (does_token_match_local_variable(token)
+		!= DONT_MATCH)
+	{
+		g_global.local_path[g_global.count_local++] = temp_path;
+		return (1);
+	}
+	return (0);
 }
 
 void	adding_variables(char **tokens)
 {
-	int i;
-	int j;
+	char	*temp_variable;
+	char	*temp_path;
+	int		i;
+	int		j;
 
 	i = -1;
 	j = -1;
@@ -38,15 +107,22 @@ void	adding_variables(char **tokens)
 			{
 				if (tokens[i][j] == '=')
 				{
-					g_global.local_variable[g_global.count_local] = ft_substr(tokens[i], 0, j);
-					g_global.local_path[g_global.count_local++] = ft_substr(tokens[i], j + 1, ft_strlen(tokens[i]) - 1);
+					temp_variable = ft_substr(tokens[i], 0, j);
+					temp_path = ft_substr(tokens[i], j + 1,
+						ft_strlen(tokens[i]) - 1);
+					if (!does_token_match_variable(temp_variable, temp_path))
+					{
+						temp_variable
+							= g_global.local_variable[g_global.count_local++];
+						temp_path
+							= g_global.local_path[g_global.count_local++];
+					}
 					j = -1;
 					break ;
 				}
 			}
 		}
 	}
-	print_variables();
 }
 
 char	*expanding_variable(char *token)

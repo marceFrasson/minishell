@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:09:28 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 17:16:09 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:33:56 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_operators(char *arg)
 
 int	check_for_operators_or_quotes(char **tokens)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (tokens[++i])

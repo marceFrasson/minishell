@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   VII.c                                              :+:      :+:    :+:   */
+/*   read_line_and_prompt.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:20:09 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 21:44:10 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/16 20:35:45 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char    *create_prompt(void)
+char	*create_prompt(void)
 {
 	char	buff[4096];
 	char	*prompt_green;
@@ -28,15 +28,14 @@ char    *create_prompt(void)
 	return (prompt_full);
 }
 
-char *read_line(void)
+char	*read_line(void)
 {
-	char    *line_read;
-	char    *prompt;
+	char	*line_read;
+	char	*prompt;
 
-	line_read = (char *)NULL;
+	line_read = (char *) NULL;
 	prompt = create_prompt();
 	line_read = readline(prompt);
-
 	if (line_read && *line_read)
 		add_history(line_read);
 	return (line_read);

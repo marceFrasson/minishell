@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 17:29:41 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 15:02:26 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_global
     char        **env_path;
     char        **local_variable;
     char        **local_path;
-    int         count;
+    int         count_env;
     int         count_local;
     int         status;
     t_command   *head;
@@ -71,6 +71,7 @@ int    	    check_syntax_error1(char **tokens);
 
 void    	parse_command_block(char **command_block);
 
+void    	print_variables(void);
 void        print_tokens(char **tokens);
 void        print_envp(void);
 void        print_command_list(t_command *command);
@@ -85,6 +86,10 @@ void        free_variables(void);
 void	    command_exit(char **args);
 
 void        command_export(char **tokens);
+
+void    	add_to_env_variable(int index);
+int	        does_token_match_local_variable(char *token);
+int	        validate_tokens(char **tokens);
 
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
