@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/13 22:13:52 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/19 21:48:56 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,21 @@ void free_command_list(t_command **command)
         temp1 = temp2;
     }
     *command = NULL;
+}
+
+int command_list_len(t_command *command_list)
+{
+	int			len;
+	t_command	*ptr;
+
+	len = 0;
+	ptr = command_list;
+	while (ptr != NULL)
+	{
+		ptr = ptr->next;
+		len++;
+	}
+	return len;
 }
 
 static void	copylen(char *scpy, const char *s)

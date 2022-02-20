@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/15 00:47:37 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/19 21:49:20 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_global
     char        **local_path;
 	char		*last_input; //guarda ultimo comando p n repetir no hist
 	char		**cmd_path;
+	
     int         count;
     int         count_local;
     int         status;
@@ -118,6 +119,7 @@ void	    command_unset(char **args);
 //utils.c
 int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
+int			command_list_len(t_command *command_list);
 int			ft_strjoin_handled(char **s1, char const *s2);
 
 void	    adding_variables(char **tokens);
@@ -141,4 +143,4 @@ int			free_local_var(void);
 int			free_local_path(void);
 
 //exec_cmds.c
-int exec_commands(t_command *command_list, char *envp[]);
+int			exec_commands(t_command *command_list, int n_pipes, char *envp[]);

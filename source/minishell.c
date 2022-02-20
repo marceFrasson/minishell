@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/14 18:19:54 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/19 21:47:37 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void    loop(char *envp[])
 {
     char        *input_line;
     char        **tokens;	
+	int			n_pipes;
     t_command   *command_list;
 
     command_list = NULL;
@@ -75,8 +76,8 @@ void    loop(char *envp[])
         
         //print_envp();
 
-
-        exec_commands(command_list, envp);
+		n_pipes = command_list_len(command_list) - 1;
+        exec_commands(command_list, n_pipes, envp);
 		
 
 		free_command_list(&command_list);
