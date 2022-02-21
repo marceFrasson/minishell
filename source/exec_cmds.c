@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:25:43 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/19 22:05:13 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/21 20:13:24 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +115,32 @@ static int exec_without_pipes(t_command *command_list, char *envp[])
 	return 0;
 }
 
-
-
-
+static int file_descriptor_handler(int in, int out)
+{
+	if (in != -1)
+    {
+        dup2(in, STDIN_FILENO);
+        close(in);
+    }
+    if (out != -1)
+    {
+        dup2(out, STDOUT_FILENO);
+        close(out);
+    }
+    return (0);
+}
 
 int exec_commands(t_command *command_list, int n_pipes, char *envp[])
 {
-	//int n_pipes;
-	int id, j; //Um pipe!!!!!
+	int id, j; 
     int fd[n_pipes][2];
     int pid[n_pipes + 1]; 
-	int wait[n_pipes + 1];
+	//int wait[n_pipes + 1];
 	t_command *ptr_cmd_list;
+
+	ptr_cmd_list = command_list;
+	
+
 
 	//n_pipes = command_list_len(command_list) - 1; 	
 	printf("n_pipes: %d\n", n_pipes);
@@ -134,26 +148,161 @@ int exec_commands(t_command *command_list, int n_pipes, char *envp[])
 		exec_without_pipes(command_list, envp);
 	else
 	{
-		//open_pipes(int n_pipes)
+		
 		id = 0;
     	while (id < n_pipes) //vai abrindo os pipes
-    	{//abre e ja testa
-    	    if (pipe(fd[id]) < 0) //deu ruim, libera anteriores
+    	{
+    	    if (pipe(fd[id++]) < 0) //deu ruim, libera anteriores
     	    {
 				perror("pipe");
     	        j = 0;
     	        while (j < id)
     	        {
-    	            close(fd[j][0]);
+    	            close(fd[j][0]);					
     	            close(fd[j][1]);
     	            j++;
     	        }
     	        exit (1);
     	    }
-    	    id++;
+    	    //id++;
     	}
+		///////////////////////////////////////
+
+		int fd_in;
+		int fd_out;
+		id = 0;
+		while (id < n_pipes + 1)
+		{
+			pid[id] = fork();		
+			if (pid[id] < 0)
+			{
+				perror("fork");
+				return 2;
+			}			
+			if (pid[id] == 0)
+			{	
+				signal(SIGINT, SIG_DFL);
+
+				if (id == 1)
+					ptr_cmd_list = ptr_cmd_list->next;
+				if (id == 2)
+				{
+					ptr_cmd_list = ptr_cmd_list->next;
+					ptr_cmd_list = ptr_cmd_list->next;
+				}
+					
+
+				//tratamento demais pipes ::::::::::::::::::::::::::::::::::::::::
+    	    	j = 0;
+    	    	//fechando escritas de outros pipes
+    	    	while (j < n_pipes)
+        		{
+        		    if (j != id) //pulo o id
+        		        close(fd[j][1]);
+        		    j++;
+					//ultimo: j nunca é igual n_pipe, n fecha no ultimo, nem existe prox pipe
+        		}				
+    	    	j = 0;
+    	    	//fechando leitura
+    	    	while (j < n_pipes)
+    	    	{
+    	    	    if (id != 0 && j != id - 1)  
+    	    	        close(fd[j][0]);
+    	    	    j++;
+					//primeiro n le do pipe, nem existe pipe anterior!
+    	    	}	
+    	    	//fim tratamento demais pipes :::::::::::::::::::::::::::::
 	
-		pid[0] = fork();		
+	
+
+				if (id != 0 && id != n_pipes)
+				{
+					fd_in = fd[id - 1][0];
+					fd_out = fd[id][1];	
+				}
+				else if (id == 0)
+				{
+					close(fd[0][0]);
+					fd_in = -1;
+					fd_out = fd[0][1];					
+				}
+				else if (id == n_pipes)
+				{
+					close(fd[n_pipes - 1][1]);
+					fd_in = fd[n_pipes - 1][0];
+					fd_out = -1;
+				}								
+				file_descriptor_handler(fd_in, fd_out);
+
+							
+							
+				//close(fd[0][0]);
+				//dup2(fd[0][1], STDOUT_FILENO); //????????????????????????????????????
+				//close(fd[0][1]);
+
+				ft_execve(ptr_cmd_list, envp);				
+				//close(fd[0][1]);
+				exit (1);	
+			}
+			id++;
+		}
+		/*	pid[1] = fork();
+			if (pid[1] < 0)
+				return 3;
+			if (pid[1] == 0)
+			{
+
+
+				ptr_cmd_list = command_list->next;//1
+				signal(SIGINT, SIG_DFL);
+
+				dup2(fd[0][0], STDIN_FILENO);
+				close(fd[0][0]); 
+				close(fd[0][1]); //eu copiei stdin e out!!!!!!!
+
+
+				//dup2(fd[0][1], STDOUT_FILENO); //stdout vira pipe
+				//close(fd[0][1]);
+
+				ft_execve(ptr_cmd_list, envp);
+				//close(fd[0][0]);
+				exit (1);		 //exit (1); //19fev	
+			}
+			*/
+
+		//close(fd[0][0]);
+    	//close(fd[0][1]);
+		///waitpid(pid[0], &wait[0], 0);
+		///if (WIFEXITED(wait[0]))
+		///{
+		///	sleep (5);
+		///	kill(pid[1], SIGKILL);//ele n encerra pq espera o pipe1 do primeiro processo fechar
+		///}			
+		//waitpid(pid[1], NULL, 0);
+		j = 0;
+		while (j < n_pipes)
+		{
+			close(fd[j][0]);
+			close(fd[j][1]);
+			j++;
+		}
+		id = 0;
+		while (id < n_pipes + 1)
+		{
+			waitpid(pid[id], NULL, 0);
+			id++;
+
+		}		
+
+
+	////	//////////////////////////////////////////////////////////////
+
+	}		
+	return 0;
+}	
+	
+	/*
+	pid[0] = fork();		
 		if (pid[0] < 0)
 		{
 			perror("fork");
@@ -206,7 +355,4 @@ int exec_commands(t_command *command_list, int n_pipes, char *envp[])
 		//	kill(pid[1], SIGKILL);//ele n encerra pq espera o pipe1 do primeiro processo fechar
 		//}			
 		waitpid(pid[1], NULL, 0);		
-	}		
-	return 0;
-}	
-	
+		*/
