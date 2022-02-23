@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deleting_variables.c                               :+:      :+:    :+:   */
+/*   variables_II.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:44:22 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:54:42 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 11:56:59 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	delete_local_variable(char *token)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_global.local_variable[++i])
@@ -24,6 +24,7 @@ static void	delete_local_variable(char *token)
 			while (g_global.local_variable[i + 1])
 			{
 				g_global.local_variable[i] = g_global.local_variable[i + 1];
+				g_global.local_path[i] = g_global.local_path[i + 1];
 				i++;
 			}
 			break ;
@@ -33,7 +34,7 @@ static void	delete_local_variable(char *token)
 
 static void	delete_env_variable(char *token)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_global.env_variable[++i])
@@ -43,6 +44,7 @@ static void	delete_env_variable(char *token)
 			while (g_global.env_variable[i + 1])
 			{
 				g_global.env_variable[i] = g_global.env_variable[i + 1];
+				g_global.env_path[i] = g_global.env_path[i + 1];
 				i++;
 			}
 			break ;

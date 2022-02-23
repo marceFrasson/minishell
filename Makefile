@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/10 13:05:12 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/02/23 20:48:56 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC		=	source/cd.c \
 			source/env.c \
 			source/envp.c \
 			source/exit.c \
-			source/export.c \
+			source/export_I.c \
+			source/export_II.c \
 			source/linked_lists.c \
 			source/minishell.c \
 			source/operators.c \
@@ -29,7 +30,11 @@ SRC		=	source/cd.c \
 			source/unset.c \
 			source/utils.c \
 			source/variables_I.c \
-			source/variables_II.c
+			source/variables_II.c \
+			source/history.c \
+			source/init_minishell.c \
+			source/exit_minishell.c \
+			source/exec_cmds.c
 
 OBJ		=	${SRC:.c=.o}
 
@@ -39,22 +44,31 @@ NAME	=	minishell
 
 MODULE	=	./libft/libft.a
 
-FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
+FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses -g3
+
+DEBUG	=	-g -fsanitize=address
 
 RM		=	rm -rf
 
 .c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	@${CC} -fPIC ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:			$(NAME)
 
 $(NAME):	$(MODULE) $(OBJ) $(INCD)
-	$(CC) $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
+	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
+
+debug: $(OBJ) $(MODULE)
+	$(CC) -fPIC $(OBJ) $(FLAGS) $(MODULE) $(DEBUG) -o $(NAME)
+
+
 $(MODULE):
 	make -C libft
 	@echo ""
 	@echo "|		minishell created		|"
 	@echo ""
+
+
 
 clean:
 	$(RM) $(OBJ)
