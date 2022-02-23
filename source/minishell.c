@@ -6,16 +6,16 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/19 21:47:37 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/23 20:45:37 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char    **split_line(char *input_line)
+char	**split_line(char *input_line)
 {
-	char    **string_array;
-	char    *line;
+	char	**string_array;
+	char	*line;
 
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
@@ -24,10 +24,10 @@ char    **split_line(char *input_line)
 	return (string_array);
 }
 
-int take_input(char **input_line)
+int	take_input(char **input_line)
 {
-	char    *buffer;
-	char    *prompt;
+	char	*buffer;
+	char	*prompt;
 
 	prompt = create_prompt();
 	buffer = readline(prompt);
@@ -67,26 +67,24 @@ void    loop(char *envp[])
 			free(input_line);
 			continue ;
 		}
-        separate_per_pipes(tokens, &command_list);
+		separate_per_pipes(tokens, &command_list);
 		//command_list.command_block = separate_redirects(&command_list.command_block);
-        //print_tokens(tokens);
+		//print_tokens(tokens);
 		ft_free_split(tokens);
-        // parse_commands(command_list);
-        print_command_list(command_list);
-        
-        //print_envp();
-
+		parse_command_block(command_list->command_block);
+		print_command_list(command_list);
+		
 		n_pipes = command_list_len(command_list) - 1;
         exec_commands(command_list, n_pipes, envp);
-		
 
 		free_command_list(&command_list);
-        free(input_line);
-
-    }
+		free(input_line);
+		//print_envp();
+		// exec_commands();
+	}
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	if (argc > 1 && *argv)
 	{

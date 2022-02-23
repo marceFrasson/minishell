@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/19 21:48:56 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/23 20:48:21 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,27 @@ int	ft_splitlen(char **str)
 	return (i);
 }
 
-void free_command_list(t_command **command)
+void	free_command_list(t_command **command)
 {
-    t_command *temp1;
-    t_command *temp2;
+	t_command	*temp1;
+	t_command	*temp2;
 
-    if (!command)
-        return;
-    temp1 = *command;
-    while (temp1)
-    {
-        ft_free_split(temp1->command_block);
-        temp1 = temp1->next;
-    }
-    temp1 = *command;
-    while (temp1)
-    {
-        temp2 = temp1->next;
-        free(temp1);
-        temp1 = temp2;
-    }
-    *command = NULL;
+	if (!command)
+		return ;
+	temp1 = *command;
+	while (temp1)
+	{
+		ft_free_split(temp1->command_block);
+		temp1 = temp1->next;
+	}
+	temp1 = *command;
+	while (temp1)
+	{
+		temp2 = temp1->next;
+		free(temp1);
+		temp1 = temp2;
+	}
+	*command = NULL;
 }
 
 int command_list_len(t_command *command_list)

@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/19 21:49:20 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/23 20:48:05 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 
 #define	EXIT 1
 #define CD 2
+#define STDIN   0
+#define STDOUT  1
+#define STDER   2
 
 typedef struct s_command
 {
@@ -74,12 +77,15 @@ void	    command_cd(char **args);
 int    	    check_syntax_error2(char **tokens);
 int    	    check_syntax_error1(char **tokens);
 
+void    	parse_command_block(char **command_block);
+
+void    	print_variables(void);
 void        print_tokens(char **tokens);
 void        print_envp(void);
 void        print_command_list(t_command *command);
 
 void        command_echo(char **args, int fdout);
-void	    command_env(int ind, int fdout);
+void	    command_env(void);
 void        split_envp(char *envp[], int j, int i);
 int         count_envp(char *envp[]);
 void        parse_envp(char *envp[]);
@@ -89,6 +95,10 @@ void	    command_exit(char **args);
 
 void        command_export(char **tokens);
 
+void    	add_to_env_variable(int index);
+int	        does_token_match_local_variable(char *token);
+int	        validate_tokens(char **tokens);
+
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
 
@@ -96,8 +106,7 @@ t_command   *create_new_node(char **tokens, int start, int end);
 char        **split_line(char *input_line);
 int         take_input(char **input_line);
 
-//operators.c
-int	        check_for_operators(char **tokens);
+int	        check_for_operators_or_quotes(char **tokens);
 int	        is_operator(char arg);
 int	        is_operators(char *arg);
 
@@ -123,7 +132,7 @@ int			command_list_len(t_command *command_list);
 int			ft_strjoin_handled(char **s1, char const *s2);
 
 void	    adding_variables(char **tokens);
-void	    add_variable(char *token);
+void	    add_variable(char **token);
 char	    *expanding_variable(char *token);
 
 void	    delete_variable(char *token, int is_env);

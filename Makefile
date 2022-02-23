@@ -6,7 +6,7 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/14 13:34:05 by ebresser         ###   ########.fr        #
+#    Updated: 2022/02/23 20:48:56 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC		=	source/cd.c \
 			source/env.c \
 			source/envp.c \
 			source/exit.c \
-			source/export.c \
+			source/export_I.c \
+			source/export_II.c \
 			source/linked_lists.c \
 			source/minishell.c \
 			source/operators.c \
@@ -43,7 +44,7 @@ NAME	=	minishell
 
 MODULE	=	./libft/libft.a
 
-FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses
+FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses -g3
 
 DEBUG	=	-g -fsanitize=address
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expanding_and_adding_variables.c                   :+:      :+:    :+:   */
+/*   variables_I.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:12:04 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/09 15:53:22 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:10:14 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,30 @@
 
 void	adding_variables(char **tokens)
 {
-	int i;
+	int	i;
+	int	j;
 
 	i = -1;
-	if (!check_for_operators(tokens))
+	j = -1;
+	if (!check_for_operators_or_quotes(tokens))
 	{
 		while (tokens[++i])
 		{
-			if (!ft_strchr(tokens[i], '='))
-				add_variable(tokens[i]);
+			while (tokens[i][++j])
+			{
+				if (tokens[i][j] == '=')
+				{
+					g_global.local_variable[g_global.count_local]
+						= ft_substr(tokens[i], 0, j);
+					g_global.local_path[g_global.count_local++]
+						= ft_substr(tokens[i], j + 1, ft_strlen(tokens[i]) - 1);
+					j = -1;
+					break ;
+				}
+			}
 		}
 	}
-}
-
-void	add_variable(char *token)
-{
-	int		i;
-
-	i = 0;
-	while (token[i])
-	{
-		if (token[i] == '=')
-		{
-			g_global.local_variable[g_global.count_local] = ft_substr(token, 0, i);
-			g_global.local_path[g_global.count_local] = ft_substr(token, i + 1, ft_strlen(token) - 1);
-			break ;
-		}
-		i++;
-	}
+	print_variables();
 }
 
 char	*expanding_variable(char *token)
