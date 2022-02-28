@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:25:43 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/28 12:56:32 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:55:48 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void ft_execve(t_command *command_list, char *envp[])
 	if (path_aux)
 		free(path_aux);
 }
-void no_pipe_syscmd(t_command *command_list, char *envp[])
+void fork_and_ft_execve(t_command *command_list, char *envp[])
 {
 	pid_t	chlpid;
 	int		wstatus;	
@@ -48,8 +48,7 @@ void no_pipe_syscmd(t_command *command_list, char *envp[])
 		exit_minishell(FAILURE);
 	}
 	if (chlpid == 0) 
-	{
-		printf("\n\nCMD RESULT:\n-------------\n");//_________________________________debug
+	{		
 		ft_execve(command_list, envp); 
 		exit (FAILURE); 
 	}
@@ -60,18 +59,18 @@ int exec_without_pipes(t_command *command_list, char *envp[])
 {
 	int builtin_code;
 
-	builtin_code = which_builtin(command_list);
-	printf("built_in code: %d\n\n", builtin_code);
+	builtin_code = which_builtin(command_list);	
 	if (builtin_code)
-		do_builtins(command_list, builtin_code);
+		do_builtins(command_list, builtin_code, STDOUT_FILENO);
 	else			
-		no_pipe_syscmd(command_list, envp);//call system programs
+		fork_and_ft_execve(command_list, envp);//call system programs
 	return SUCCESS; //tratar erros
 }
 
 
 int exec_with_pipes(t_command *command_list, int n_pipes, char *envp[])
 {
+	int builtin_code;
 	int id; 
     int fd[n_pipes][2];
     int pid[n_pipes + 1];
@@ -89,16 +88,17 @@ int exec_with_pipes(t_command *command_list, int n_pipes, char *envp[])
 		}			
 		if (pid[id] == 0)
 		{	
-			signal(SIGINT, SIG_DFL);
-			ptr_cmd_list = select_cmd(id, command_list);
+			signal(SIGINT, SIG_DFL);			
 			scope_pipe_select(id, n_pipes, fd);				
-			if (id == n_pipes) //debug
-				printf("\n\nCMD RESULT:\n-------------\n");
-			/* Preciso decidir se é builtin ou 
-			 * sys_cmd. Sys_cmd, ok, execve finaliza proc
-			 * mas built in necessita matarmos o proc!
-			 */			
-			ft_execve(ptr_cmd_list, envp);				
+			ptr_cmd_list = select_cmd(id, command_list);
+			builtin_code = which_builtin(ptr_cmd_list);
+			if (builtin_code)
+			{
+				do_builtins(ptr_cmd_list, builtin_code, STDOUT_FILENO);
+				exit (SUCCESS);
+			}
+			else			
+				ft_execve(ptr_cmd_list, envp);	//call system programs			
 			exit (FAILURE);	
 		}
 		id++;
@@ -108,8 +108,7 @@ int exec_with_pipes(t_command *command_list, int n_pipes, char *envp[])
 }
 
 int exec_commands(t_command *command_list, int n_pipes, char *envp[])
-{		
-	printf("n_pipes: %d\n", n_pipes); //_________________________________debug
+{
 	if (n_pipes == 0)
 		exec_without_pipes(command_list, envp);
 	else

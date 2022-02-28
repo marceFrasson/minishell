@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/28 13:07:14 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:24:19 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@
 #define DONT_MATCH  -1
 
 #define NOT_BUILTIN 0
-#define	EXIT 1
+#define	ECHO 1
 #define CD 2
+#define PWD 3
+#define EXPORT 4
+#define UNSET 5
+#define ENV 6
+#define EXIT 7
+
 #define STDIN   0
 #define STDOUT  1
 #define STDER   2
@@ -167,11 +173,11 @@ int			scope_pipe_select(int id, int n_pipes, int fd[n_pipes][2]);
 
 //builtin_select.c 
 int			which_builtin(t_command *command_list);
-int			do_builtins(t_command *command_list, int code);
+int			do_builtins(t_command *command_list, int code, int fdout);
 
 //processes_handler.c 
 t_command	*select_cmd(int id_pid, t_command *command_list);
-int		main_process_handler(int *pid, int n_pipes, int fd[n_pipes][2]);
+int			main_process_handler(int *pid, int n_pipes, int fd[n_pipes][2]);
 
 //exec_cmds.c
 void		ft_execve(t_command *command_list, char *envp[]);
