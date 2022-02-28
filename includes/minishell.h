@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/23 20:48:05 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:07:14 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 
 #define DONT_MATCH  -1
 
+#define NOT_BUILTIN 0
 #define	EXIT 1
 #define CD 2
 #define STDIN   0
@@ -57,7 +58,7 @@ typedef struct s_global
     char        **env_path;
     char        **local_variable;
     char        **local_path;
-	char		*last_input; //guarda ultimo comando p n repetir no hist
+	char		*last_input; //guarda ultimo comando p n repetir no HIST
 	char		**cmd_path;
 	
     int         count;
@@ -128,8 +129,8 @@ void	    command_unset(char **args);
 //utils.c
 int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
-int			command_list_len(t_command *command_list);
-int			ft_strjoin_handled(char **s1, char const *s2);
+int			command_list_len(t_command *command_list); //ebresser
+int			ft_strjoin_handled(char **s1, char const *s2); //ebresser
 
 void	    adding_variables(char **tokens);
 void	    add_variable(char **token);
@@ -137,7 +138,10 @@ char	    *expanding_variable(char *token);
 
 void	    delete_variable(char *token, int is_env);
 
-//history.c - lilangbr
+
+////////////////////////////////////////ebresser
+
+//history.c
 void		put_on_history(char *buffer);
 
 //init_minishell.c
@@ -145,11 +149,33 @@ void		init_g_struct(void);
 int			init_cmd_path(void);
 
 //exit_minishell.c
-int			free_cmd_path(void);
-int			free_env_var(void);
-int			free_env_path(void);
-int			free_local_var(void);
-int			free_local_path(void);
+void		exit_minishell(int reason);
+
+//free_g_struct.c
+void		free_cmd_path(void);
+void		free_env_var(void);
+void		free_env_path(void);
+void		free_local_var(void);
+void		free_local_path(void);
+
+//file_descriptors.c
+int			open_pipes(int n_pipes, int fd[n_pipes][2]);
+int			close_pipes(int id, int n_pipes, int fd[n_pipes][2]);
+int			stdin_stdout_redirect(int in, int out);
+int			file_descriptor_handler(int id, int n_pipes, int fd[n_pipes][2]);
+int			scope_pipe_select(int id, int n_pipes, int fd[n_pipes][2]);
+
+//builtin_select.c 
+int			which_builtin(t_command *command_list);
+int			do_builtins(t_command *command_list, int code);
+
+//processes_handler.c 
+t_command	*select_cmd(int id_pid, t_command *command_list);
+int		main_process_handler(int *pid, int n_pipes, int fd[n_pipes][2]);
 
 //exec_cmds.c
+void		ft_execve(t_command *command_list, char *envp[]);
+void		no_pipe_syscmd(t_command *command_list, char *envp[]);
+int			exec_without_pipes(t_command *command_list, char *envp[]);
+int			exec_with_pipes(t_command *command_list, int n_pipes, char *envp[]);
 int			exec_commands(t_command *command_list, int n_pipes, char *envp[]);
