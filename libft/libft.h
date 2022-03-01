@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 14:22:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 18:31:59 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:37:50 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstnew(void *content);
 int			ft_lstsize(t_list *lst);
 
-//void		ft_free_split(char **str);
+void		ft_free_split(char **str);
 
 #endif
