@@ -6,33 +6,54 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:44:33 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:21:55 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	remove_token_quotes(char **tokens)
-{
-	int	i;
+// void	remove_token_quotes(char **tokens)
+// {
+// 	int	i;
 
-	i = -1;
-	while (tokens[++i])
+// 	i = -1;
+// 	while (tokens[++i])
+// 	{
+// 		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
+// 		{
+// 			if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 1)]))
+// 			{
+// 				if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 2)]))
+// 					tokens[i] = ft_substr(tokens[i], 1,
+// 							ft_strlen(tokens[i]) - 4);
+// 				else
+// 					tokens[i] = ft_substr(tokens[i], 1,
+// 							ft_strlen(tokens[i]) - 3);
+// 			}
+// 			else
+// 				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
+// 		}
+// 	}
+// }
+
+void	remove_token_quotes(t_command *command_list)
+{
+	int i;
+
+	i = 0;
+	while (command_list->command_block[i])
 	{
-		if (tokens[i][0] == '\'' || tokens[i][0] == '\"')
-		{
-			if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 1)]))
-			{
-				if (is_operator(tokens[i][(ft_strlen(tokens[i]) - 2)]))
-					tokens[i] = ft_substr(tokens[i], 1,
-							ft_strlen(tokens[i]) - 4);
-				else
-					tokens[i] = ft_substr(tokens[i], 1,
-							ft_strlen(tokens[i]) - 3);
-			}
-			else
-				tokens[i] = ft_substr(tokens[i], 1, ft_strlen(tokens[i]) - 2);
-		}
+		if (command_list->command_block[i][0] == '\''
+			|| command_list->command_block[i][0] == '\"')
+			command_list->command_block[i] = ft_substr(command_list->command_block[i], 1,
+				ft_strlen(command_list->command_block[i]) - 2);
+		i++;
+	}
+	if (command_list->next)
+	{
+		write(1, "inside remove_token_quotes\n", 27);
+		command_list = command_list->next;
+		remove_token_quotes(command_list);
 	}
 }
 
@@ -66,6 +87,7 @@ int	count_tokens(char *line)
 		if (line[i] == ' ' && (!single_quote_status && !double_quote_status))
 			space_count++;
 	}
+	g_global.token_count = space_count + 1;
 	return (space_count + 1);
 }
 

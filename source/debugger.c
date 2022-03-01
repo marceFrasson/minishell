@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:22:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/17 15:02:02 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 13:20:36 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ void    print_envp(void)
 		printf("var: %s\npath: %s\n", g_global.env_variable[i], g_global.env_path[i]);
 }
 
-void    print_command_list(t_command *command)
+void    print_command_list(t_command *command_list)
 {
-    while (command)
+    while (command_list)
     {
-        printf("-----\n");
-        print_tokens(command->command_block);
-        printf("-----\n");
-        command = command->next;
+        printf("\n---cmd---\n");
+        print_tokens(command_list->command_block);
+        printf("---cmd---\n");
+		printf("cmd count = %i\n\n", command_list->word_count);
+        command_list = command_list->next;
     }
 }
