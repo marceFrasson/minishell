@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 19:05:49 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:09:33 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	loop(void)
 		}
 		//command_list.command_block = separate_redirects(&command_list.command_block);
 		//print_tokens(tokens);
-		write(1, "inside while (1)\n", 17);
 		print_command_list(g_global.head);
 		// parse_command_block(command_list->command_block);
 		free_command_list(&command_list);
