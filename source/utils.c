@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:45:40 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:35:43 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_command_list(t_command **command)
 	temp1 = *command;
 	while (temp1)
 	{
-		ft_free_split(temp1->command_block);
+		free_tokens(temp1->command_block);
 		temp1 = temp1->next;
 	}
 	temp1 = *command;
@@ -45,4 +45,18 @@ void	free_command_list(t_command **command)
 		temp1 = temp2;
 	}
 	*command = NULL;
+}
+
+void	free_tokens(char **tokens)
+{
+	int	i;
+
+	i = -1;
+	while (tokens[++i] && i < g_global.token_count - 1)
+	{
+		free(tokens[i]);
+		tokens[i] = NULL;
+	}
+	free(tokens);
+	tokens = NULL;
 }

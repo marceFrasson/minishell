@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 15:54:22 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:31:16 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**split_line(char *input_line, t_command *command_list)
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
 	adding_variables(string_array);
-	print_tokens(string_array);
+	// print_tokens(string_array);
 	separate_per_pipes(string_array, &command_list);
 	print_command_list(command_list);
 	remove_token_quotes(command_list);
@@ -70,12 +70,12 @@ void	loop(void)
 		// }
 		//command_list.command_block = separate_redirects(&command_list.command_block);
 		//print_tokens(tokens);
-		ft_free_split(tokens);
-		print_command_list(g_global.head);
 		write(1, "inside while (1)\n", 17);
+		print_command_list(g_global.head);
 		// parse_command_block(command_list->command_block);
 		free_command_list(&command_list);
 		free(input_line);
+		free_tokens(tokens);
 		//print_envp();
 		// exec_commands();
 	}

@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 13:12:55 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:31:00 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	    command_unset(char **args);
 
 int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
+void	    free_tokens(char **tokens);
 
 void	    adding_variables(char **tokens);
 void	    add_variable(char **token);
