@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 14:21:55 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:00:00 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	remove_token_quotes(t_command *command_list)
 	}
 	if (command_list->next)
 	{
-		write(1, "inside remove_token_quotes\n", 27);
 		command_list = command_list->next;
 		remove_token_quotes(command_list);
 	}

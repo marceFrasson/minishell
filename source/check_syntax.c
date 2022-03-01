@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:06:05 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/07 22:23:23 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:08:05 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_syntax_error2(char **tokens)
 {
 	int	i;
 
-	i = ft_splitlen(tokens);
+	i = g_global.token_count - 1;
 	if (is_operators(tokens[i - 1]))
 	{
 		ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
@@ -41,10 +41,10 @@ int	check_syntax_error1(char **tokens)
 	if (is_operators(tokens[0]) == 1)
 		j++;
 	if (!(j))
-		while (tokens[++i])
+		while (tokens[++i] && i < g_global.token_count - 1)
 			if (is_operators(tokens[i]) && is_operators(tokens[i - 1]))
 				break ;
-	if (j || i != ft_splitlen(tokens))
+	if (j || i != g_global.token_count - 1)
 	{
 		ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
 		if (j)
