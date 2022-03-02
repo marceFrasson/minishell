@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/16 20:48:36 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/03/02 14:58:35 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ MODULE	=	./libft/libft.a
 FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses -g3
 
 RM		=	rm -rf
+
+CC		=	gcc
 
 .c.o:
 	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
