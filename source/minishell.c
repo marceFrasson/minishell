@@ -6,13 +6,13 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/02 15:44:05 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:30:40 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**split_line(char *input_line, t_command *command_list)
+char	**split_line(char *input_line, t_command **command_list)
 {
 	char	**string_array;
 	char	*line;
@@ -20,11 +20,11 @@ char	**split_line(char *input_line, t_command *command_list)
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
 	adding_variables(string_array);
-	// print_tokens(string_array);
-	separate_per_pipes(string_array, &command_list);
-	// print_command_list(command_list);
-	remove_token_quotes(command_list);
-	print_command_list(command_list);
+	print_tokens(string_array, 't');
+	separate_per_pipes(string_array, command_list);
+	// print_command_list(*command_list);
+	remove_token_quotes(*command_list);
+	print_command_list(*command_list);
 	return (string_array);
 }
 
@@ -61,13 +61,12 @@ void	loop(void)
 		//set_sigaction();
 		if (take_input(&input_line))
 			continue ;
-		tokens = split_line(input_line, command_list);
-		if (check_syntax_error2(tokens) || check_syntax_error1(tokens))
-		{
-			free_tokens(tokens);
-			free(input_line);
-			continue ;
-		}
+		// if (check_syntax_error2(input_line) || check_syntax_error1(input_line))
+		// {
+		// 	free(input_line);
+		// 	continue ;
+		// }
+		tokens = split_line(input_line, &command_list);
 		//command_list.command_block = separate_redirects(&command_list.command_block);
 		//print_tokens(tokens);
 		print_command_list(g_global.head);

@@ -6,7 +6,7 @@
 #    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/03/02 14:58:35 by mfrasson         ###   ########.fr        #
+#    Updated: 2022/03/02 18:34:00 by mfrasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC		=	source/cd.c \
 			source/read_line_and_prompt.c \
 			source/separete_per_pipes.c \
 			source/tokenizer.c \
+			source/tokenizer_math.c \
 			source/unset.c \
 			source/utils.c \
 			source/variables_I.c \

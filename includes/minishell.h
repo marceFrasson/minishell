@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/01 18:31:00 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:31:03 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int    	    check_syntax_error1(char **tokens);
 void    	parse_command_block(char **command_block);
 
 void    	print_variables(void);
-void        print_tokens(char **tokens);
+void        print_tokens(char **tokens, char c);
 void        print_envp(void);
 void        print_command_list(t_command *command_list);
 
@@ -95,7 +95,7 @@ int	        validate_tokens(char **tokens);
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
 
-char        **split_line(char *input_line, t_command *command_list);
+char        **split_line(char *input_line, t_command **command_list);
 int         take_input(char **input_line);
 
 int	        check_for_operators_or_quotes(char **tokens);
