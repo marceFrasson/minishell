@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/03 00:03:05 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/03 02:01:18 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,85 +38,37 @@ void	free_tokens(char **tokens)
 	tokens = NULL;
 }
 
-void	free_command_list(t_command **command)
+void	free_command(t_command *command)
 {
-	t_command	*temp1;
-	t_command	*temp2;
+	int i;
 
-	if (!command)
-		return ;
-	temp1 = *command;
-	while (temp1)
-	{
-		free_tokens(temp1->command_block);
-		temp1 = temp1->next;
-	}
-	temp1 = *command;
-	while (temp1)
-	{
-		temp2 = temp1->next;
-		free(temp1);
-		temp1 = temp2;
-	}
-	*command = NULL;
+	i = -1;
+	while (command->command_block[++i] != NULL)
+		free(command->command_block[i]);
 }
 
-// void	free_command_list(t_command *command)
-// {
-// 	t_command	*temp;
+void	free_command_list(t_command **command)
+{
+	t_command	*temp;
 
-// 	if (!command)
-// 		return ;
-// 	while (command)
-// 	{
-// 		free_tokens(command->command_block);
-// 		command = command->next;
-// 	}
-// 	temp = command;
-// 	while (temp)
-// 	{
-// 		temp = command->next;
-// 		free(command);
-// 		command = temp;
-// 	}
-// 	command = NULL;
-// }
+	if (!*command)
+		return ;
+	temp = *command;
+	if ((*command)->command_block)
+		free_command(*command);
+	free(*command);
+	*command = temp->next;
+	if (temp->next)
+		free_command_list(command);
+}
 
-// void	free_split_of_split(char **str)
-// {
-// 	int	i;
 
-// 	i = -1;
-// 	if (!(str))
-// 		return ;
-// 	while (*(str + ++i) != NULL)
-// 	{
-// 		free(*(str + i));
-// 		*(str + i) = NULL;
-// 	}
-// }
 
-// void	free_command(void *command)
-// {
-// 	if (((t_command *)command)->args)
-// 		free_split_of_split(((t_command *)command)->args);
-// 	free(command);
-// }
-
-// void	free_command_list(void **command)
-// {
-// 	t_command	*temp;
-
-// 	if (!command)
-// 		return ;
-// 	temp = ((t_command *)command);
-// 	while (command)
-// 	{
-// 		if (((t_command *)command)->command_block)
-// 			free_split_of_split(((t_command *)command)->command_block);
-// 		free(command);
-// 		command = NULL;
-// 		command = temp->next;
-// 		temp = temp->next;
-// 	}
-// }
+	// printf("\n1 : %s\n\n", (*(command))->command_block[0]);
+	// printf("\n2 : %s\n", (*(command))->command_block[0]);
+	// printf("\nbefore free : %i\n\n", (*command)->word_count);
+	// printf("\n3 : %p\n", *command);
+	// printf("3 : %p\n\n", *command);
+	// printf("\nafter  free : %i\n\n", (*command)->word_count);
+	// printf("\n4 : %s\n\n", (*(command))->command_block[0]);
+	// printf("\ncmnd : %p\ntemp : %p\n\n", *command, temp);

@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/03 00:27:45 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/03 02:09:30 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	loop(void)
 		// print_command_list(g_global.head);
 		// command_list = g_global.head;
 		// parse_command_block(command_list->command_block);
-		//free_command_list(&command_list);
+		free_command_list(&command_list);
 		free(input_line);
 		free_tokens(tokens);
 		//print_envp();
