@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 21:59:46 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/28 12:33:32 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void exit_minishell(int reason)
 {
-	free_cmd_path();
+	free_command_path();
 	free_env_var();
 	free_env_path();
 	free_local_var();

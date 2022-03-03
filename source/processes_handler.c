@@ -6,13 +6,13 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 12:44:05 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/28 12:56:25 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_command* select_cmd(int id_pid, t_command *command_list)
+t_command* select_command(int id_pid, t_command *command_list)
 {
 	t_command *aux;
 	int count;

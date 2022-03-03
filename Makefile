@@ -6,7 +6,7 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/02/28 12:46:05 by ebresser         ###   ########.fr        #
+#    Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC		=	source/cd.c \
 			source/history.c \
 			source/init_minishell.c \
 			source/exit_minishell.c \
-			source/exec_cmds.c \
+			source/exec_commands.c \
 			source/file_descriptors.c \
 			source/free_g_struct.c \
 			source/builtin_select.c \

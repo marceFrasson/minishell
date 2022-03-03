@@ -6,27 +6,27 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 12:31:53 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/28 13:02:41 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void free_cmd_path(void)
+void free_command_path(void)
 {
 	int i;
 
 	i = 0;
-	while(g_global.cmd_path != NULL && ( (g_global.cmd_path)[i] != NULL ))
+	while(g_global.command_path != NULL && ( (g_global.command_path)[i] != NULL ))
 	{		
-		free((g_global.cmd_path)[i]);		
-		(g_global.cmd_path)[i] = NULL;
+		free((g_global.command_path)[i]);		
+		(g_global.command_path)[i] = NULL;
 		i++;
 	}
-	if (g_global.cmd_path != NULL)
+	if (g_global.command_path != NULL)
 	{		
-		free(g_global.cmd_path);//The free() function returns no value.	
-		g_global.cmd_path = NULL;
+		free(g_global.command_path);//The free() function returns no value.	
+		g_global.command_path = NULL;
 	}
 }
 void free_env_var(void)
