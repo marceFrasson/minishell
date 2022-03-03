@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/03 00:03:17 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/03 00:27:45 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	loop(void)
 		if (take_input(&input_line))
 			continue ;
 		tokens = split_line(input_line, &command_list);
-		continue ;
-		if (check_syntax_error2(tokens) || check_syntax_error1(tokens))
+		if (check_syntax_error1(tokens) || check_syntax_error2(tokens))
 		{
 			free(tokens);
 			continue ;
