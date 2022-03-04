@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:17:08 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/02 18:53:22 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:04:03 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ static char	*insert_space(char *line, int *i)
 	}
 	string_ready = ft_strjoin(first_part, line + i[0] + 1);
 	free(first_part);
-	free(line);
 	i[0]++;
 	return (string_ready);
 }
