@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:01:42 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:50:28 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 15:02:02 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	delete_from_local_variable(int index)
 
 void	add_to_env_variable(int index)
 {
-	g_global.env_variable[g_global.count] = g_global.local_variable[index];
-	g_global.env_path[g_global.count++] = g_global.local_path[index];
+	g_global.env_variable[g_global.count_env] = g_global.local_variable[index];
+	g_global.env_path[g_global.count_env++] = g_global.local_path[index];
 	delete_from_local_variable(index);
 }
 

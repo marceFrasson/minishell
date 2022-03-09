@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/08 22:20:38 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ typedef struct s_global
     char        **local_path;
 	char		*last_input; //guarda ultimo comando p n repetir no HIST
 	char		**command_path;
-	
+	int         count_env;
     int         count;
     int         count_local;
+    int         token_count;
     int         status;
     t_command   *head;
 }              t_global;
@@ -87,9 +88,9 @@ int    	    check_syntax_error1(char **tokens);
 void    	parse_command_block(char **command_block);
 
 void    	print_variables(void);
-void        print_tokens(char **tokens);
+void        print_tokens(char **tokens, char c);
 void        print_envp(void);
-void        print_command_list(t_command *command);
+void        print_command_list(t_command *command_list);
 
 void        command_echo(char **args, int fdout);
 void	    command_env(void);
@@ -109,8 +110,7 @@ int	        validate_tokens(char **tokens);
 void        ft_command_add_next(t_command ** command, t_command *new);
 t_command   *create_new_node(char **tokens, int start, int end);
 
-//minishell.c
-char        **split_line(char *input_line);
+char        **split_line(char *input_line, t_command **command_list);
 int         take_input(char **input_line);
 
 int	        check_for_operators_or_quotes(char **tokens);
@@ -128,7 +128,7 @@ void        separate_per_pipes(char **tokens, t_command **command_list);
 int         count_tokens(char *line);
 char        **look_for_quotes_and_split(char *line);
 char        *look_for_redirections_and_pipe(char *line);
-void	    remove_token_quotes(char **tokens);
+void	    remove_token_quotes(t_command *command_list);
 
 void	    command_unset(char **args);
 
@@ -137,6 +137,7 @@ int	        ft_splitlen(char **str);
 void        free_command_list(t_command **command);
 int			command_list_len(t_command *command_list); //ebresser
 int			ft_strjoin_handled(char **s1, char const *s2); //ebresser
+void	    free_tokens(char **tokens);
 
 void	    adding_variables(char **tokens);
 void	    add_variable(char **token);

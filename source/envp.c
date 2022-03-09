@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:13:18 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:26:17 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 15:02:02 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	parse_envp(char *envp[])
 
 	i = 0;
 	j = 0;
-	g_global.count = count_envp(envp);
-	g_global.env_variable = malloc(sizeof(char *) * (g_global.count + 30));
-	g_global.env_path = malloc(sizeof(char *) * (g_global.count + 30));
+	g_global.count_env = count_envp(envp);
+	g_global.env_variable = malloc(sizeof(char *) * (g_global.count_env + 30));
+	g_global.env_path = malloc(sizeof(char *) * (g_global.count_env + 30));
 	g_global.local_variable = malloc(sizeof(char *) * 30);
 	g_global.local_path = malloc(sizeof(char *) * 30);
-	while (j < g_global.count)
+	while (j < g_global.count_env)
 	{
 		if (envp[j][i] == '=')
 		{

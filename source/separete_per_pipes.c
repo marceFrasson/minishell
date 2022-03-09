@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:19:18 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:36:58 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:35:02 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	separate_per_pipes(char **tokens, t_command **command_list)
 
 	i = 0;
 	j = 0;
-	while (tokens[i])
+	while (tokens[i] && i < g_global.token_count)
 	{
 		if (tokens[i][0] == '|')
 		{

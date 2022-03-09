@@ -6,7 +6,11 @@
 #    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr        #
+=======
+#    Updated: 2022/03/02 18:34:00 by mfrasson         ###   ########.fr        #
+>>>>>>> main
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +31,7 @@ SRC		=	source/cd.c \
 			source/read_line_and_prompt.c \
 			source/separete_per_pipes.c \
 			source/tokenizer.c \
+			source/tokenizer_math.c \
 			source/unset.c \
 			source/utils.c \
 			source/variables_I.c \
@@ -53,6 +58,8 @@ FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses -g3
 DEBUG	=	-g -fsanitize=address
 
 RM		=	rm -rf
+
+CC		=	gcc
 
 .c.o:
 	@${CC} -fPIC ${FLAGS} -c $< -o ${<:.c=.o}

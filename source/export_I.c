@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 19:54:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/17 12:18:43 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/02/17 15:02:02 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	**reassemble_envp(void)
 	int		i;
 
 	i = -1;
-	reassembled_envp = malloc(sizeof(char *) * g_global.count + 1);
+	reassembled_envp = malloc(sizeof(char *) * g_global.count_env + 1);
 	while (g_global.env_variable[++i])
 	{
 		reassembled_envp[i] = ft_strdup(g_global.env_variable[i]);
@@ -38,7 +38,7 @@ static void	sort_envp(char **reassembled_envp)
 	i = -1;
 	while (reassembled_envp[++i])
 	{
-		if (i < g_global.count - 1
+		if (i < g_global.count_env - 1
 			&& ft_strcmp(reassembled_envp[i], reassembled_envp[i + 1]) > 0)
 		{
 			temp = reassembled_envp[i];
@@ -54,7 +54,7 @@ static void	print_declare_x(char **reassembled_envp)
 	int	i;
 
 	i = -1;
-	while (reassembled_envp[++i] && i < g_global.count - 1)
+	while (reassembled_envp[++i] && i < g_global.count_env - 1)
 	{
 		ft_putstr_fd("declare -x ", STDOUT);
 		ft_putendl_fd(reassembled_envp[i], STDOUT);

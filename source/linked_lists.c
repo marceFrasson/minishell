@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:21:02 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:31:32 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:50:44 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_command_add_next(t_command **command, t_command *new)
 {
 	t_command	*temp;
 
-	if (!(new))
+	if (!new)
 		return ;
-	else if (!(*command))
+	else if (!*command)
 	{
 		*command = new;
 		return ;

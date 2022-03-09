@@ -6,21 +6,28 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/28 13:07:44 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/08 22:20:35 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**split_line(char *input_line)
+char	**split_line(char *input_line, t_command **command_list)
 {
 	char	**string_array;
 	char	*line;
 
 	line = look_for_redirections_and_pipe(input_line);
 	string_array = look_for_quotes_and_split(line);
-	//adding_variables(string_array);
-	remove_token_quotes(string_array);
+	// printf("\n%s ----- %p\n", input_line, input_line);
+	// printf("%s ----- %p\n\n", line, line);
+	// return (NULL);
+	// adding_variables(string_array);
+	print_tokens(string_array, 't');
+	separate_per_pipes(string_array, command_list);
+	// print_command_list(*command_list);
+	remove_token_quotes(*command_list);
+	print_command_list(*command_list);
 	return (string_array);
 }
 
@@ -52,34 +59,33 @@ void    loop(char *envp[])
 	int			n_pipes;
     t_command   *command_list;
 
-    command_list = NULL;
+	command_list = NULL;
 	init_g_struct();
-	signal(SIGINT, SIG_IGN);	
-    while (1)
-    {		
-        //set_sigaction();
-        if (take_input(&input_line))
-            continue ;
-        tokens = split_line(input_line);
+	signal(SIGINT, SIG_IGN);
+	while (1)
+	{
+		// set_sigaction();
+		if (take_input(&input_line))
+			continue ;
+		tokens = split_line(input_line, &command_list);
 		if (check_syntax_error1(tokens) || check_syntax_error2(tokens))
 		{
-			ft_free_split(tokens);
-			free(input_line);
+			free(tokens);
 			continue ;
 		}
-		separate_per_pipes(tokens, &command_list);
-		//command_list.command_block = separate_redirects(&command_list.command_block);
-		//print_tokens(tokens);
-		ft_free_split(tokens);
-		parse_command_block(command_list->command_block);
-		print_command_list(command_list);
-		
+		// command_list.command_block = separate_redirects(&command_list.command_block);
+		// print_tokens(tokens);
+		// print_command_list(g_global.head);
+		// command_list = g_global.head;
+		// parse_command_block(command_list->command_block);
 		n_pipes = command_list_len(command_list) - 1;
         exec_commands(command_list, n_pipes, envp);
-
+		
+		
 		free_command_list(&command_list);
 		free(input_line);
-		//print_envp();
+		free_tokens(tokens);
+		// print_envp();
 		// exec_commands();
 	}
 }

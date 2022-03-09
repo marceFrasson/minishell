@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:22:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/17 12:10:20 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:40:46 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	print_variables(void)
 	printf("--------\n\n");
 }
 
-void    print_tokens(char **tokens)
+void    print_tokens(char **tokens, char c)
 {
 	int i;
 	
 	i = -1;
+	if (c == 't')
+		printf("\n");
 	while (tokens[++i])
 		printf("%i: %s\n", i, tokens[i]);
 }
@@ -35,17 +37,18 @@ void    print_tokens(char **tokens)
 void    print_envp(void)
 {
 	int i = -1;
-	while (++i < g_global.count)
+	while (++i < g_global.count_env)
 		printf("var: %s\npath: %s\n", g_global.env_variable[i], g_global.env_path[i]);
 }
 
-void    print_command_list(t_command *command)
+void    print_command_list(t_command *command_list)
 {
-    while (command)
+    while (command_list)
     {
-        printf("-----\n");
-        print_tokens(command->command_block);
-        printf("-----\n");
-        command = command->next;
+        printf("\n---cmd---\n");
+        print_tokens(command_list->command_block, 'c');
+        printf("---cmd---\n");
+		printf("cmd count = %i\n\n", command_list->word_count);
+        command_list = command_list->next;
     }
 }

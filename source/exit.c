@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:24:29 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/16 20:27:23 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:32:51 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	command_exit(char **tokens)
 		if (tokens[1])
 			status = select_exit_status(tokens);
 		if (status)
-			ft_free_split(tokens);
+			free_tokens(tokens);
 	}
 	if (status)
 	{
