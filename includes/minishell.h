@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:04:35 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/02/28 16:24:19 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_global
     char        **local_variable;
     char        **local_path;
 	char		*last_input; //guarda ultimo comando p n repetir no HIST
-	char		**cmd_path;
+	char		**command_path;
 	
     int         count;
     int         count_local;
@@ -152,13 +152,13 @@ void		put_on_history(char *buffer);
 
 //init_minishell.c
 void		init_g_struct(void);
-int			init_cmd_path(void);
+int			init_command_path(void);
 
 //exit_minishell.c
 void		exit_minishell(int reason);
 
 //free_g_struct.c
-void		free_cmd_path(void);
+void		free_command_path(void);
 void		free_env_var(void);
 void		free_env_path(void);
 void		free_local_var(void);
@@ -176,12 +176,12 @@ int			which_builtin(t_command *command_list);
 int			do_builtins(t_command *command_list, int code, int fdout);
 
 //processes_handler.c 
-t_command	*select_cmd(int id_pid, t_command *command_list);
+t_command	*select_command(int id_pid, t_command *command_list);
 int			main_process_handler(int *pid, int n_pipes, int fd[n_pipes][2]);
 
-//exec_cmds.c
+//exec_commands.c
 void		ft_execve(t_command *command_list, char *envp[]);
-void		no_pipe_syscmd(t_command *command_list, char *envp[]);
+void		no_pipe_syscommand(t_command *command_list, char *envp[]);
 int			exec_without_pipes(t_command *command_list, char *envp[]);
 int			exec_with_pipes(t_command *command_list, int n_pipes, char *envp[]);
 int			exec_commands(t_command *command_list, int n_pipes, char *envp[]);

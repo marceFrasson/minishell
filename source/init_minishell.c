@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 21:49:50 by ebresser          #+#    #+#             */
-/*   Updated: 2022/02/14 17:23:54 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/03/02 23:41:22 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ void init_g_struct(void)
     g_global.local_variable = NULL;
     g_global.local_path = NULL;
 	g_global.last_input = NULL;
-	g_global.cmd_path = NULL;
+	g_global.command_path = NULL;
     g_global.head  = NULL;
-	init_cmd_path();
+	init_command_path();
 }
 
-int init_cmd_path(void)
+int init_command_path(void)
 {
 	int i;
 
-	g_global.cmd_path = ft_split(getenv("PATH"), ':');
+	g_global.command_path = ft_split(getenv("PATH"), ':');
 	i = 0;
-	while(g_global.cmd_path[i] != NULL)
+	while(g_global.command_path[i] != NULL)
 	{
-		ft_strjoin_handled(&(g_global.cmd_path[i]), "/"); //tratada: libera string antiga
-		//printf("%s\n", g_global.cmd_path[i]);
+		ft_strjoin_handled(&(g_global.command_path[i]), "/"); //tratada: libera string antiga
+		//printf("%s\n", g_global.command_path[i]);
 		i++;
 		
 	}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmds.c                                        :+:      :+:    :+:   */
+/*   exec_commands.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,9 +19,9 @@ void ft_execve(t_command *command_list, char *envp[])
 
 	path_aux = NULL;
 	i = 0;   
-	while (g_global.cmd_path[i])
+	while (g_global.command_path[i])
     {
-    	path_aux = ft_strjoin(g_global.cmd_path[i], command_list->command_block[0]);
+    	path_aux = ft_strjoin(g_global.command_path[i], command_list->command_block[0]);
     	if (execve(path_aux, command_list->command_block, envp) < 0 )
 		{
 			if (path_aux)
@@ -74,7 +74,7 @@ int exec_with_pipes(t_command *command_list, int n_pipes, char *envp[])
 	int id; 
     int fd[n_pipes][2];
     int pid[n_pipes + 1];
-	t_command *ptr_cmd_list;
+	t_command *ptr_command_list;
 
 	open_pipes(n_pipes, fd);		
 	id = 0;
@@ -90,15 +90,15 @@ int exec_with_pipes(t_command *command_list, int n_pipes, char *envp[])
 		{	
 			signal(SIGINT, SIG_DFL);			
 			scope_pipe_select(id, n_pipes, fd);				
-			ptr_cmd_list = select_cmd(id, command_list);
-			builtin_code = which_builtin(ptr_cmd_list);
+			ptr_command_list = select_command(id, command_list);
+			builtin_code = which_builtin(ptr_command_list);
 			if (builtin_code)
 			{
-				do_builtins(ptr_cmd_list, builtin_code, STDOUT_FILENO);
+				do_builtins(ptr_command_list, builtin_code, STDOUT_FILENO);
 				exit (SUCCESS);
 			}
 			else			
-				ft_execve(ptr_cmd_list, envp);	//call system programs			
+				ft_execve(ptr_command_list, envp);	//call system programs			
 			exit (FAILURE);	
 		}
 		id++;
