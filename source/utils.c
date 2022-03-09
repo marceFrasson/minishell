@@ -6,11 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/02/23 20:48:21 by ebresser         ###   ########.fr       */
-=======
-/*   Updated: 2022/03/03 02:01:18 by mfrasson         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/03/08 22:26:31 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +47,6 @@ void	free_command(t_command *command)
 		free(command->command_block[i]);
 }
 
-<<<<<<< HEAD
 int command_list_len(t_command *command_list)
 {
 	int			len;
@@ -102,7 +97,6 @@ int		ft_strjoin_handled(char **s1, char const *s2)
 	*s1 = s;
 	return 0;
 }
-=======
 void	free_command_list(t_command **command)
 {
 	t_command	*temp;
@@ -128,4 +122,3 @@ void	free_command_list(t_command **command)
 	// printf("\nafter  free : %i\n\n", (*command)->word_count);
 	// printf("\n4 : %s\n\n", (*(command))->command_block[0]);
 	// printf("\ncmnd : %p\ntemp : %p\n\n", *command, temp);
->>>>>>> main
