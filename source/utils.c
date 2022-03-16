@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:25:27 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/03 02:01:18 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/16 05:32:47 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,19 @@ void	free_command(t_command *command)
 
 void	free_command_list(t_command **command)
 {
-	t_command	*temp;
+	t_command	*next_temp;
 
 	if (!*command)
 		return ;
-	temp = *command;
+	next_temp = (*command)->next;
 	if ((*command)->command_block)
 		free_command(*command);
 	free(*command);
-	*command = temp->next;
-	if (temp->next)
+	if (next_temp)
+	{
+		*command = next_temp;
 		free_command_list(command);
+	}
 }
 
 

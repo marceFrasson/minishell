@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:02:03 by mfrasson          #+#    #+#             */
-/*   Updated: 2022/03/04 17:06:13 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/03/11 12:28:37 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	loop(void)
 	char		**tokens;
 	t_command	*command_list;
 
+	command_list = (t_command *)malloc(sizeof(t_command));
 	command_list = NULL;
 	while (1)
 	{
