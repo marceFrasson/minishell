@@ -3,108 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: vlima-nu <vlima-nu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 22:09:23 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/06/09 13:50:01 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/06/01 17:25:35 by azamario          #+#    #+#             */
+/*   Updated: 2022/04/27 00:48:59 by vlima-nu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*sep_clear(char const *s, char c)
-{
-	char	*temp;
-	int		i;
-	int		j;
-
-	i = 1;
-	j = 0;
-	temp = ft_strdup(s);
-	if (!(s))
-		return (NULL);
-	if (ft_strlen(s) == 0)
-		return (temp);
-	if (*(char *)(s) != c && *(char *)(s) != '\0')
-		*(temp + j++) = *(char *)s;
-	while (*(char *)(s + i) != '\0')
-	{
-		if (*(char *)(s + i) == c && *(char *)(s + i - 1) != c)
-			*(temp + j++) = c;
-		else if (*(char *)(s + i) != c)
-			*(temp + j++) = *(char *)(s + i);
-		i++;
-	}
-	*(temp + j) = '\0';
-	return (temp);
-}
-
-static char	**make_strs(char **s_temp, char *temp, char c)
+static int	count_words(const char *s, char c)
 {
 	int	i;
-	int	j;
-	int	k;
-
-	j = 0;
-	k = 0;
-	while (*(temp + j) != '\0')
-	{
-		i = 0;
-		while (*(temp + j + i) != c && *(temp + j + i) != '\0')
-			i++;
-		if (i != 0)
-		{
-			*(s_temp + k) = ft_substr((char const *)(temp + j), 0, i);
-			if (!(*(s_temp + k)))
-				return (NULL);
-			j += i;
-			k++;
-		}
-		else
-			j++;
-	}
-	return (s_temp);
-}
-
-static int	len_s_temp(char *temp, char c)
-{
-	int	i;
-	int	j;
+	int	n_word;
+	int	control;
 
 	i = 0;
-	j = 0;
-	if (ft_strlen(temp) == 0)
-		return (j);
-	while (*(temp + i) != '\0')
-		if (*(temp + i++) == c)
-			j++;
-	if (*(temp + i - 1) != c)
-		j++;
-	return (j);
+	control = 0;
+	n_word = 0;
+	while (s[0] != '\0' && s[i] != '\0')
+	{
+		if (s[i] != c && control == 0)
+		{
+			control = 1;
+			n_word++;
+		}
+		else if (s[i] == c)
+			control = 0;
+		i++;
+	}
+	return (n_word);
+}
+
+static char	*string(const char *s, int init, int end)
+{
+	char	*string;
+	int		i;
+	int		offset;
+
+	i = 0;
+	string = (char *)malloc((end - init + 1) * sizeof(char));
+	offset = end - init;
+	while (i < offset)
+	{
+		string[i] = s[init + i];
+		i++;
+	}
+	string[i] = '\0';
+	return (string);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	*temp;
-	char	**s_temp;
+	char	**split;
+	int		init_w;
+	size_t	i;
 	size_t	j;
 
-	if (!(s))
+	if (s == 0)
 		return (NULL);
-	temp = sep_clear(s, c);
-	if (!(temp))
+	i = -1;
+	j = 0;
+	init_w = -1;
+	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (split == 0)
 		return (NULL);
-	j = len_s_temp(temp, c);
-	s_temp = malloc((j + 1) * sizeof(char *));
-	if (!(s_temp))
-		return (NULL);
-	*(s_temp + j) = NULL;
-	if (j != 0)
+	while (++i <= ft_strlen(s))
 	{
-		s_temp = make_strs(s_temp, temp, c);
-		if (!(s_temp))
-			return (NULL);
+		if (s[i] != c && init_w < 0)
+			init_w = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && init_w >= 0)
+		{
+			split[j++] = string(s, init_w, i);
+			init_w = -1;
+		}
 	}
-	free(temp);
-	return (s_temp);
+	split[j] = NULL;
+	return (split);
 }

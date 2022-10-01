@@ -1,80 +1,82 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/11/27 18:38:37 by mfrasson          #+#    #+#              #
-#    Updated: 2022/03/02 18:34:00 by mfrasson         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME		=	minishell
 
-SRC		=	source/cd.c \
-			source/check_syntax.c \
-			source/comments.c \
-			source/debugger.c \
-			source/echo.c \
-			source/env.c \
-			source/envp.c \
-			source/exit.c \
-			source/export_I.c \
-			source/export_II.c \
-			source/linked_lists.c \
-			source/minishell.c \
-			source/operators.c \
-			source/pwd.c \
-			source/read_line_and_prompt.c \
-			source/separete_per_pipes.c \
-			source/tokenizer.c \
-			source/tokenizer_math.c \
-			source/unset.c \
-			source/utils.c \
-			source/variables_I.c \
-			source/variables_II.c
+CC			=	gcc
+CFLAGS		=	-Wall -Wextra -Werror -lreadline -g -fsanitize=address
 
-OBJ		=	${SRC:.c=.o}
+LIBFT_DIR	=	libft
+LIBFT		=	$(LIBFT_DIR)/libft.a
+LIBFLAGS	=	-L $(LIBFT_DIR) -lft -lreadline
 
-INCD	=	includes/minishell.h
+PRINTF_DIR	=	ft_printf
+PRINTF		=	ft_printf/libftprintf.a
 
-NAME	=	minishell
+INC			=	-I inc
+RM			=	rm -fr
 
-MODULE	=	./libft/libft.a
+BUILTINS	=	cd.c echo.c env.c exit.c export.c export_utils.c pwd.c unset.c
+CORE		=	clear_data.c init_data.c minishell.c signals.c main.c
+EXEC		=	execute_one_cmd.c executor.c here_document.c pipes_fds_handling.c \
+				processes_handler.c redirects.c sorting.c
+EXPAND		=	expand_variables.c expand_utils.c
+LEX			=	lexer.c mask_dollar.c mask_n_unmask_chars.c \
+				pull_redirects.c treat_quotes.c treat_spaces.c
+PARSE		=	parse_vars.c parser.c
+TOOLS		=	list_tools_one.c list_tools_two.c str_tools_one.c str_tools_two.c
+PROMPT		=	history.c prompt_take_input.c
 
-FLAGS	=	-Wall -Wextra -Werror -lreadline -lncurses -g3
+SRCS_DIR	=	src
 
-RM		=	rm -rf
+FILES		=	$(addprefix BUILTINS/, $(BUILTINS)) \
+				$(addprefix EXPAND/, $(EXPAND)) \
+				$(addprefix PROMPT/, $(PROMPT)) \
+				$(addprefix PARSE/, $(PARSE)) \
+				$(addprefix TOOLS/, $(TOOLS)) \
+				$(addprefix CORE/, $(CORE)) \
+				$(addprefix EXEC/, $(EXEC)) \
+				$(addprefix LEX/, $(LEX)) \
 
-CC		=	gcc
+SOURCE			=	$(addprefix src/, $(FILES))
 
-.c.o:
-	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+OBJS_DIR	=	obj
+OBJS		=	$(subst $(SRCS_DIR),$(OBJS_DIR),$(SOURCE:.c=.o))
 
-all:			$(NAME)
+all: $(NAME)
 
-$(NAME):	$(MODULE) $(OBJ) $(INCD)
-	$(CC) $(OBJ) $(FLAGS) $(MODULE) -o $(NAME)
-$(MODULE):
-	make -C libft
+$(NAME): $(OBJS)
+	make -C $(LIBFT_DIR)
+	make -C $(PRINTF_DIR)
+	@-$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(LIBFLAGS) -o $@
 	@echo ""
 	@echo "|		minishell created		|"
 	@echo ""
 
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+		@mkdir -p obj
+		@mkdir -p obj/BUILTINS
+		@mkdir -p obj/CORE
+		@mkdir -p obj/EXEC
+		@mkdir -p obj/EXPAND
+		@mkdir -p obj/LEX
+		@mkdir -p obj/PARSE
+		@mkdir -p obj/PROMPT
+		@mkdir -p obj/TOOLS
+		$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
 clean:
-	$(RM) $(OBJ)
-	make clean -C libft
+	make -C $(LIBFT_DIR) fclean
+	make -C $(PRINTF_DIR) fclean
 	@echo ""
 	@echo "|		minishell deleted		|"
 	@echo ""
 
-fclean:		clean
+fclean: clean
+	$(RM) obj
 	$(RM) $(NAME)
-	make fclean -C libft
 
 install:
 	@sudo apt-get -y install libreadline-dev
 
-re:			fclean all
+re: fclean all
 
 git:
 	git add .

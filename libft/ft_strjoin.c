@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marce <marce@student.42.fr>                +#+  +:+       +#+        */
+/*   By: azamario <azamario@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/12 20:32:10 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/06/13 18:41:30 by marce            ###   ########.fr       */
+/*   Created: 2021/05/29 20:41:00 by azamario          #+#    #+#             */
+/*   Updated: 2021/10/14 18:00:29 by azamario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*string;
-	int		i;
-	int		end_s1;
+	char		*string;
+	size_t		i;
+	size_t		j;
 
 	if (!s1 || !s2)
-		return (NULL);
-	string = (char *)malloc(((ft_strlen(s1)) + (ft_strlen(s2)) + 1));
-	if (string == NULL)
-		return (NULL);
+		return (0);
 	i = 0;
-	while (s1[i] != '\0')
+	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*string));
+	if (!string)
+		return (0);
+	while (s1[i])
 	{
 		string[i] = s1[i];
 		i++;
 	}
-	end_s1 = i;
-	i = 0;
-	while (s2[i] != '\0')
+	j = 0;
+	while (s2[j])
 	{
-		string[end_s1 + i] = s2[i];
+		string[i] = s2[j];
 		i++;
+		j++;
 	}
-	string[end_s1 + i] = '\0';
+	string[i] = '\0';
 	return (string);
 }

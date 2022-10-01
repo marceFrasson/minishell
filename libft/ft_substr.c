@@ -3,31 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: vlima-nu <vlima-nu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/12 17:16:57 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/06/09 13:56:21 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/06/01 12:50:02 by azamario          #+#    #+#             */
+/*   Updated: 2022/05/14 14:05:18 by vlima-nu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *string, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*temp;
+	size_t	i;
+	size_t	substr_len;
+	char	*substr;
 
-	if (!(string))
-		return (NULL);
-	if (len > (size_t)ft_strlen(string))
-		len = ft_strlen(string);
-	temp = malloc((len + 1) * sizeof(char));
-	if (!(temp))
-		return (NULL);
-	if (len == 0 || start >= (unsigned int)ft_strlen(string))
+	i = 0;
+	if (s == 0)
+		return (0);
+	substr_len = ft_strlen(s);
+	if (len > substr_len - start)
+		substr = (char *)malloc((substr_len - start + 1) * sizeof(char));
+	else if (substr_len < len)
+		substr = (char *)malloc((substr_len + 1) * sizeof(char));
+	else
+		substr = (char *)malloc((len + 1) * sizeof(char));
+	if (substr == 0)
+		return (0);
+	while (i < len && (start + i) < substr_len)
 	{
-		*temp = '\0';
-		return (temp);
+		substr[i] = s[start + i];
+		i++;
 	}
-	ft_strlcpy(temp, (const char *)(string + start), len + 1);
-	return (temp);
+	substr[i] = '\0';
+	return (substr);
 }

@@ -3,33 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: azamario <azamario@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 14:54:49 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/02/21 17:57:07 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/06/10 18:00:32 by azamario          #+#    #+#             */
+/*   Updated: 2021/10/14 18:01:41 by azamario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *src, const char *to_find, size_t size)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	i;
-	size_t	j;
+	size_t	len_size;
 
-	i = 0;
-	if (!to_find[i])
-		return ((char *)src);
-	while (i < size && src[i])
+	len_size = ft_strlen(little);
+	if (len_size == 0)
+		return ((char *)big);
+	if (len_size > ft_strlen(big))
+		return (NULL);
+	while (*big && len)
 	{
-		j = 0;
-		while (i + j < size && src[i + j] == to_find[j])
-		{
-			if (!to_find[j + 1])
-				return ((char *)&src[i]);
-			j++;
-		}
-		i++;
+		if (len_size > ft_strlen(big) || len < len_size)
+			return (NULL);
+		if (ft_strncmp(big, little, len_size) == 0 && len >= len_size)
+			return ((char *)big);
+		big++;
+		len--;
 	}
-	return (0);
+	return (NULL);
 }

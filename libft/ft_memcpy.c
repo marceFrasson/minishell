@@ -3,30 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: azamario <azamario@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 13:58:22 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/06/09 13:36:46 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/05/22 18:03:11 by azamario          #+#    #+#             */
+/*   Updated: 2021/10/14 17:58:39 by azamario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t size)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t		i;
-	char		*dst1;
-	const char	*src1;
+	const char	*src_aux;
+	char		*dst_aux;
 
-	i = 0;
-	dst1 = (char *)dst;
-	src1 = (char *)src;
-	if (!dst && !src)
-		return (0);
-	while (i < size && dst != src)
+	if (dst == src)
+		return (dst);
+	src_aux = (const char *)src;
+	dst_aux = (char *)dst;
+	while (n > 0)
 	{
-		dst1[i] = src1[i];
-		i++;
+		*(dst_aux++) = *(src_aux++);
+		n--;
 	}
-	return (dst1);
+	return (dst);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: azamario <azamario@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 12:50:53 by mfrasson          #+#    #+#             */
-/*   Updated: 2021/02/17 14:06:13 by mfrasson         ###   ########.fr       */
+/*   Created: 2021/06/03 13:47:22 by azamario          #+#    #+#             */
+/*   Updated: 2021/10/14 17:59:14 by azamario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
