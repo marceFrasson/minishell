@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pull_redirects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlima-nu <vlima-nu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 20:31:09 by vlima-nu          #+#    #+#             */
-/*   Updated: 2022/05/10 10:43:46 by vlima-nu         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:18:06 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define DIFF_REDIR	"minishell: syntax error near unexpected token `%c'"
-#define BL_IN_REDIR	"minishell: syntax error near unexpected token `newline'"
+#define DIFF_REDIR	"minishell: syntax error near unexpected token `%s'\n"
+#define BL_IN_REDIR	"minishell: syntax error near unexpected token `newline'\n"
 
 static void	malloc_file(t_data *data, int string_level, int k, int bytes);
 static int	count_redirects(char *str);
@@ -98,6 +98,7 @@ static int	count_redirects(char *s)
 	int		i;
 	int		j;
 	int		redirects_nbr;
+	char	*str_err;
 
 	i = -1;
 	redirects_nbr = 0;
@@ -106,10 +107,23 @@ static int	count_redirects(char *s)
 		if (s[i] != '>' && s[i] != '<')
 			continue ;
 		j = i;
-		while (ft_strchr("><", s[i]) && s[i])
+		if (s[j] == s[j + 1])
+		{
 			i++;
-		if ((s[j] != s[j + 1] && ft_strchr("><", s[j + 1])) || i - j > 2)
-			ft_printf(STDERR, DIFF_REDIR, s[i + 1 + (j - i > 2)]);
+			j++;
+		}
+		i++;
+		if (s[i] == '>' || s[i] == '<')
+		{
+			while (((s[i] != s[j] && s[i] != '\0') && (s[i] == '>' || s[i] == '<'))
+								&& i - j < 3)
+				i++;
+			if (s[j] == '<')
+				str_err = ft_substr(s, j + 1, i - j - 1);
+			else
+				str_err = ft_substr(s, j + 1, i - j);
+			ft_printf(STDERR, DIFF_REDIR, str_err);
+		}
 		else if (!s[i])
 			ft_printf(STDERR, BL_IN_REDIR);
 		else
@@ -139,3 +153,67 @@ static void	malloc_file(t_data *data, int string_level, int id, int bytes)
 			exit_minishell(data, FAILURE);
 	}
 }
+
+
+
+		// printf("---- %s ----\n", s);
+		// printf("==== %i ____ %i ====\n", j, i);
+		// printf("---- %s ----\n", str_err);
+		// printf("==== %c ====\n", s[j]);
+		// printf("____ %c ____\n", s[j + 1]);
+		// printf("++++ %i ++++\n", i - j);
+
+/*
+		while s[i]
+			if s[i] == '>' && s[i + 1] == '<'
+				rest = ft_strcut(s, i, ft_strlen(s))
+				break
+		printf(error, rest)
+
+		><
+			<
+		><<
+			<<
+		><<<
+			<<<
+		><<<<<<
+			<<<
+		><<>
+			<<
+		
+		>><
+			<
+		>><<
+			<<
+		>><<<
+			<<<
+		>><<<<
+			<<<
+		>>>
+			>
+		>>>>
+			>>
+		>>>>>
+			>>
+		
+		>>><
+			>
+		>>>><
+			>>
+		>>>>><
+			>>
+
+
+		echo |
+			>
+		echo ||
+			>
+		echo |||
+			syntax: `|'
+		echo ||||
+			syntax: `||'
+		echo |||||
+			syntax: `||'
+
+			
+*/

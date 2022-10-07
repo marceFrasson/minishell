@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 19:27:43 by ebresser          #+#    #+#             */
-/*   Updated: 2022/05/24 20:32:55 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/10/01 17:13:38 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	mini_exit(t_data *data, int id)
 	else
 	{
 		if (data->number_of_pipes < 1)
-			printf("Goodbye!\n");
+			printf("exit\n");
 		if (args == 1)
 			exit_minishell(data, 0);
 		else if (args == 2)
