@@ -1,7 +1,7 @@
 NAME		=	minishell
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g
 
 LIBFT_DIR	=	libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
@@ -43,8 +43,8 @@ OBJS		=	$(subst $(SRCS_DIR),$(OBJS_DIR),$(SOURCE:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C $(LIBFT_DIR)
-	make -C $(PRINTF_DIR)
+	@make -C $(LIBFT_DIR)
+	@make -C $(PRINTF_DIR)
 	@-$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(LIBFLAGS) -o $@
 	@echo ""
 	@echo "|		minishell created		|"
@@ -60,18 +60,18 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 		@mkdir -p obj/PARSE
 		@mkdir -p obj/PROMPT
 		@mkdir -p obj/TOOLS
-		$(CC) $(CFLAGS) $(INC) -c $< -o $@
+		@-$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
-	make -C $(LIBFT_DIR) fclean
-	make -C $(PRINTF_DIR) fclean
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(PRINTF_DIR) fclean
 	@echo ""
 	@echo "|		minishell deleted		|"
 	@echo ""
 
 fclean: clean
-	$(RM) obj
-	$(RM) $(NAME)
+	@$(RM) obj
+	@$(RM) $(NAME)
 
 install:
 	@sudo apt-get -y install libreadline-dev
