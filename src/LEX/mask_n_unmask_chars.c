@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 22:18:03 by vlima-nu          #+#    #+#             */
-/*   Updated: 2022/10/07 18:47:09 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:34:04 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,8 @@ void	unmask_character(char *cmd, int nbr, char c)
 	int	i;
 
 	i = 0;
-	// printf("==== %s ====\n", cmd);
 	while (cmd[i])
 	{
-		// printf("---- %c ----\n", cmd[i]);
-		// printf("---- here ----\n");
 		if (cmd[i] == nbr)
 			cmd[i] = c;
 		i++;

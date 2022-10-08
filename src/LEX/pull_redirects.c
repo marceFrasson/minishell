@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 20:31:09 by vlima-nu          #+#    #+#             */
-/*   Updated: 2022/10/07 15:18:06 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:34:51 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,67 +153,3 @@ static void	malloc_file(t_data *data, int string_level, int id, int bytes)
 			exit_minishell(data, FAILURE);
 	}
 }
-
-
-
-		// printf("---- %s ----\n", s);
-		// printf("==== %i ____ %i ====\n", j, i);
-		// printf("---- %s ----\n", str_err);
-		// printf("==== %c ====\n", s[j]);
-		// printf("____ %c ____\n", s[j + 1]);
-		// printf("++++ %i ++++\n", i - j);
-
-/*
-		while s[i]
-			if s[i] == '>' && s[i + 1] == '<'
-				rest = ft_strcut(s, i, ft_strlen(s))
-				break
-		printf(error, rest)
-
-		><
-			<
-		><<
-			<<
-		><<<
-			<<<
-		><<<<<<
-			<<<
-		><<>
-			<<
-		
-		>><
-			<
-		>><<
-			<<
-		>><<<
-			<<<
-		>><<<<
-			<<<
-		>>>
-			>
-		>>>>
-			>>
-		>>>>>
-			>>
-		
-		>>><
-			>
-		>>>><
-			>>
-		>>>>><
-			>>
-
-
-		echo |
-			>
-		echo ||
-			>
-		echo |||
-			syntax: `|'
-		echo ||||
-			syntax: `||'
-		echo |||||
-			syntax: `||'
-
-			
-*/

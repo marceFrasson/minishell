@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_take_input.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 20:56:26 by ebresser          #+#    #+#             */
-/*   Updated: 2022/05/24 21:20:00 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:23:36 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	prompt(t_data *data)
 
 	username = getenv("USER");
 	getcwd(cwd, sizeof(cwd));
-	prompt_str = ft_mult_join(7, "\e[32m", username, ":", \
-							"\e[35m", cwd, "\e[0m", "$ ");
+	prompt_str = ft_mult_join(7, "\001\e[32m\002", username, ":", \
+							"\001\e[35m\002", cwd, "\001\e[0m\002", "$ ");
 	data->input = readline(prompt_str);
 	free(prompt_str);
 }

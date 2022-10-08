@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 13:55:53 by ebresser          #+#    #+#             */
-/*   Updated: 2022/10/07 18:50:59 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:33:41 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,67 +89,3 @@ int	lexer(t_data *data)
 	pull_space(data);
 	return (SUCCESS);
 }
-
-// int	pull_pipe(t_data *data)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (data->input[i] == ' ')
-// 		i++;
-// 	if (data->input[i] == '|')
-// 	{
-// 		ft_printf(STDERR, "Minishell: syntax error near unexpected token `|'\n");
-// 		return (FAILURE);
-// 	}
-// 	data->cmds_piped = ft_split(data->input, '|');
-// 	if (data->cmds_piped == NULL)
-// 	{
-// 		perror("Minishell: Malloc failed in pull_pipe: ");
-// 		exit_minishell(data, FAILURE);
-// 	}
-// 	data->number_of_pipes = ft_str_count(data->cmds_piped) - 1;
-// 	while (data->cmds_piped[i])
-// 	{
-// 		printf("---- %i ----\n", i);
-// 		unmask_character(data->cmds_piped[i++], 6, '|');
-// 	}
-// 	return (SUCCESS);
-// }
-
-// int	pull_pipe(t_data *data)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (data->input[i] == ' ')
-// 		i++;
-// 	if (data->input[i] == '|')
-// 	{
-// 		ft_printf(STDERR, "Minishell: syntax error near unexpected token `|'\n");
-// 		return (FAILURE);
-// 	}
-// 	data->cmds_piped = ft_split(data->input, '|');
-// 	if (data->cmds_piped == NULL)
-// 	{
-// 		perror("Minishell: Malloc failed in pull_pipe: ");
-// 		exit_minishell(data, FAILURE);
-// 	}
-// 	data->number_of_pipes = ft_str_count(data->cmds_piped) - 1;
-// 	while (data->cmds_piped[i])
-// 		unmask_character(data->cmds_piped[i++], 6, '|');
-// 	return (SUCCESS);
-// }
-
-/*
-
-echo oie | echo tchau | echo bla || echo oi
-	bla
-echo oie | echo tchau || echo bla || echo oi
-	tchau
-echo oie || echo tchau || echo bla || echo oi
-	oie
-echo oie ||| echo tchau || echo bla || echo oi
-	bash: syntax error near unexpected token `|'
-
-*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:19:00 by ebresser          #+#    #+#             */
-/*   Updated: 2022/05/24 21:20:26 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/10/08 00:50:23 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	main_process_handler(t_data *data)
 	while (count < data->number_of_pipes + 1)
 	{
 		waitpid(data->pid[count++], &status, 0);
-		if (!g_status_code)
-			g_status_code = WEXITSTATUS(status);
+		g_status_code = WEXITSTATUS(status);
 	}		
 }
 
