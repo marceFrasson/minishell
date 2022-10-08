@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 15:34:28 by ebresser          #+#    #+#             */
-/*   Updated: 2022/09/29 22:30:50 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/02 04:56:44 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char	*pull_var_value(char **s, t_vars *vars)
 	if (s[0][i] == '?')
 		i++;
 	if (offset - i == -1)
-    return (ft_strdup("\7"));
+		return (ft_strdup("\7"));
 	var_name = ft_substr(s[0], offset, i - offset);
 	vdt = find_in_list(var_name, vars);
 	free(var_name);
