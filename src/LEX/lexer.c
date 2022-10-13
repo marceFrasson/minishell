@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 13:55:53 by ebresser          #+#    #+#             */
-/*   Updated: 2022/10/08 00:33:41 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:56:53 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	pull_pipe(t_data *data)
 	i = -1;
 	while (data->input[++i])
 	{
-		while (data->input[i] != '|' && data->input[i] != '\0')
+		while (data->input[i] != '|' && data->input[i + 1] != '\0')
 			i++;
 		if (data->input[i] == '|')
 		{
