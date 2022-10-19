@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 20:31:09 by vlima-nu          #+#    #+#             */
-/*   Updated: 2022/10/08 00:34:51 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:26:30 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,6 @@
 static void	malloc_file(t_data *data, int string_level, int k, int bytes);
 static int	count_redirects(char *str);
 static int	save_file(char *cmd, char **file);
-static void	find_redirects(t_data *data, int id);
-
-int	pull_redirects(t_data *data)
-{
-	int		id;
-	int		redirects_nbr;
-
-	id = 0;
-	malloc_file(data, 0, 0, data->number_of_pipes + 2);
-	while (data->cmds_piped[id])
-	{
-		redirects_nbr = count_redirects(data->cmds_piped[id]);
-		if (redirects_nbr == -1)
-		{
-			g_status_code = SINTAX_ERR;
-			return (FAILURE);
-		}
-		malloc_file(data, 1, id, redirects_nbr + 1);
-		if (redirects_nbr)
-			find_redirects(data, id);
-		unmask_character(data->cmds_piped[id], 4, '>');
-		unmask_character(data->cmds_piped[id], 5, '<');
-		id++;
-	}
-	return (SUCCESS);
-}
 
 static void	find_redirects(t_data *data, int id)
 {
@@ -93,45 +67,53 @@ static int	save_file(char *cmd, char **file)
 	return (end);
 }
 
+int	multiple_redirects_error(char *s, int *i)
+{
+	int		j;
+	char	*str_err;
+
+	j = *i;
+	if (s[j] == s[j + 1])
+	{
+		(*i)++;
+		j++;
+	}
+	(*i)++;
+	if (s[*i] == '>' || s[*i] == '<')
+	{
+		while (((s[*i] != s[j] && s[*i] != '\0')
+				&& (s[*i] == '>' || s[*i] == '<')) && *i - j < 3)
+			(*i)++;
+		if (s[j] == '<')
+			str_err = ft_substr(s, j + 1, *i - j - 1);
+		else
+			str_err = ft_substr(s, j + 1, *i - j);
+		ft_printf(STDERR, DIFF_REDIR, str_err);
+		free(str_err);
+		return (1);
+	}
+	return (0);
+}
+
 static int	count_redirects(char *s)
 {
 	int		i;
-	int		j;
 	int		redirects_nbr;
-	char	*str_err;
 
-	i = -1;
 	redirects_nbr = 0;
+	i = -1;
 	while (s[++i])
 	{
 		if (s[i] != '>' && s[i] != '<')
 			continue ;
-		j = i;
-		if (s[j] == s[j + 1])
-		{
-			i++;
-			j++;
-		}
-		i++;
-		if (s[i] == '>' || s[i] == '<')
-		{
-			while (((s[i] != s[j] && s[i] != '\0') && (s[i] == '>' || s[i] == '<'))
-								&& i - j < 3)
-				i++;
-			if (s[j] == '<')
-				str_err = ft_substr(s, j + 1, i - j - 1);
-			else
-				str_err = ft_substr(s, j + 1, i - j);
-			ft_printf(STDERR, DIFF_REDIR, str_err);
-		}
+		if (multiple_redirects_error(s, &i))
+			return (-1);
 		else if (!s[i])
-			ft_printf(STDERR, BL_IN_REDIR);
-		else
 		{
-			redirects_nbr++;
-			continue ;
+			ft_printf(STDERR, BL_IN_REDIR);
+			return (-1);
 		}
-		return (-1);
+		redirects_nbr++;
 	}
 	return (redirects_nbr);
 }
