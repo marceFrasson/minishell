@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 19:10:08 by ebresser          #+#    #+#             */
-/*   Updated: 2022/05/24 21:53:02 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:27:07 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,10 @@ void	unmask_character(char *cmd, int nbr, char c);
 char	*reverse_quotes_treat(char *str);
 char	*tokens_to_string(char const *s1, char const *s2);
 int		pull_redirects(t_data *data);
+
+void	malloc_file(t_data *data, int string_level, int k, int bytes);
+int		count_redirects(char *str);
+void	find_redirects(t_data *data, int id);
 
 //..................................................PARSE
 //parser.c

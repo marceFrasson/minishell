@@ -6,7 +6,7 @@
 /*   By: mfrasson <mfrasson@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 20:31:09 by vlima-nu          #+#    #+#             */
-/*   Updated: 2022/10/13 18:26:30 by mfrasson         ###   ########.fr       */
+/*   Updated: 2022/10/21 20:27:02 by mfrasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #define DIFF_REDIR	"minishell: syntax error near unexpected token `%s'\n"
 #define BL_IN_REDIR	"minishell: syntax error near unexpected token `newline'\n"
 
-static void	malloc_file(t_data *data, int string_level, int k, int bytes);
-static int	count_redirects(char *str);
+void	malloc_file(t_data *data, int string_level, int k, int bytes);
+int	count_redirects(char *str);
 static int	save_file(char *cmd, char **file);
 
-static void	find_redirects(t_data *data, int id)
+void	find_redirects(t_data *data, int id)
 {
 	int		j;
 	int		k;
@@ -95,7 +95,7 @@ int	multiple_redirects_error(char *s, int *i)
 	return (0);
 }
 
-static int	count_redirects(char *s)
+int	count_redirects(char *s)
 {
 	int		i;
 	int		redirects_nbr;
@@ -118,7 +118,7 @@ static int	count_redirects(char *s)
 	return (redirects_nbr);
 }
 
-static void	malloc_file(t_data *data, int string_level, int id, int bytes)
+void	malloc_file(t_data *data, int string_level, int id, int bytes)
 {
 	if (!string_level)
 	{
